@@ -205,7 +205,7 @@ def download_file(xml_file):
 		print('Error finding file to download in xml file: ', xml_file)
 		with open("../files/unfound_files.txt", "a") as myfile:
 			myfile.write(xml_file + ' , ' + ext)
-		continue 
+		return filename
 		# sys.exit() 
 	else: 
 		print("Downloading file: ", filename)
@@ -281,7 +281,8 @@ if __name__ == '__main__':
 	for portal_name in portal_list: 
 		get_xml(portal_name)
 		filename = download_file(portal_name)
-		fasta, config = get_fasta_config(filename)
+		if filename != '': 
+			fasta, config = get_fasta_config(filename)
 		time.sleep(30)
 
 	# name = 'Colrivmeta1547A3_FD'
