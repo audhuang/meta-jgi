@@ -262,18 +262,19 @@ if __name__ == '__main__':
 	sign_in()
 
 	project_list = '../files/genome-projects.csv'
-	name = 'Colrivmeta1547A3_FD'
-	get_xml(name)
-	filename = download_file(name)
-	fasta, config = get_fasta_config(filename)
-	print(name, filename)
-	print(fasta, config)
-	
-	# portal_list = get_projects(project_list)
-	# for portal_name in portal_list: 
-	# 	flag = get_xml(portal_name)
-	#	filename, flag = download_file(portal_name)
-	#	fasta, config = get_fasta_config(filename)
+	portal_list = get_projects(project_list)
+
+	for portal_name in portal_list: 
+		get_xml(portal_name)
+		filename = download_file(portal_name)
+		fasta, config = get_fasta_config(filename)
+
+	# name = 'Colrivmeta1547A3_FD'
+	# get_xml(name)
+	# filename = download_file(name)
+	# fasta, config = get_fasta_config(filename)
+	# print(name, filename)
+	# print(fasta, config)
 
 		
 	

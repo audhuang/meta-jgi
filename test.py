@@ -8,7 +8,7 @@ import getpass
 
 import numpy as np 
 # import matplotlib.pyplot as plt
-# import pandas as pd
+import pandas as pd
 
 import xml.etree.ElementTree as ET 
 import subprocess
@@ -75,30 +75,30 @@ def sign_in():
 		print('Error logging in. ')
 		sys.exit()
 
-# def get_projects(project_list): 
-# 	'''
-# 	Input: 
-# 	  a csv file of projects downloaded from the JGI database 
-# 	Output:
-# 	  a list of portal ID strings 
+def get_projects(project_list): 
+	'''
+	Input: 
+	  a csv file of projects downloaded from the JGI database 
+	Output:
+	  a list of portal ID strings 
 
-# 	Comments: 
-# 	  right now only annotated or minimal drafts
-# 	  check that file exists? 
+	Comments: 
+	  right now only annotated or minimal drafts
+	  check that file exists? 
 
-# 	'''
-# 	projects = []
+	'''
+	projects = []
 	
-# 	df = pd.read_csv(project_list)
-# 	portal_ids = df['Portal ID'].apply(str)
+	df = pd.read_csv(project_list)
+	portal_ids = df['Portal ID'].apply(str)
 
-# 	i = 0
-# 	for portal in df['Product Name']: 
-# 		if 'Draft' in portal: 
-# 			projects.append(portal_ids[i].split(',')[1][1:-2])
-# 		i += 1
+	i = 0
+	for portal in df['Product Name']: 
+		if 'Draft' in portal: 
+			projects.append(portal_ids[i].split(',')[1][1:-2])
+		i += 1
 	
-# 	return projects
+	return projects
 
 def get_xml(filename): 
 	'''
