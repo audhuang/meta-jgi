@@ -185,6 +185,7 @@ def download_file(xml_file):
 
 	url = ''
 	filename = ''
+	print(root, root[0])
 	for i in root[1]: 
 		if i.attrib['filename'].endswith('.tar.gz'): 
 			url = i.attrib['url']
@@ -262,7 +263,7 @@ if __name__ == '__main__':
 	sign_in()
 
 	project_list = '../files/genome-projects.csv'
-	name = 'Colrivmeta1547A3_FD'
+	name = 'PueRicMetagenome_FD'
 	get_xml(name)
 	filename = download_file(name)
 	fasta, config = get_fasta_config(filename)
