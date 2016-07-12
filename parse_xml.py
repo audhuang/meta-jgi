@@ -45,6 +45,15 @@ def analyze_projects(project_list):
 	pp.pprint(project_count_dic.items())
 
 
+def get_ext(filename): 
+
+	split_list = filename.split('.')
+	name = '.'.join(split_list[:-2])
+	ext = '.'.join(split_list[-2:])
+
+	return name, ext
+
+
 #===============================================================================
 # Automatically Download Projects
 #===============================================================================
@@ -182,14 +191,20 @@ def download_file(xml_file):
 
 	url = ''
 	filename = ''
-	for i in root[1]: 
-		if i.attrib['filename'].endswith('.tar.gz'): 
-			url = i.attrib['url']
-			url.replace('&amp;', '&')
-			filename = i.attrib['filename'].split('.')[0]
+
+	for i in root: 
+		for j in i: 
+			if 'filename' in j.attrib: 
+				name, ext = get_ext(j.attrib['filename'])
+				if ext == 'tar.gz': 
+					url = j.attrib['url']
+					url.replace('&amp;', '&')
+					filename = name
 
 	if url == '' or filename == '': 
 		print('Error finding file to download in xml file: ', xml_file)
+		with open("../files/unfound_files.txt", "a") as myfile:
+			myfile.write(xml_file + ' , ' + ext)
 		sys.exit() 
 	else: 
 		print("Downloading file: ", filename)
@@ -256,6 +271,7 @@ def get_fasta_config(folder):
 
 
 if __name__ == '__main__':
+	open('../files/unfound_files.txt', 'w').close()
 	sign_in()
 
 	project_list = '../files/genome-projects.csv'
