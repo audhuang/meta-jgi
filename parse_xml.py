@@ -205,7 +205,8 @@ def download_file(xml_file):
 		print('Error finding file to download in xml file: ', xml_file)
 		with open("../files/unfound_files.txt", "a") as myfile:
 			myfile.write(xml_file + ' , ' + ext)
-		sys.exit() 
+		continue 
+		# sys.exit() 
 	else: 
 		print("Downloading file: ", filename)
 		command = 'curl "http://genome.jgi.doe.gov' + str(url) + \
