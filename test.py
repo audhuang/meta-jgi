@@ -47,6 +47,14 @@ import requests
 # 	pp.pprint(project_count_dic)
 # 	pp.pprint(project_count_dic.items())
 
+def get_ext(filename): 
+
+	split_list = filename.split('.')
+	name = '.'.join(split_list[:-2])
+	ext = '.'.join(split_list[-2:])
+
+	return name, ext
+
 
 #===============================================================================
 # Automatically Download Projects
@@ -185,12 +193,16 @@ def download_file(xml_file):
 
 	url = ''
 	filename = ''
-	print(root, root[0])
-	for i in root[1]: 
-		if i.attrib['filename'].endswith('.tar.gz'): 
-			url = i.attrib['url']
-			url.replace('&amp;', '&')
-			filename = i.attrib['filename'].split('.')[0]
+
+	for i in range(len(root)): 
+		for j in root[i]: 
+
+			if 'filename' in j.attrib: 
+				name, ext = get_ext(j.attrib['filename'])
+				if ext == 'tar.gz': 
+					url = j.attrib['url']
+					url.replace('&amp;', '&')
+					filename = name
 
 	if url == '' or filename == '': 
 		print('Error finding file to download in xml file: ', xml_file)
@@ -263,7 +275,8 @@ if __name__ == '__main__':
 	sign_in()
 
 	project_list = '../files/genome-projects.csv'
-	name = 'PueRicMetagenome_FD'
+	# name = 'PueRicMetagenome_FD'
+	name = 'Colrivmeta1547A3_FD'
 	get_xml(name)
 	filename = download_file(name)
 	fasta, config = get_fasta_config(filename)

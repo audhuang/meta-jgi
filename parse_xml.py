@@ -65,7 +65,7 @@ def sign_in():
 
 	command = 'curl "https://signon.jgi.doe.gov/signon/create" --data-urlencode \
 	 "login=' + user + '" --data-urlencode "password=' + password + \
-	 '" -c \cookies > ../dev/null'
+	 '" -c \cookies > /dev/null'
 
 	flag = subprocess.call(command, shell=True)
 	if flag == 1: 
