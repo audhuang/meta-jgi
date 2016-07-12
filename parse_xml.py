@@ -186,11 +186,17 @@ def download_file(xml_file):
 
 	'''
 
-	tree = ET.parse('../files/' + xml_file + '.xml')
-	root = tree.getroot()
-
 	url = ''
 	filename = ''
+
+	try: 
+		tree = ET.parse('../files/' + xml_file + '.xml')
+		root = tree.getroot()
+	except ET.ParseError: 
+		print('No permission for xml file: ', xml_file)
+		with open("../files/nopermiss_files.txt", "a") as myfile:
+			myfile.write(xml_file + '\n')
+		return filename
 
 	for i in root: 
 		for j in i: 
@@ -273,6 +279,7 @@ def get_fasta_config(folder):
 
 if __name__ == '__main__':
 	open('../files/unfound_files.txt', 'w').close()
+	open('../files/nopermiss_files.txt', 'w').close()
 	sign_in()
 
 	project_list = '../files/genome-projects.csv'

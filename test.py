@@ -17,35 +17,33 @@ from os import listdir
 from os.path import isfile, join 
 import tarfile
 import requests
-#from collections import Counter 
-#import pprint
+from collections import Counter 
+import pprint
 
- 
-# start_time = time.time()
-# elapsed_time = time.time() - start_time
 
 #===============================================================================
-# Analyze Files
+# Helper Functions
 #===============================================================================
 
-# def analyze_projects(project_list): 
-# 	'''
-# 	Input: 
-# 	  csv file of list of all projects
-# 	Output:
-# 	  prints number of each type of product
-# 	  (examples include standard draft, minimal draft, metatranscriptome)
+def analyze_projects(project_list): 
+	'''
+	Input: 
+	  csv file of list of all projects
+	Output:
+	  prints number of each type of product
+	  (examples include standard draft, minimal draft, metatranscriptome)
 
-# 	Comments: 
+	Comments: 
 
-# 	'''
-# 	df = pd.read_csv(project_list)
-# 	saved_column = df['Product Name']
-# 	project_count_dic = dict(Counter(list(saved_column)))
+	'''
+	df = pd.read_csv(project_list)
+	saved_column = df['Product Name']
+	project_count_dic = dict(Counter(list(saved_column)))
 	
-# 	pp = pprint.PrettyPrinter(indent=4)
-# 	pp.pprint(project_count_dic)
-# 	pp.pprint(project_count_dic.items())
+	pp = pprint.PrettyPrinter(indent=4)
+	pp.pprint(project_count_dic)
+	pp.pprint(project_count_dic.items())
+
 
 def get_ext(filename): 
 
@@ -188,11 +186,17 @@ def download_file(xml_file):
 
 	'''
 
-	tree = ET.parse('../files/' + xml_file + '.xml')
-	root = tree.getroot()
-
 	url = ''
 	filename = ''
+
+	try: 
+		tree = ET.parse('../files/' + xml_file + '.xml')
+		root = tree.getroot()
+	except ET.ParseError: 
+		print('No permission for xml file: ', xml_file)
+		with open("../files/nopermiss_files.txt", "a") as myfile:
+			myfile.write(xml_file + '\n')
+		return filename
 
 	for i in root: 
 		for j in i: 
@@ -206,8 +210,9 @@ def download_file(xml_file):
 	if url == '' or filename == '': 
 		print('Error finding file to download in xml file: ', xml_file)
 		with open("../files/unfound_files.txt", "a") as myfile:
-			myfile.write(xml_file + ' , ' + ext)
-		sys.exit() 
+			myfile.write(xml_file + ' , ' + ext + '\n')
+		return filename
+		# sys.exit() 
 	else: 
 		print("Downloading file: ", filename)
 		command = 'curl "http://genome.jgi.doe.gov' + str(url) + \
@@ -274,16 +279,20 @@ def get_fasta_config(folder):
 
 if __name__ == '__main__':
 	open('../files/unfound_files.txt', 'w').close()
+	open('../files/nopermiss_files.txt', 'w').close()
 	sign_in()
 
 	project_list = '../files/genome-projects.csv'
-	name = 'PueRicMetagenome_FD'
+
+	# name = 'PueRicMetagenome_FD'
 	# name = 'Colrivmeta1547A3_FD'
+	name = 'Colrivmeta1449A3_FD'
 	get_xml(name)
 	filename = download_file(name)
-	fasta, config = get_fasta_config(filename)
+	if filename != '': 
+		fasta, config = get_fasta_config(filename)
+		print(fasta, config)
 	print(name, filename)
-	print(fasta, config)
 	
 	# portal_list = get_projects(project_list)
 	# for portal_name in portal_list: 
