@@ -204,7 +204,7 @@ def download_file(xml_file):
 	if url == '' or filename == '': 
 		print('Error finding file to download in xml file: ', xml_file)
 		with open("../files/unfound_files.txt", "a") as myfile:
-			myfile.write(xml_file + ' , ' + ext)
+			myfile.write(xml_file + ' , ' + ext + '\n')
 		return filename
 		# sys.exit() 
 	else: 
@@ -285,12 +285,7 @@ if __name__ == '__main__':
 			fasta, config = get_fasta_config(filename)
 		time.sleep(30)
 
-	# name = 'Colrivmeta1547A3_FD'
-	# get_xml(name)
-	# filename = download_file(name)
-	# fasta, config = get_fasta_config(filename)
-	# print(name, filename)
-	# print(fasta, config)
+
 
 		
 	
