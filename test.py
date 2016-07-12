@@ -194,9 +194,8 @@ def download_file(xml_file):
 	url = ''
 	filename = ''
 
-	for i in range(len(root)): 
-		for j in root[i]: 
-
+	for i in root: 
+		for j in i: 
 			if 'filename' in j.attrib: 
 				name, ext = get_ext(j.attrib['filename'])
 				if ext == 'tar.gz': 
@@ -206,6 +205,8 @@ def download_file(xml_file):
 
 	if url == '' or filename == '': 
 		print('Error finding file to download in xml file: ', xml_file)
+		with open("../files/unfound_files.txt", "a") as myfile:
+			myfile.write(xml_file + ' , ' + ext)
 		sys.exit() 
 	else: 
 		print("Downloading file: ", filename)
@@ -272,11 +273,12 @@ def get_fasta_config(folder):
 
 
 if __name__ == '__main__':
+	open('../files/unfound_files.txt', 'w').close()
 	sign_in()
 
 	project_list = '../files/genome-projects.csv'
-	# name = 'PueRicMetagenome_FD'
-	name = 'Colrivmeta1547A3_FD'
+	name = 'PueRicMetagenome_FD'
+	# name = 'Colrivmeta1547A3_FD'
 	get_xml(name)
 	filename = download_file(name)
 	fasta, config = get_fasta_config(filename)
