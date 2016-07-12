@@ -1,3 +1,2 @@
 pandas==0.18.1
-tarfile==2.6
 requests==2.10.0
