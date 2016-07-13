@@ -250,7 +250,7 @@ def get_fasta_config(folder):
 		for filename in filenames: 
 			name = str(os.path.join(dirname, filename))
 
-			if name.endswith('.faa'): 
+			if name.endswith('.faa') or name.endswith('.fa'): 
 				fasta.append(name)
 			
 			elif name.endswith('.config'): 
@@ -271,18 +271,19 @@ def get_fasta_config(folder):
 			myfile.write(folder + '\n')
 		# sys.exit()
 	if fasta != []: 
-		print('fasta copying name: ', name)
-		print('fasta copying filename: ', filename)
-		command = 'cp ' + name + ' ../fasta/' + filename
-		print('fasta command: ', command)
-		flag = subprocess.call(command, shell=True)
-		if flag == 1: 
-			print("Error copying fasta file: ", name)
-			sys.exit()
+		for faa in fasta: 
+			print('fasta copying name: ', name)
+			print('fasta copying filename: ', filename)
+			command = 'cp ' + faa + ' ../fasta/' + filename
+			print('fasta command: ', command)
+			flag = subprocess.call(command, shell=True)
+			if flag == 1: 
+				print("Error copying fasta file: ", name)
+				sys.exit()
 	if config != '': 
 		print('config copying name: ', name)
 		print('config copying filename: ', filename)
-		command = 'cp ' + name + ' ../config/' + filename
+		command = 'cp ' + config + ' ../config/' + filename
 		print('config command: ', command)
 		flag = subprocess.call(command, shell=True)
 		if flag == 1: 
