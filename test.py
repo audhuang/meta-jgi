@@ -126,34 +126,6 @@ def get_xml(filename):
 	flag = subprocess.call(command, shell=True)
 
 
-def extract_all_files(): 
-	'''
-	Input: 
-	  
-	Output:
-
-	Comments: 
-	  extracts all tar.gz files in the directory '../files'
-
-	  maybe input filename? 
-	  
-	'''
-	for dirname, dirnames, filenames in os.walk('../files'):
-		for filename in filenames:
-			name = str(os.path.join(dirname, filename))
-			
-			if name.endswith('tar.gz'): 
-				try: 
-					tar = tarfile.open(name, 'r:gz')
-				except: 
-					print('Error in opening file. ')		
-				try: 
-					tar.extractall(path='../files')
-				except: 
-					print('Error in extracting file. ')
-				tar.close()
-
-
 def extract_file(id_name): 
 	'''
 	Input: 
@@ -256,10 +228,6 @@ def get_fasta_config(folder):
 			elif name.endswith('.config'): 
 				config.append((name, filename))
 
-	print('fasta: ', fasta)
-	print('config: ', config)
-
-
 	if fasta == []: 
 		print('Error finding fasta file. ')
 		with open("../files/nofasta_files.txt", "a") as myfile:
@@ -273,20 +241,14 @@ def get_fasta_config(folder):
 	
 	if fasta != []: 
 		for faa in fasta: 
-			print('fasta copying name: ', faa[0])
-			print('fasta copying filename: ', faa[1])
 			command = 'cp ' + faa[0] + ' ../fasta/' + faa[1]
-			print('fasta command: ', command)
 			flag = subprocess.call(command, shell=True)
 			if flag == 1: 
 				print("Error copying fasta file: ", faa)
 				sys.exit()
 	if config != []: 
 		for con in config: 
-			print('config copying name: ', con[0])
-			print('config copying filename: ', con[1])
 			command = 'cp ' + con[0] + ' ../config/' + con[1]
-			print('config command: ', command)
 			flag = subprocess.call(command, shell=True)
 			if flag == 1: 
 				print("Error copying config file: ", config)
@@ -301,21 +263,21 @@ if __name__ == '__main__':
 	open('../files/nopermiss_files.txt', 'w').close()
 	open('../files/nofasta_files.txt', 'w').close()
 	open('../files/noconfig_files.txt', 'w').close()
-	# sign_in()
+	sign_in()
 
 	project_list = '../files/genome-projects.csv'
 
 	# name = 'PueRicMetagenome_FD'
-	# name = 'Colrivmeta1547A3_FD'
+	name = 'Colrivmeta1547A3_FD'
 	# name = 'Colrivmeta1449A3_FD'
-	# get_xml(name)
-	# filename = download_file(name)
-	# if filename != '': 
-	# 	fasta, config = get_fasta_config(filename)
-	# 	print(fasta, config)
-	# print(name, filename)
+	get_xml(name)
+	filename = download_file(name)
+	if filename != '': 
+		fasta, config = get_fasta_config(filename)
+		print(fasta, config)
+	print(name, filename)
 
-	fasta, config = get_fasta_config('3300007551')
+	# fasta, config = get_fasta_config('3300007551')
 	
 	# portal_list = get_projects(project_list)
 	# for portal_name in portal_list: 

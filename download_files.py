@@ -126,34 +126,6 @@ def get_xml(filename):
 	flag = subprocess.call(command, shell=True)
 
 
-def extract_all_files(): 
-	'''
-	Input: 
-	  
-	Output:
-
-	Comments: 
-	  extracts all tar.gz files in the directory '../files'
-
-	  maybe input filename? 
-	  
-	'''
-	for dirname, dirnames, filenames in os.walk('../files'):
-		for filename in filenames:
-			name = str(os.path.join(dirname, filename))
-			
-			if name.endswith('tar.gz'): 
-				try: 
-					tar = tarfile.open(name, 'r:gz')
-				except: 
-					print('Error in opening file. ')		
-				try: 
-					tar.extractall(path='../files')
-				except: 
-					print('Error in extracting file. ')
-				tar.close()
-
-
 def extract_file(id_name): 
 	'''
 	Input: 
@@ -284,7 +256,9 @@ def get_fasta_config(folder):
 
 	return fasta, config
 
-
+#===============================================================================
+# Main Loop
+#===============================================================================
 
 if __name__ == '__main__':
 	open('../files/unfound_files.txt', 'w').close()
