@@ -244,17 +244,17 @@ def get_fasta_config(folder):
 	'''
 	print('Finding fasta and config files. ')
 	fasta = []
-	config = ''
+	config = []
 	
 	for dirname, dirnames, filenames in os.walk('../files/' + str(folder)): 
 		for filename in filenames: 
 			name = str(os.path.join(dirname, filename))
 
 			if name.endswith('.faa') or name.endswith('.fa'): 
-				fasta.append(name)
+				fasta.append((name, filename))
 			
 			elif name.endswith('.config'): 
-				config = name
+				config.append((name, filename))
 
 	print('fasta: ', fasta)
 	print('config: ', config)
@@ -265,30 +265,32 @@ def get_fasta_config(folder):
 		with open("../files/nofasta_files.txt", "a") as myfile:
 			myfile.write(folder + '\n')
 		# sys.exit() 
-	if config == '': 
+	if config == []: 
 		print('Error finding config file. ')
 		with open("../files/noconfig_files.txt", "a") as myfile:
 			myfile.write(folder + '\n')
 		# sys.exit()
+	
 	if fasta != []: 
 		for faa in fasta: 
-			print('fasta copying name: ', faa)
-			print('fasta copying filename: ', (faa + '.faa'))
-			command = 'cp ' + faa + ' ../fasta/' + (faa + '.faa')
+			print('fasta copying name: ', faa[0])
+			print('fasta copying filename: ', faa[1])
+			command = 'cp ' + faa[0] + ' ../fasta/' + faa[1]
 			print('fasta command: ', command)
 			flag = subprocess.call(command, shell=True)
 			if flag == 1: 
 				print("Error copying fasta file: ", faa)
 				sys.exit()
-	if config != '': 
-		print('config copying name: ', config)
-		print('config copying filename: ', (config + '.config'))
-		command = 'cp ' + config + ' ../config/' + (config + '.config')
-		print('config command: ', command)
-		flag = subprocess.call(command, shell=True)
-		if flag == 1: 
-			print("Error copying config file: ", config)
-			sys.exit()
+	if config != []: 
+		for con in config: 
+			print('config copying name: ', con[0])
+			print('config copying filename: ', conf[1])
+			command = 'cp ' + con[0] + ' ../config/' + con[1]
+			print('config command: ', command)
+			flag = subprocess.call(command, shell=True)
+			if flag == 1: 
+				print("Error copying config file: ", config)
+				sys.exit()
 
 	return fasta, config
 
