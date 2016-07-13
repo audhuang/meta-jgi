@@ -54,6 +54,7 @@ def mean_length(inp_file):
 
 	  
 	'''
+	test = []
 	num = 0
 	tot = 0 
 	sq = 0
@@ -63,11 +64,12 @@ def mean_length(inp_file):
 		num += 1
 		tot += len(str(fa.seq))
 		sq += len(str(fa.seq)) ** 2
+		test.append(len(str(fa.seq)))
 	handle.close()
 	
 	mean = tot / num
 	var = (sq - (tot ** 2) / num) / num
-	return mean, var
+	return mean, var, pvariance(test)
 
 
 #===============================================================================
@@ -77,8 +79,8 @@ def mean_length(inp_file):
 if __name__ == '__main__':
 	inp = '3300003150.a.faa'
 
-	mean, var = mean_length(inp)
+	mean, var, test_var = mean_length(inp)
 	print('mean: ', mean)
-	print('var: ', var)
+	print('var: ', var, test_var)
 
 
