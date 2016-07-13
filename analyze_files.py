@@ -31,7 +31,7 @@ def open_fasta(inp_file):
 	handle = open('../fasta/' + inp_file, 'rU')
 	for fa in SeqIO.parse(handle, 'fasta'): 
 		num += 1
-		tot += len(fa.seq.tostring())
+		tot += len(str(fa.seq))
 	handle.close()
 	print(num / tot)
 
