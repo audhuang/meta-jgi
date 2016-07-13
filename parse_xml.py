@@ -242,19 +242,6 @@ def get_fasta_config(folder):
 	  check if files present
 	  
 	'''
-	def get_fasta_config(folder): 
-	'''
-	Input: 
-	  folder name of downloaded project files
-	  
-	Output:
-	  name of fasta file 
-	  name of config file (environment information)
-
-	Comments: 
-	  check if files present
-	  
-	'''
 	print('Finding fasta and config files. ')
 	fasta = []
 	config = []
