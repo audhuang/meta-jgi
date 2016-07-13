@@ -62,7 +62,7 @@ def mean_length(inp_file):
 	for fa in SeqIO.parse(handle, 'fasta'): 
 		num += 1
 		tot += len(str(fa.seq))
-		sq += len(str(f.seq)) ** 2
+		sq += len(str(fa.seq)) ** 2
 	handle.close()
 	
 	mean = tot / num
@@ -81,4 +81,4 @@ if __name__ == '__main__':
 	print('mean: ', mean)
 	print('var: ', var)
 
-	
+
