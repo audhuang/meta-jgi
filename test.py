@@ -284,7 +284,7 @@ def get_fasta_config(folder):
 	if config != []: 
 		for con in config: 
 			print('config copying name: ', con[0])
-			print('config copying filename: ', conf[1])
+			print('config copying filename: ', con[1])
 			command = 'cp ' + con[0] + ' ../config/' + con[1]
 			print('config command: ', command)
 			flag = subprocess.call(command, shell=True)
