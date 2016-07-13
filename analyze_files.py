@@ -36,7 +36,9 @@ def test_ave(inp_file):
 	tot = 0
 	num = 0
 	with open('../fasta/' + inp_file) as handle:
+		print('handle: ', handle)
 		for header, group in groupby(handle, lambda x:x.startswith('>')):
+			print('header: ', header)
 			if not header:
 				num += 1
 				tot += sum(imap(lambda x: len(x.strip()), group))
