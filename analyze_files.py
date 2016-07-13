@@ -25,7 +25,7 @@ from itertools import groupby, imap
 # Helper Functions
 #===============================================================================
 
-def test_ave(inp_file): 
+def test_mean(inp_file): 
 	tot = 0
 	num = 0
 	with open('../fasta/' + inp_file) as handle:
@@ -42,14 +42,32 @@ def test_ave(inp_file):
 #===============================================================================
 
 def mean_length(inp_file): 
-	tot = 0 
+	'''
+	Input: 
+	  fasta file name
+	  
+	Output:
+	  mean of fasta sequence lengths
+	  var of fasta sequence lengths
+	 
+	Comments: 
+
+	  
+	'''
 	num = 0
+	tot = 0 
+	sq = 0
 	handle = open('../fasta/' + inp_file, 'rU')
+
 	for fa in SeqIO.parse(handle, 'fasta'): 
 		num += 1
 		tot += len(str(fa.seq))
+		sq += len(str(f.seq)) ** 2
 	handle.close()
-	print(tot / num)
+	
+	mean = tot / num
+	var = (sq - (tot ** 2) / num) / num
+	return mean, var
 
 
 #===============================================================================
@@ -59,4 +77,8 @@ def mean_length(inp_file):
 if __name__ == '__main__':
 	inp = '3300003150.a.faa'
 
-	mean_length(inp)
+	mean, var = mean_length(inp)
+	print('mean: ', mean)
+	print('var: ', var)
+
+	
