@@ -26,8 +26,8 @@ import pprint
 
 def open_fasta(inp_file): 
 	handle = open('../fasta/' + inp_file, 'rU')
-	for seq in SeqIO.parse(handle, 'fasta'): 
-		print(seq.id)
+	for fa in SeqIO.parse(handle, 'fasta'): 
+		print(fa.seq.to_string())
 
 
 #===============================================================================
