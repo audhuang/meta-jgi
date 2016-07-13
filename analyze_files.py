@@ -35,7 +35,7 @@ def open_fasta(inp_file):
 def test_ave(inp_file): 
 	tot = 0
 	num = 0
-	with open(inp_file) as handle:
+	with open('../fasta/' + inp_file) as handle:
 		for header, group in groupby(handle, lambda x:x.startswith('>')):
 			if not header:
 				num += 1
