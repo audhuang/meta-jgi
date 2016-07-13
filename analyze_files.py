@@ -19,6 +19,7 @@ import tarfile
 import requests
 from collections import Counter 
 import pprint
+from itertools import groupby, imap
 
 #===============================================================================
 # Helper Functions
@@ -28,7 +29,19 @@ def open_fasta(inp_file):
 	handle = open('../fasta/' + inp_file, 'rU')
 	for fa in SeqIO.parse(handle, 'fasta'): 
 		print(fa.seq.tostring())
+	handle.close()
 
+
+def test_ave(inp_file): 
+	tot = 0
+	num = 0
+	with open(inp_file) as handle:
+		for header, group in groupby(handle, lambda x:x.startswith('>')):
+			if not header:
+				num += 1
+				tot += sum(imap(lambda x: len(x.strip()), group))
+	result = float(tot)/num
+	print(result)
 
 #===============================================================================
 # Analyze Files
@@ -38,4 +51,4 @@ def open_fasta(inp_file):
 if __name__ == '__main__':
 	inp = '3300003150.a.faa'
 
-	open_fasta(inp)
+	test_ave(inp)
