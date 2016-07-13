@@ -1,6 +1,7 @@
 from __future__ import print_function
 from __future__ import division
 import math
+import statistics
 import random
 import time
 import sys
@@ -69,7 +70,7 @@ def mean_length(inp_file):
 	
 	mean = tot / num
 	var = (sq - (tot ** 2) / num) / num
-	return mean, var, pvariance(test)
+	return mean, var, statistics.pvariance(test)
 
 
 #===============================================================================
