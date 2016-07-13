@@ -267,6 +267,7 @@ def get_fasta_config(folder):
 		with open("../files/noconfig_files.txt", "a") as myfile:
 			myfile.write(folder + '\n')
 		# sys.exit()
+	
 	if fasta != []: 
 		command = 'cp ' + name + ' ../fasta/' + filename
 		flag = subprocess.call(command, shell=True)

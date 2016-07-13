@@ -252,26 +252,33 @@ def get_fasta_config(folder):
 
 			if name.endswith('.faa'): 
 				fasta.append(name)
-				command = 'cp ' + name + ' ../fasta/' + filename
-				flag = subprocess.call(command, shell=True)
-				if flag == 1: 
-					print("Error copying fasta file: ", name)
-					sys.exit()
 			
 			elif name.endswith('.config'): 
 				config = name
-				command = 'cp ' + name + ' ../config/' + filename
-				flag = subprocess.call(command, shell=True)
-				if flag == 1: 
-					print("Error copying config file: ", name)
-					sys.exit()
+
 
 	if fasta == []: 
 		print('Error finding fasta file. ')
-		sys.exit() 
+		with open("../files/nofasta_files.txt", "a") as myfile:
+			myfile.write(folder + '\n')
+		# sys.exit() 
 	if config == '': 
 		print('Error finding config file. ')
-		sys.exit()
+		with open("../files/noconfig_files.txt", "a") as myfile:
+			myfile.write(folder + '\n')
+		# sys.exit()
+	if fasta != []: 
+		command = 'cp ' + name + ' ../fasta/' + filename
+		flag = subprocess.call(command, shell=True)
+		if flag == 1: 
+			print("Error copying fasta file: ", name)
+			sys.exit()
+	if config != '': 
+		command = 'cp ' + name + ' ../config/' + filename
+		flag = subprocess.call(command, shell=True)
+		if flag == 1: 
+			print("Error copying config file: ", name)
+			sys.exit()
 
 	return fasta, config
 
@@ -280,19 +287,23 @@ def get_fasta_config(folder):
 if __name__ == '__main__':
 	open('../files/unfound_files.txt', 'w').close()
 	open('../files/nopermiss_files.txt', 'w').close()
+	open('../files/nofasta_files.txt', 'w').close()
+	open('../files/noconfig_files.txt', 'w').close()
 	sign_in()
 
 	project_list = '../files/genome-projects.csv'
 
 	# name = 'PueRicMetagenome_FD'
 	# name = 'Colrivmeta1547A3_FD'
-	name = 'Colrivmeta1449A3_FD'
-	get_xml(name)
-	filename = download_file(name)
-	if filename != '': 
-		fasta, config = get_fasta_config(filename)
-		print(fasta, config)
-	print(name, filename)
+	# name = 'Colrivmeta1449A3_FD'
+	# get_xml(name)
+	# filename = download_file(name)
+	# if filename != '': 
+	# 	fasta, config = get_fasta_config(filename)
+	# 	print(fasta, config)
+	# print(name, filename)
+
+	fasta, config = get_fasta_config('3300007551')
 	
 	# portal_list = get_projects(project_list)
 	# for portal_name in portal_list: 
