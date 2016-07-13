@@ -242,44 +242,58 @@ def get_fasta_config(folder):
 	  check if files present
 	  
 	'''
+	def get_fasta_config(folder): 
+	'''
+	Input: 
+	  folder name of downloaded project files
+	  
+	Output:
+	  name of fasta file 
+	  name of config file (environment information)
+
+	Comments: 
+	  check if files present
+	  
+	'''
 	print('Finding fasta and config files. ')
 	fasta = []
-	config = ''
+	config = []
 	
 	for dirname, dirnames, filenames in os.walk('../files/' + str(folder)): 
 		for filename in filenames: 
 			name = str(os.path.join(dirname, filename))
 
-			if name.endswith('.faa'): 
-				fasta.append(name)
+			if name.endswith('.faa') or name.endswith('.fa'): 
+				fasta.append((name, filename))
 			
 			elif name.endswith('.config'): 
-				config = name
-
+				config.append((name, filename))
 
 	if fasta == []: 
 		print('Error finding fasta file. ')
 		with open("../files/nofasta_files.txt", "a") as myfile:
 			myfile.write(folder + '\n')
 		# sys.exit() 
-	if config == '': 
+	if config == []: 
 		print('Error finding config file. ')
 		with open("../files/noconfig_files.txt", "a") as myfile:
 			myfile.write(folder + '\n')
 		# sys.exit()
 	
 	if fasta != []: 
-		command = 'cp ' + name + ' ../fasta/' + filename
-		flag = subprocess.call(command, shell=True)
-		if flag == 1: 
-			print("Error copying fasta file: ", name)
-			sys.exit()
-	if config != '': 
-		command = 'cp ' + name + ' ../config/' + filename
-		flag = subprocess.call(command, shell=True)
-		if flag == 1: 
-			print("Error copying config file: ", name)
-			sys.exit()
+		for faa in fasta: 
+			command = 'cp ' + faa[0] + ' ../fasta/' + faa[1]
+			flag = subprocess.call(command, shell=True)
+			if flag == 1: 
+				print("Error copying fasta file: ", faa)
+				sys.exit()
+	if config != []: 
+		for con in config: 
+			command = 'cp ' + con[0] + ' ../config/' + con[1]
+			flag = subprocess.call(command, shell=True)
+			if flag == 1: 
+				print("Error copying config file: ", config)
+				sys.exit()
 
 	return fasta, config
 
