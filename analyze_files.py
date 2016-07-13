@@ -26,10 +26,14 @@ from itertools import groupby, imap
 #===============================================================================
 
 def open_fasta(inp_file): 
+	tot = 0 
+	num = 0
 	handle = open('../fasta/' + inp_file, 'rU')
 	for fa in SeqIO.parse(handle, 'fasta'): 
-		print(fa.seq.tostring())
+		num += 1
+		tot += len(fa.seq.tostring())
 	handle.close()
+	print(num / tot)
 
 
 def test_ave(inp_file): 
@@ -38,9 +42,6 @@ def test_ave(inp_file):
 	with open('../fasta/' + inp_file) as handle:
 		for header, group in groupby(handle, lambda x:x.startswith('>')):
 			if not header:
-				print(type(imap(lambda x: len(x.strip()), group)))
-				for i in imap(lambda x: len(x.strip()), group): 
-					print(i)
 				num += 1
 				tot += sum(imap(lambda x: len(x.strip()), group))
 	result = float(tot)/num
@@ -54,4 +55,5 @@ def test_ave(inp_file):
 if __name__ == '__main__':
 	inp = '3300003150.a.faa'
 
+	open_fasta(inp)
 	test_ave(inp)
