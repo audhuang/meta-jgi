@@ -271,13 +271,19 @@ def get_fasta_config(folder):
 			myfile.write(folder + '\n')
 		# sys.exit()
 	if fasta != []: 
+		print('fasta copying name: ', name)
+		print('fasta copying filename: ', filename)
 		command = 'cp ' + name + ' ../fasta/' + filename
+		print('fasta command: ', command)
 		flag = subprocess.call(command, shell=True)
 		if flag == 1: 
 			print("Error copying fasta file: ", name)
 			sys.exit()
 	if config != '': 
+		print('config copying name: ', name)
+		print('config copying filename: ', filename)
 		command = 'cp ' + name + ' ../config/' + filename
+		print('config command: ', command)
 		flag = subprocess.call(command, shell=True)
 		if flag == 1: 
 			print("Error copying config file: ", name)
