@@ -256,6 +256,9 @@ def get_fasta_config(folder):
 			elif name.endswith('.config'): 
 				config = name
 
+	print('fasta: ', fasta)
+	print('config: ', config)
+
 
 	if fasta == []: 
 		print('Error finding fasta file. ')
@@ -289,7 +292,7 @@ if __name__ == '__main__':
 	open('../files/nopermiss_files.txt', 'w').close()
 	open('../files/nofasta_files.txt', 'w').close()
 	open('../files/noconfig_files.txt', 'w').close()
-	sign_in()
+	# sign_in()
 
 	project_list = '../files/genome-projects.csv'
 
