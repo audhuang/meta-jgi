@@ -48,7 +48,7 @@ def mean_length(inp_file):
 	  
 	Output:
 	  mean of fasta sequence lengths
-	  var of fasta sequence lengths
+	  std of fasta sequence lengths
 	 
 	Comments: 
 
@@ -69,7 +69,7 @@ def mean_length(inp_file):
 	
 	mean = tot / num
 	var = (sq - (tot ** 2) / num) / num
-	return mean, var, np.var(test)
+	return mean, math.sqrt(var)
 
 
 #===============================================================================
@@ -79,8 +79,8 @@ def mean_length(inp_file):
 if __name__ == '__main__':
 	inp = '3300003150.a.faa'
 
-	mean, var, test_var = mean_length(inp)
+	mean, std = mean_length(inp)
 	print('mean: ', mean)
-	print('var: ', var, test_var)
+	print('std: ', std)
 
 
