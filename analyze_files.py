@@ -33,7 +33,7 @@ def open_fasta(inp_file):
 		num += 1
 		tot += len(str(fa.seq))
 	handle.close()
-	print(num / tot)
+	print(tot / num)
 
 
 def test_ave(inp_file): 
