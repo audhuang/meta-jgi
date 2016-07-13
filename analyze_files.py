@@ -38,7 +38,9 @@ def test_ave(inp_file):
 	with open('../fasta/' + inp_file) as handle:
 		for header, group in groupby(handle, lambda x:x.startswith('>')):
 			if not header:
-				print(imap(lambda x: len(x.strip()), group))
+				print(type(imap(lambda x: len(x.strip()), group)))
+				for i in imap(lambda x: len(x.strip()), group): 
+					print(i)
 				num += 1
 				tot += sum(imap(lambda x: len(x.strip()), group))
 	result = float(tot)/num
