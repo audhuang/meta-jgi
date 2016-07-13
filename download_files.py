@@ -5,6 +5,7 @@ import random
 import time
 import sys
 import getpass
+import argparse
 
 import numpy as np 
 # import matplotlib.pyplot as plt
@@ -266,16 +267,22 @@ if __name__ == '__main__':
 	open('../files/nofasta_files.txt', 'w').close()
 	open('../files/noconfig_files.txt', 'w').close()
 	sign_in()
+	start = 0
 
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
 
-	for portal_name in portal_list: 
+	for i in range(start, len(portal_list)): 
+		portal_name = portal_list[i]
 		get_xml(portal_name)
 		filename = download_file(portal_name)
 		if filename != '': 
 			fasta, config = get_fasta_config(filename)
 		time.sleep(30)
+
+		if i == 100: 
+			time.sleep(300)
+	print('last index: ', i)
 
 
 

@@ -268,8 +268,9 @@ if __name__ == '__main__':
 	project_list = '../files/genome-projects.csv'
 
 	# name = 'PueRicMetagenome_FD'
-	name = 'Colrivmeta1547A3_FD'
+	# name = 'Colrivmeta1547A3_FD'
 	# name = 'Colrivmeta1449A3_FD'
+	name = 'Colrivmeta156802_FD'
 	get_xml(name)
 	filename = download_file(name)
 	if filename != '': 
