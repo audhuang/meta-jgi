@@ -5,6 +5,7 @@ import random
 import time
 import sys
 import getpass
+import argparse
 
 import numpy as np 
 # import matplotlib.pyplot as plt
@@ -182,7 +183,7 @@ def download_file(xml_file):
 	if url == '' or filename == '': 
 		print('Error finding file to download in xml file: ', xml_file)
 		with open("../files/unfound_files.txt", "a") as myfile:
-			myfile.write(xml_file + ' , ' + ext + '\n')
+			myfile.write(xml_file + '\n')
 		return filename
 		# sys.exit() 
 	else: 
@@ -259,6 +260,13 @@ def get_fasta_config(folder):
 
 
 if __name__ == '__main__':
+
+	parser = argparse.ArgumentParser(description='Set a start point. ')
+	parser.add_argument('--start', nargs='?', type=int, default=0)
+	args = parser.parse_args()
+	print(args)
+	print(args.start)
+
 	open('../files/unfound_files.txt', 'w').close()
 	open('../files/nopermiss_files.txt', 'w').close()
 	open('../files/nofasta_files.txt', 'w').close()
@@ -270,7 +278,7 @@ if __name__ == '__main__':
 	# name = 'PueRicMetagenome_FD'
 	# name = 'Colrivmeta1547A3_FD'
 	# name = 'Colrivmeta1449A3_FD'
-	name = 'Colrivmeta156802_FD'
+	name = 'ChlaggLakeDagow_FD'
 	get_xml(name)
 	filename = download_file(name)
 	if filename != '': 

@@ -183,7 +183,7 @@ def download_file(xml_file):
 	if url == '' or filename == '': 
 		print('Error finding file to download in xml file: ', xml_file)
 		with open("../files/unfound_files.txt", "a") as myfile:
-			myfile.write(xml_file + ' , ' + ext + '\n')
+			myfile.write(xml_file + '\n')
 		return filename
 		# sys.exit() 
 	else: 
@@ -262,12 +262,19 @@ def get_fasta_config(folder):
 #===============================================================================
 
 if __name__ == '__main__':
+
+	parser = argparse.ArgumentParser(description='Set a start point. ')
+	parser.add_argument('--start', nargs='?', type=int, default=0)
+	args = parser.parse_args()
+
 	open('../files/unfound_files.txt', 'w').close()
 	open('../files/nopermiss_files.txt', 'w').close()
 	open('../files/nofasta_files.txt', 'w').close()
 	open('../files/noconfig_files.txt', 'w').close()
+	start = args.start
+	print(start)
 	sign_in()
-	start = 0
+
 
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
@@ -282,7 +289,7 @@ if __name__ == '__main__':
 
 		if i == 100: 
 			time.sleep(300)
-	print('last index: ', i)
+
 
 
 
