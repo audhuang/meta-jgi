@@ -139,13 +139,13 @@ def extract_file(id_name):
 	  other file formats?
 
 	'''
-	print('id: ', id_name)
 	try: 
 		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
 		tar.extractall(path = '../files')
 		tar.close()
 	except tarfile.ReadError: 
-		print('error')
+		with open("../files/notargz_files.txt", "a") as myfile:
+			myfile.write(id_name + '\n')
 		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r')
 		tar.extractall(path = '../files')
 		tar.close()
@@ -267,18 +267,21 @@ def get_fasta_config(folder):
 
 	return fasta, config
 
-
+#===============================================================================
+# Main Loop
+#===============================================================================
 
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser(description='Set a start point. ')
-	parser.add_argument('--start', nargs='?', type=int, default=0)
+	parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
 	args = parser.parse_args()
 
 	open('../files/unfound_files.txt', 'w').close()
 	open('../files/nopermiss_files.txt', 'w').close()
 	open('../files/nofasta_files.txt', 'w').close()
 	open('../files/noconfig_files.txt', 'w').close()
+	open('../files/notargz_files.txt', 'w').close()
 	# sign_in()
 
 	project_list = '../files/genome-projects.csv'
@@ -291,8 +294,8 @@ if __name__ == '__main__':
 	# get_xml(name)
 	filename = download_file(name)
 	if filename != []: 
-		for name in filename: 
-			fasta, config = get_fasta_config(name)
+		for fil in filename: 
+			fasta, config = get_fasta_config(fil)
 			print(fasta, config)
 	print(name, filename)
 

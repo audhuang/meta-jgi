@@ -139,9 +139,17 @@ def extract_file(id_name):
 	  other file formats?
 
 	'''
-	tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
-	tar.extractall(path = '../files')
-	tar.close()
+	try: 
+		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
+		tar.extractall(path = '../files')
+		tar.close()
+	except tarfile.ReadError: 
+		with open("../files/notargz_files.txt", "a") as myfile:
+			myfile.write(id_name + '\n')
+		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r')
+		tar.extractall(path = '../files')
+		tar.close()
+
 
 
 def download_file(xml_file): 
@@ -159,8 +167,8 @@ def download_file(xml_file):
 
 	'''
 
-	url = ''
-	filename = ''
+	url = []
+	filename = []
 
 	try: 
 		tree = ET.parse('../files/' + xml_file + '.xml')
@@ -176,28 +184,30 @@ def download_file(xml_file):
 			if 'filename' in j.attrib: 
 				name, ext = get_ext(j.attrib['filename'])
 				if ext == 'tar.gz': 
-					url = j.attrib['url']
-					url.replace('&amp;', '&')
-					filename = name
+					url.append(j.attrib['url'].replace('&amp;', '&'))
+					filename.append(name)
+	print('filenames: ', filename)
+	print('urls: ', url)
 
-	if url == '' or filename == '': 
+	if url == [] or filename == []: 
 		print('Error finding file to download in xml file: ', xml_file)
 		with open("../files/unfound_files.txt", "a") as myfile:
 			myfile.write(xml_file + '\n')
 		return filename
 		# sys.exit() 
 	else: 
-		print("Downloading file: ", filename)
-		command = 'curl "http://genome.jgi.doe.gov' + str(url) + \
-		'" -b cookies > ' + '../files/' + str(filename) + '.tar.gz'
-		flag = subprocess.call(command, shell=True)
-		
-		if flag == 0: 
-			print("Extracting file: ", filename)
-			extract_file(filename)
-		elif flag == 1: 
-			print("Error downloading file. ")
-			sys.exit()
+		for i in range(len(filename)): 
+			print("Downloading file: ", filename[i])
+			command = 'curl "http://genome.jgi.doe.gov' + str(url[i]) + \
+			'" -b cookies > ' + '../files/' + str(filename[i]) + '.tar.gz'
+			flag = subprocess.call(command, shell=True)
+			
+			if flag == 0: 
+				print("Extracting file: ", filename[i])
+				extract_file(filename[i])
+			elif flag == 1: 
+				print("Error downloading file. ")
+				sys.exit()
 		
 	return filename
 
@@ -271,6 +281,7 @@ if __name__ == '__main__':
 	open('../files/nopermiss_files.txt', 'w').close()
 	open('../files/nofasta_files.txt', 'w').close()
 	open('../files/noconfig_files.txt', 'w').close()
+	open('../files/notargz_files.txt', 'w').close()
 
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
@@ -283,8 +294,9 @@ if __name__ == '__main__':
 		portal_name = portal_list[i]
 		get_xml(portal_name)
 		filename = download_file(portal_name)
-		if filename != '': 
-			fasta, config = get_fasta_config(filename)
+		if filename != []: 
+			for fil in filename: 
+				fasta, config = get_fasta_config(fil)
 		time.sleep(30)
 
 		if i == 100: 
