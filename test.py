@@ -290,10 +290,10 @@ if __name__ == '__main__':
 	# filename = '2061766009'
 	# get_xml(name)
 	filename = download_file(name)
-	extract_file(filename)
-	if filename != '': 
-		fasta, config = get_fasta_config(filename)
-		print(fasta, config)
+	if filename != []: 
+		for name in filename: 
+			fasta, config = get_fasta_config(name)
+			print(fasta, config)
 	print(name, filename)
 
 	# fasta, config = get_fasta_config('3300007551')
