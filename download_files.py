@@ -278,9 +278,10 @@ if __name__ == '__main__':
 
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
-	print(portal_list[350])
+	print(portal_list[340])
 
 	for i in range(start, len(portal_list)): 
+		print('INDEX: ', i)
 		portal_name = portal_list[i]
 		get_xml(portal_name)
 		filename = download_file(portal_name)
