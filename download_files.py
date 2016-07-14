@@ -279,7 +279,7 @@ if __name__ == '__main__':
 
 	sign_in()
 	for i in range(start, len(portal_list)): 
-		print('INDEX: ', i)
+		print('\nINDEX: ', i)
 		portal_name = portal_list[i]
 		get_xml(portal_name)
 		filename = download_file(portal_name)
@@ -288,7 +288,7 @@ if __name__ == '__main__':
 		time.sleep(30)
 
 		if i == 100: 
-			time.sleep(300)
+			time.sleep(100)
 
 
 

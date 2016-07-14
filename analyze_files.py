@@ -69,6 +69,13 @@ def mean_length(inp_file):
 	var = (sq - (tot ** 2) / num) / num
 	return num, mean, math.sqrt(var)
 
+def num_repeats(inp_file): 
+	handle = open('../fasta/' + inp_file, 'rU')
+	for fa in SeqIO.parse(handle, 'fasta'): 
+		
+
+
+	return 
 
 #===============================================================================
 # Main Loop

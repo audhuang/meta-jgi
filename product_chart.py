@@ -23,14 +23,12 @@ import pprint
 
 
 
-
 def analyze_projects(project_list): 
 	'''
 	Input: 
 	  csv file of list of all projects
 	Output:
-	  prints number of each type of product
-	  (examples include standard draft, minimal draft, metatranscriptome)
+	  produces pie chart of different types of metagenomic products 
 
 	Comments: 
 
