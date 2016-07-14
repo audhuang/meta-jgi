@@ -1,6 +1,8 @@
 
 using the JGI database for metagenomic analysis
 
+(requires list of projects 'genome-projects.csv' in directory ../files/)
+
 python download-files.py 
   - asks for JGI login user and password 
   - downloads metagenomic projects from JGI database into directory ../files/
