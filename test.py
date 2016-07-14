@@ -278,7 +278,7 @@ if __name__ == '__main__':
 	# name = 'PueRicMetagenome_FD'
 	# name = 'Colrivmeta1547A3_FD'
 	# name = 'Colrivmeta1449A3_FD'
-	name = 'ChlaggLakeDagow_FD'
+	name = 'NOAtaT_5_FD'
 	get_xml(name)
 	filename = download_file(name)
 	if filename != '': 

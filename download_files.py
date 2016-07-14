@@ -271,14 +271,13 @@ if __name__ == '__main__':
 	open('../files/nopermiss_files.txt', 'w').close()
 	open('../files/nofasta_files.txt', 'w').close()
 	open('../files/noconfig_files.txt', 'w').close()
-	sign_in()
-
 
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
 	start = portal_list.index(args.start)
-	print(start)
+	print('START: ', start)
 
+	sign_in()
 	for i in range(start, len(portal_list)): 
 		print('INDEX: ', i)
 		portal_name = portal_list[i]
