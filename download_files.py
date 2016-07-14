@@ -26,26 +26,6 @@ import pprint
 # Helper Functions
 #===============================================================================
 
-def analyze_projects(project_list): 
-	'''
-	Input: 
-	  csv file of list of all projects
-	Output:
-	  prints number of each type of product
-	  (examples include standard draft, minimal draft, metatranscriptome)
-
-	Comments: 
-
-	'''
-	df = pd.read_csv(project_list)
-	saved_column = df['Product Name']
-	project_count_dic = dict(Counter(list(saved_column)))
-	
-	pp = pprint.PrettyPrinter(indent=4)
-	pp.pprint(project_count_dic)
-	pp.pprint(project_count_dic.items())
-
-
 def get_ext(filename): 
 
 	split_list = filename.split('.')
@@ -143,6 +123,7 @@ def extract_file(id_name):
 		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
 		tar.extractall(path = '../files')
 		tar.close()
+		
 	except tarfile.ReadError: 
 		with open("../files/notargz_files.txt", "a") as myfile:
 			myfile.write(id_name + '\n')
@@ -186,8 +167,6 @@ def download_file(xml_file):
 				if ext == 'tar.gz': 
 					url.append(j.attrib['url'].replace('&amp;', '&'))
 					filename.append(name)
-	print('filenames: ', filename)
-	print('urls: ', url)
 
 	if url == [] or filename == []: 
 		print('Error finding file to download in xml file: ', xml_file)

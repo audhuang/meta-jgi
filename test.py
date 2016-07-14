@@ -152,6 +152,8 @@ def extract_file(id_name):
 
 
 
+
+
 def download_file(xml_file): 
 	'''
 	Input: 
@@ -257,6 +259,7 @@ def get_fasta_config(folder):
 			if flag == 1: 
 				print("Error copying fasta file: ", faa)
 				sys.exit()
+
 	if config != []: 
 		for con in config: 
 			command = 'cp ' + con[0] + ' ../config/' + con[1]
@@ -264,6 +267,19 @@ def get_fasta_config(folder):
 			if flag == 1: 
 				print("Error copying config file: ", config)
 				sys.exit()
+
+	# delete folder  
+	command = 'rm -rf ../files/' + str(folder)
+	flag = subprocess.call(command, shell=True)
+	print('command: ', command)
+
+	# compress fasta 
+	print('tar name: ', str(folder) + '.faa.gz')
+	tar = tarfile.open(str(folder) + '.faa.gz', 'w:gz')
+	for faa in fasta: 
+		print('faan name: ', '../fasta/' + faa[1])
+		tar.add('../fasta/' + faa[1])
+	tar.close()
 
 	return fasta, config
 
@@ -291,7 +307,7 @@ if __name__ == '__main__':
 	# name = 'Colrivmeta1449A3_FD'
 	name = 'AntLakMe24m_08um_FD'
 	# filename = '2061766009'
-	# get_xml(name)
+	get_xml(name)
 	filename = download_file(name)
 	if filename != []: 
 		for fil in filename: 
