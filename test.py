@@ -139,6 +139,7 @@ def extract_file(id_name):
 	  other file formats?
 
 	'''
+	print('id: ', id_name)
 	try: 
 		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
 		tar.extractall(path = '../files')
