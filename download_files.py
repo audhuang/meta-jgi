@@ -276,7 +276,7 @@ if __name__ == '__main__':
 
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
-	start = portal_list.index(start)
+	start = portal_list.index(args.start)
 	print(start)
 
 	for i in range(start, len(portal_list)): 
