@@ -236,7 +236,7 @@ def get_fasta_config(folder):
 	flag = subprocess.call(command, shell=True)
 
 
-	return fasta, config
+	return config
 
 #===============================================================================
 # Main Loop
@@ -269,7 +269,7 @@ if __name__ == '__main__':
 		filename = download_file(portal_name)
 		if filename != []: 
 			for fil in filename: 
-				fasta, config = get_fasta_config(fil, portal_name)
+				config = get_fasta_config(fil, portal_name)
 		time.sleep(30)
 
 		if i == 100: 
