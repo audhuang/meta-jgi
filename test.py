@@ -275,8 +275,8 @@ def get_fasta_config(filename, portal_name):
 		print('command: ', command)
 
 		# compress fasta 
-		print('tar name: ', '../fasta/' + str(portal_name) + '.faa.gz')
-		tar = tarfile.open('../fasta/' + str(portal_name) + '.faa.gz', 'w:gz')
+		print('tar name: ', '../fasta/' + str(portal_name) + '.tar.gz')
+		tar = tarfile.open('../fasta/' + str(portal_name) + '.tar.gz', 'w:gz')
 		for faa in fasta: 
 			print('faa name: ', '../fasta/' + faa[1])
 			tar.add('../fasta/' + faa[1])
