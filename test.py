@@ -188,8 +188,6 @@ def download_file(xml_file):
 				if ext == 'tar.gz': 
 					url.append(j.attrib['url'].replace('&amp;', '&'))
 					filename.append(name)
-	print('filenames: ', filename)
-	print('urls: ', url)
 
 	if url == [] or filename == []: 
 		print('Error finding file to download in xml file: ', xml_file)
@@ -241,6 +239,8 @@ def get_fasta_config(folder):
 			elif name.endswith('.config'): 
 				config.append((name, filename))
 
+	print('\nfasta: ', fasta)
+
 	if fasta == []: 
 		print('Error finding fasta file. ')
 		with open("../files/nofasta_files.txt", "a") as myfile:
@@ -274,10 +274,10 @@ def get_fasta_config(folder):
 	print('command: ', command)
 
 	# compress fasta 
-	print('tar name: ', str(folder) + '.faa.gz')
+	print('tar name: ', '../fasta/' + str(folder) + '.faa.gz')
 	tar = tarfile.open(str(folder) + '.faa.gz', 'w:gz')
 	for faa in fasta: 
-		print('faan name: ', '../fasta/' + faa[1])
+		print('faa name: ', '../fasta/' + faa[1])
 		tar.add('../fasta/' + faa[1])
 	tar.close()
 
