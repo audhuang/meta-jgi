@@ -26,26 +26,6 @@ import pprint
 # Helper Functions
 #===============================================================================
 
-def analyze_projects(project_list): 
-	'''
-	Input: 
-	  csv file of list of all projects
-	Output:
-	  prints number of each type of product
-	  (examples include standard draft, minimal draft, metatranscriptome)
-
-	Comments: 
-
-	'''
-	df = pd.read_csv(project_list)
-	saved_column = df['Product Name']
-	project_count_dic = dict(Counter(list(saved_column)))
-	
-	pp = pprint.PrettyPrinter(indent=4)
-	pp.pprint(project_count_dic)
-	pp.pprint(project_count_dic.items())
-
-
 def get_ext(filename): 
 
 	split_list = filename.split('.')
@@ -143,14 +123,13 @@ def extract_file(id_name):
 		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
 		tar.extractall(path = '../files')
 		tar.close()
+
 	except tarfile.ReadError: 
 		with open("../files/notargz_files.txt", "a") as myfile:
 			myfile.write(id_name + '\n')
 		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r')
 		tar.extractall(path = '../files')
 		tar.close()
-
-
 
 
 
@@ -205,6 +184,8 @@ def download_file(xml_file):
 			if flag == 0: 
 				print("Extracting file: ", filename[i])
 				extract_file(filename[i])
+				command = 'rm -rf ../files/' + filename[i] + '.tar.gz'
+				flag = subprocess.call(command, shell=True)
 			elif flag == 1: 
 				print("Error downloading file. ")
 				sys.exit()
@@ -212,7 +193,7 @@ def download_file(xml_file):
 	return filename
 
 
-def get_fasta_config(filename, portal_name): 
+def get_fasta_config(folder): 
 	'''
 	Input: 
 	  folder name of downloaded project files
@@ -225,68 +206,35 @@ def get_fasta_config(filename, portal_name):
 	  check if files present
 	  
 	'''
-	tar = tarfile.open('../fasta/' + str(portal_name) + '.tar.gz', 'w:gz')
-	for folder in filename: 
-		print('Finding fasta and config files. ')
-		fasta = []
-		config = []
-		
-		for dirname, dirnames, filenames in os.walk('../files/' + str(folder)): 
-			for filename in filenames: 
-				name = str(os.path.join(dirname, filename))
+	print('Finding config files. ')
+	config = []
+	
+	for dirname, dirnames, filenames in os.walk('../files/' + str(folder)): 
+		for filename in filenames: 
+			name = str(os.path.join(dirname, filename))
 
-				if name.endswith('.faa') or name.endswith('.fa'): 
-					fasta.append((name, filename))
-				
-				elif name.endswith('.config'): 
-					config.append((name, filename))
+			elif name.endswith('.config'): 
+				config.append((name, filename))
 
-		print('\nfasta: ', fasta)
+	if config == []: 
+		print('Error finding config file. ')
+		with open("../files/noconfig_files.txt", "a") as myfile:
+			myfile.write(folder + '\n')
+		# sys.exit()
 
-		if fasta == []: 
-			print('Error finding fasta file. ')
-			with open("../files/nofasta_files.txt", "a") as myfile:
-				myfile.write(folder + '\n')
-			# sys.exit() 
-		if config == []: 
-			print('Error finding config file. ')
-			with open("../files/noconfig_files.txt", "a") as myfile:
-				myfile.write(folder + '\n')
-			# sys.exit()
-		
-		if fasta != []: 
-			for faa in fasta: 
-				command = 'cp ' + faa[0] + ' ../fasta/' + faa[1]
-				flag = subprocess.call(command, shell=True)
-				if flag == 1: 
-					print("Error copying fasta file: ", faa)
-					sys.exit()
 
-		if config != []: 
-			for con in config: 
-				command = 'cp ' + con[0] + ' ../config/' + portal_name + '.config'
-				flag = subprocess.call(command, shell=True)
-				if flag == 1: 
-					print("Error copying config file: ", config)
-					sys.exit()
-
-		# delete folder  
-		# command = 'rm -rf ../files/' + str(folder)
-		# flag = subprocess.call(command, shell=True)
-		# print('command: ', command)
-
-		# compress fasta 
-		print('tar name: ', '../fasta/' + str(portal_name) + '.tar.gz')
-		for faa in fasta: 
-			print('faa name: ', '../fasta/' + faa[1])
-			tar.add('../fasta/' + faa[1])
-
-		# delete fasta 
-		for faa in fasta: 
-			command = 'rm ../fasta/' + faa[1]
+	if config != []: 
+		for con in config: 
+			command = 'cp ' + con[0] + ' ../config/' + folder + '.config'
 			flag = subprocess.call(command, shell=True)
-			print('delete command: ', command)
-	tar.close()
+			if flag == 1: 
+				print("Error copying config file: ", config)
+				sys.exit()
+
+	# delete folder  
+	command = 'rm -rf ../files/' + str(folder)
+	flag = subprocess.call(command, shell=True)
+
 
 	return fasta, config
 
@@ -300,34 +248,35 @@ if __name__ == '__main__':
 	parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
 	args = parser.parse_args()
 
-	open('../files/unfound_files.txt', 'w').close()
-	open('../files/nopermiss_files.txt', 'w').close()
-	open('../files/nofasta_files.txt', 'w').close()
-	open('../files/noconfig_files.txt', 'w').close()
-	open('../files/notargz_files.txt', 'w').close()
-	# sign_in()
-
 	project_list = '../files/genome-projects.csv'
+	portal_list = get_projects(project_list)
+	start = portal_list.index(args.start)
+	print('START: ', start)
 
-	# name = 'PueRicMetagenome_FD'
-	name = 'Colrivmeta1547A3_FD'
-	# name = 'Colrivmeta1449A3_FD'
-	# name = 'AntLakMe24m_08um_FD'
-	# filename = '2061766009'
-	get_xml(name)
-	filename = download_file(name)
-	if filename != []: 
-		fasta, config = get_fasta_config(filename, name)
-		print(fasta, config)
-	print(name, filename)
+	if start == 0: 
+		open('../files/unfound_files.txt', 'w').close()
+		open('../files/nopermiss_files.txt', 'w').close()
+		open('../files/nofasta_files.txt', 'w').close()
+		open('../files/noconfig_files.txt', 'w').close()
+		open('../files/notargz_files.txt', 'w').close()
 
-	# fasta, config = get_fasta_config('3300007551')
-	
-	# portal_list = get_projects(project_list)
-	# for portal_name in portal_list: 
-	# 	flag = get_xml(portal_name)
-	#	filename, flag = download_file(portal_name)
-	#	fasta, config = get_fasta_config(filename)
+
+	sign_in()
+	for i in range(start, len(portal_list)): 
+		print('\nINDEX: ', i)
+		portal_name = portal_list[i]
+		get_xml(portal_name)
+		filename = download_file(portal_name)
+		if filename != []: 
+			for fil in filename: 
+				fasta, config = get_fasta_config(fil, portal_name)
+		time.sleep(30)
+
+		if i == 100: 
+			time.sleep(100)
+
+
+
 
 		
 	

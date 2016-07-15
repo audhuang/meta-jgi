@@ -36,6 +36,8 @@ def analyze_projects(project_list):
 	df = pd.read_csv(project_list)
 	saved_column = df['Product Name']
 	count_dic = dict(Counter(list(saved_column)))
+	print(count_dic)
+	print(len(count_dic))
 	
 	projects = ['Other', 'Standard Draft', 'Minimal Draft', 'Annotated \nMetatranscriptome']
 	count = [0, 0, 0, 0]
