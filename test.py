@@ -275,7 +275,7 @@ def get_fasta_config(folder):
 
 	# compress fasta 
 	print('tar name: ', '../fasta/' + str(folder) + '.faa.gz')
-	tar = tarfile.open(str(folder) + '.faa.gz', 'w:gz')
+	tar = tarfile.open('../fasta/' + str(folder) + '.faa.gz', 'w:gz')
 	for faa in fasta: 
 		print('faa name: ', '../fasta/' + faa[1])
 		tar.add('../fasta/' + faa[1])
