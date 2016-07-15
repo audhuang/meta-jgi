@@ -191,7 +191,7 @@ def download_file(xml_file):
 	return filename
 
 
-def get_fasta_config(folder, portal_name): 
+def get_fasta_config(filename, portal_name): 
 	'''
 	Input: 
 	  folder name of downloaded project files
@@ -204,11 +204,12 @@ def get_fasta_config(folder, portal_name):
 	  check if files present
 	  
 	'''
-	print('Finding fasta and config files. ')
-	fasta = []
-	config = []
-
+	tar = tarfile.open('../fasta/' + str(portal_name) + '.tar.gz', 'w:gz')
 	for folder in filename: 
+		print('Finding fasta and config files. ')
+		fasta = []
+		config = []
+		
 		for dirname, dirnames, filenames in os.walk('../files/' + str(folder)): 
 			for filename in filenames: 
 				name = str(os.path.join(dirname, filename))
@@ -218,6 +219,8 @@ def get_fasta_config(folder, portal_name):
 				
 				elif name.endswith('.config'): 
 					config.append((name, filename))
+
+		print('\nfasta: ', fasta)
 
 		if fasta == []: 
 			print('Error finding fasta file. ')
@@ -237,9 +240,10 @@ def get_fasta_config(folder, portal_name):
 				if flag == 1: 
 					print("Error copying fasta file: ", faa)
 					sys.exit()
+
 		if config != []: 
 			for con in config: 
-				command = 'cp ' + con[0] + ' ../config/' + con[1]
+				command = 'cp ' + con[0] + ' ../config/' + portal_name + '.config'
 				flag = subprocess.call(command, shell=True)
 				if flag == 1: 
 					print("Error copying config file: ", config)
@@ -248,18 +252,20 @@ def get_fasta_config(folder, portal_name):
 		# delete folder  
 		command = 'rm -rf ../files/' + str(folder)
 		flag = subprocess.call(command, shell=True)
-		
-		# compress fasta 
-		tar = tarfile.open('../fasta/' + str(folder) + '.faa.gz', 'w:gz')
-		for faa in fasta: 
-			tar.add('../fasta/' + faa[1])
-	
-	tar.close()
+		print('command: ', command)
 
-	# delete fasta 
-	for faa in fasta: 
-		command = 'rm ../fasta/' + faa[1]
-		flag = subprocess.call(command, shell=True)
+		# compress fasta 
+		print('tar name: ', '../fasta/' + str(portal_name) + '.tar.gz')
+		for faa in fasta: 
+			print('faa name: ', '../fasta/' + faa[1])
+			tar.add('../fasta/' + faa[1])
+
+		# delete fasta 
+		for faa in fasta: 
+			command = 'rm ../fasta/' + faa[1]
+			flag = subprocess.call(command, shell=True)
+			print('delete command: ', command)
+	tar.close()
 
 	return fasta, config
 
