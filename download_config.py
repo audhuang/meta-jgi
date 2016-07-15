@@ -269,7 +269,7 @@ if __name__ == '__main__':
 		filename = download_file(portal_name)
 		if filename != []: 
 			for fil in filename: 
-				config = get_fasta_config(fil, portal_name)
+				config = get_fasta_config(fil)
 		time.sleep(30)
 
 		if i == 100: 
