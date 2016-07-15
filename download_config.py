@@ -213,7 +213,7 @@ def get_fasta_config(folder):
 		for filename in filenames: 
 			name = str(os.path.join(dirname, filename))
 
-			elif name.endswith('.config'): 
+			if name.endswith('.config'): 
 				config.append((name, filename))
 
 	if config == []: 
