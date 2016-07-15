@@ -283,7 +283,7 @@ def get_fasta_config(folder):
 
 	# delete fasta 
 	for faa in fasta: 
-		command = 'rm -rf ../fasta/' + faa[1]
+		command = 'rm ../fasta/' + faa[1]
 		flag = subprocess.call(command, shell=True)
 		print('delete command: ', command)
 
