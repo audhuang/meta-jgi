@@ -184,6 +184,8 @@ def download_file(xml_file):
 			if flag == 0: 
 				print("Extracting file: ", filename[i])
 				extract_file(filename[i])
+				command = 'rm -rf ../files/' + filename[i] + '.tar.gz'
+				flag = subprocess.call(command, shell=True)
 			elif flag == 1: 
 				print("Error downloading file. ")
 				sys.exit()
@@ -220,8 +222,6 @@ def get_fasta_config(filename, portal_name):
 				elif name.endswith('.config'): 
 					config.append((name, filename))
 
-		print('\nfasta: ', fasta)
-
 		if fasta == []: 
 			print('Error finding fasta file. ')
 			with open("../files/nofasta_files.txt", "a") as myfile:
@@ -252,19 +252,15 @@ def get_fasta_config(filename, portal_name):
 		# delete folder  
 		command = 'rm -rf ../files/' + str(folder)
 		flag = subprocess.call(command, shell=True)
-		print('command: ', command)
 
 		# compress fasta 
-		print('tar name: ', '../fasta/' + str(portal_name) + '.tar.gz')
 		for faa in fasta: 
-			print('faa name: ', '../fasta/' + faa[1])
 			tar.add('../fasta/' + faa[1])
 
 		# delete fasta 
 		for faa in fasta: 
 			command = 'rm ../fasta/' + faa[1]
 			flag = subprocess.call(command, shell=True)
-			print('delete command: ', command)
 	tar.close()
 
 	return fasta, config
@@ -279,16 +275,18 @@ if __name__ == '__main__':
 	parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
 	args = parser.parse_args()
 
-	open('../files/unfound_files.txt', 'w').close()
-	open('../files/nopermiss_files.txt', 'w').close()
-	open('../files/nofasta_files.txt', 'w').close()
-	open('../files/noconfig_files.txt', 'w').close()
-	open('../files/notargz_files.txt', 'w').close()
-
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
 	start = portal_list.index(args.start)
 	print('START: ', start)
+
+	if start == 0: 
+		open('../files/unfound_files.txt', 'w').close()
+		open('../files/nopermiss_files.txt', 'w').close()
+		open('../files/nofasta_files.txt', 'w').close()
+		open('../files/noconfig_files.txt', 'w').close()
+		open('../files/notargz_files.txt', 'w').close()
+
 
 	sign_in()
 	for i in range(start, len(portal_list)): 
