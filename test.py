@@ -212,7 +212,7 @@ def download_file(xml_file):
 	return filename
 
 
-def get_fasta_config(folder): 
+def get_fasta_config(filename, portal_name): 
 	'''
 	Input: 
 	  folder name of downloaded project files
@@ -225,67 +225,68 @@ def get_fasta_config(folder):
 	  check if files present
 	  
 	'''
-	print('Finding fasta and config files. ')
-	fasta = []
-	config = []
-	
-	for dirname, dirnames, filenames in os.walk('../files/' + str(folder)): 
-		for filename in filenames: 
-			name = str(os.path.join(dirname, filename))
+	for folder in filename: 
+		print('Finding fasta and config files. ')
+		fasta = []
+		config = []
+		
+		for dirname, dirnames, filenames in os.walk('../files/' + str(folder)): 
+			for filename in filenames: 
+				name = str(os.path.join(dirname, filename))
 
-			if name.endswith('.faa') or name.endswith('.fa'): 
-				fasta.append((name, filename))
-			
-			elif name.endswith('.config'): 
-				config.append((name, filename))
+				if name.endswith('.faa') or name.endswith('.fa'): 
+					fasta.append((name, filename))
+				
+				elif name.endswith('.config'): 
+					config.append((name, filename))
 
-	print('\nfasta: ', fasta)
+		print('\nfasta: ', fasta)
 
-	if fasta == []: 
-		print('Error finding fasta file. ')
-		with open("../files/nofasta_files.txt", "a") as myfile:
-			myfile.write(folder + '\n')
-		# sys.exit() 
-	if config == []: 
-		print('Error finding config file. ')
-		with open("../files/noconfig_files.txt", "a") as myfile:
-			myfile.write(folder + '\n')
-		# sys.exit()
-	
-	if fasta != []: 
-		for faa in fasta: 
-			command = 'cp ' + faa[0] + ' ../fasta/' + faa[1]
-			flag = subprocess.call(command, shell=True)
-			if flag == 1: 
-				print("Error copying fasta file: ", faa)
-				sys.exit()
+		if fasta == []: 
+			print('Error finding fasta file. ')
+			with open("../files/nofasta_files.txt", "a") as myfile:
+				myfile.write(folder + '\n')
+			# sys.exit() 
+		if config == []: 
+			print('Error finding config file. ')
+			with open("../files/noconfig_files.txt", "a") as myfile:
+				myfile.write(folder + '\n')
+			# sys.exit()
+		
+		if fasta != []: 
+			for faa in fasta: 
+				command = 'cp ' + faa[0] + ' ../fasta/' + faa[1]
+				flag = subprocess.call(command, shell=True)
+				if flag == 1: 
+					print("Error copying fasta file: ", faa)
+					sys.exit()
 
-	if config != []: 
-		for con in config: 
-			command = 'cp ' + con[0] + ' ../config/' + con[1]
-			flag = subprocess.call(command, shell=True)
-			if flag == 1: 
-				print("Error copying config file: ", config)
-				sys.exit()
+		if config != []: 
+			for con in config: 
+				command = 'cp ' + con[0] + ' ../config/' + portal_name + '.config'
+				flag = subprocess.call(command, shell=True)
+				if flag == 1: 
+					print("Error copying config file: ", config)
+					sys.exit()
 
-	# # delete folder  
-	# command = 'rm -rf ../files/' + str(folder)
-	# flag = subprocess.call(command, shell=True)
-	# print('command: ', command)
-
-	# compress fasta 
-	print('tar name: ', '../fasta/' + str(folder) + '.faa.gz')
-	tar = tarfile.open('../fasta/' + str(folder) + '.faa.gz', 'w:gz')
-	for faa in fasta: 
-		print('faa name: ', '../fasta/' + faa[1])
-		tar.add('../fasta/' + faa[1])
-	tar.close()
-
-	# delete fasta 
-	for faa in fasta: 
-		command = 'rm ../fasta/' + faa[1]
+		# delete folder  
+		command = 'rm -rf ../files/' + str(folder)
 		flag = subprocess.call(command, shell=True)
-		print('delete command: ', command)
+		print('command: ', command)
+
+		# compress fasta 
+		print('tar name: ', '../fasta/' + str(portal_name) + '.faa.gz')
+		tar = tarfile.open('../fasta/' + str(portal_name) + '.faa.gz', 'w:gz')
+		for faa in fasta: 
+			print('faa name: ', '../fasta/' + faa[1])
+			tar.add('../fasta/' + faa[1])
+		tar.close()
+
+		# delete fasta 
+		for faa in fasta: 
+			command = 'rm ../fasta/' + faa[1]
+			flag = subprocess.call(command, shell=True)
+			print('delete command: ', command)
 
 	return fasta, config
 
@@ -316,9 +317,8 @@ if __name__ == '__main__':
 	get_xml(name)
 	filename = download_file(name)
 	if filename != []: 
-		for fil in filename: 
-			fasta, config = get_fasta_config(fil)
-			print(fasta, config)
+		fasta, config = get_fasta_config(filename, name)
+		print(fasta, config)
 	print(name, filename)
 
 	# fasta, config = get_fasta_config('3300007551')
