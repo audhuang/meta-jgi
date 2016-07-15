@@ -225,6 +225,7 @@ def get_fasta_config(filename, portal_name):
 	  check if files present
 	  
 	'''
+	tar = tarfile.open('../fasta/' + str(portal_name) + '.tar.gz', 'w:gz')
 	for folder in filename: 
 		print('Finding fasta and config files. ')
 		fasta = []
@@ -276,17 +277,16 @@ def get_fasta_config(filename, portal_name):
 
 		# compress fasta 
 		print('tar name: ', '../fasta/' + str(portal_name) + '.tar.gz')
-		tar = tarfile.open('../fasta/' + str(portal_name) + '.tar.gz', 'w:gz')
 		for faa in fasta: 
 			print('faa name: ', '../fasta/' + faa[1])
 			tar.add('../fasta/' + faa[1])
-		tar.close()
 
 		# delete fasta 
 		for faa in fasta: 
 			command = 'rm ../fasta/' + faa[1]
 			flag = subprocess.call(command, shell=True)
 			print('delete command: ', command)
+	tar.close()
 
 	return fasta, config
 
