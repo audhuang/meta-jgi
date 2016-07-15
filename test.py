@@ -268,10 +268,10 @@ def get_fasta_config(folder):
 				print("Error copying config file: ", config)
 				sys.exit()
 
-	# delete folder  
-	command = 'rm -rf ../files/' + str(folder)
-	flag = subprocess.call(command, shell=True)
-	print('command: ', command)
+	# # delete folder  
+	# command = 'rm -rf ../files/' + str(folder)
+	# flag = subprocess.call(command, shell=True)
+	# print('command: ', command)
 
 	# compress fasta 
 	print('tar name: ', '../fasta/' + str(folder) + '.faa.gz')
@@ -280,6 +280,12 @@ def get_fasta_config(folder):
 		print('faa name: ', '../fasta/' + faa[1])
 		tar.add('../fasta/' + faa[1])
 	tar.close()
+
+	# delete fasta 
+	for faa in fasta: 
+		command = 'rm -rf ../fasta/' + faa[1]
+		flag = subprocess.call(command, shell=True)
+		print('delete command: ', command)
 
 	return fasta, config
 
