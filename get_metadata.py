@@ -28,6 +28,18 @@ import pprint
 #===============================================================================
 
 def parse_config(inp): 
+	'''
+	Input: 
+	  name of config file, including .config extension 
+	  
+	Output:
+	  class of environment 
+	  order of environment
+
+	Comments: 
+	  check if files present
+	  
+	'''
 	clas = ''
 	order = ''
 	with open('../config/' + inp) as f: 
@@ -41,6 +53,9 @@ def parse_config(inp):
 
 
 def test(): 
+	'''
+	  test parsing on a single config file 
+	'''
 	inp = 'Colrivmeta1547A3_FD.config'
 	(clas, order) = parse_config(inp)
 	print(clas, order)
@@ -51,6 +66,13 @@ def test():
 #===============================================================================
 
 def main(): 
+	'''
+	Comments: 
+	  creates dictionary of IMG identifier : (class, order)
+
+	  consider adding other features from the config file? 
+	  
+	'''
 	img_metadata_dic = {}
 
 	for dirname, dirnames, filenames in os.walk('../config'): 
