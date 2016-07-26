@@ -245,12 +245,14 @@ def get_fasta_config(folder):
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser(description='Set a start point. ')
-	parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
+	# parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
+	parse.add_argument('--start', nargs='?', type=int, default=0)
 	args = parser.parse_args()
 
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
-	start = portal_list.index(args.start)
+	# start = portal_list.index(args.start)
+	start = args.start
 	print('START: ', start)
 
 	if start == 0: 
