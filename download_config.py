@@ -246,7 +246,7 @@ if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser(description='Set a start point. ')
 	# parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
-	parse.add_argument('--start', nargs='?', type=int, default=0)
+	parser.add_argument('--start', nargs='?', type=int, default=0)
 	args = parser.parse_args()
 
 	project_list = '../files/genome-projects.csv'
