@@ -300,12 +300,12 @@ if __name__ == '__main__':
 	parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
 	args = parser.parse_args()
 
-	open('../files/unfound_files.txt', 'w').close()
-	open('../files/nopermiss_files.txt', 'w').close()
-	open('../files/nofasta_files.txt', 'w').close()
-	open('../files/noconfig_files.txt', 'w').close()
-	open('../files/notargz_files.txt', 'w').close()
-	# sign_in()
+	# open('../files/unfound_files.txt', 'w').close()
+	# open('../files/nopermiss_files.txt', 'w').close()
+	# open('../files/nofasta_files.txt', 'w').close()
+	# open('../files/noconfig_files.txt', 'w').close()
+	# open('../files/notargz_files.txt', 'w').close()
+	sign_in()
 
 	project_list = '../files/genome-projects.csv'
 
