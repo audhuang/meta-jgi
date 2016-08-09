@@ -140,8 +140,8 @@ def extract_file(id_name):
 
 	'''
 	try: 
-		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
-		tar.extractall(path = '../files')
+		tar = tarfile.open('../test/' + id_name + '.tar.gz', 'r:gz')
+		tar.extractall(path = '../test')
 		tar.close()
 	except tarfile.ReadError: 
 		with open("../files/notargz_files.txt", "a") as myfile:
@@ -199,7 +199,7 @@ def download_file(xml_file):
 		for i in range(len(filename)): 
 			print("Downloading file: ", filename[i])
 			command = 'curl "http://genome.jgi.doe.gov' + str(url[i]) + \
-			'" -b cookies > ' + '../files/' + str(filename[i]) + '.tar.gz'
+			'" -b cookies > ' + '../test/' + str(filename[i]) + '.tar.gz'
 			flag = subprocess.call(command, shell=True)
 			
 			if flag == 0: 
@@ -316,10 +316,10 @@ if __name__ == '__main__':
 	# filename = '2061766009'
 	get_xml(name)
 	filename = download_file(name)
-	if filename != []: 
-		fasta, config = get_fasta_config(filename, name)
-		print(fasta, config)
-	print(name, filename)
+	# if filename != []: 
+	# 	fasta, config = get_fasta_config(filename, name)
+	# 	print(fasta, config)
+	# print(name, filename)
 
 	# fasta, config = get_fasta_config('3300007551')
 	
