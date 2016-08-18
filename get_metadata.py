@@ -59,7 +59,7 @@ def parse_config(inp):
 				classification[1] = linelist[1].strip().lower()
 
 
-		if '' in classification[:4]: 
+		if '' in classification[:5]: 
 			with open("../unclassified_files.txt", "a") as myfile:
 				myfile.write(inp + '\n')
 
