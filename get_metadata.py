@@ -11,6 +11,7 @@ import numpy as np
 import cPickle as cp
 # import matplotlib.pyplot as plt
 import pandas as pd
+import csv
 
 import xml.etree.ElementTree as ET 
 import subprocess
@@ -40,16 +41,23 @@ def parse_config(inp):
 	  check if files present
 	  
 	'''
-	clas = ''
-	order = ''
+	classification = [''] * 6
 	with open('../config/' + inp) as f: 
 		for line in f: 
 			linelist = line.split(' ')
-			if 'ir_class' in linelist[0]: 
-				clas = linelist[1].strip().lower() 
+			if 'domain' in linelist[0]: 
+				classification[0] = linelist[1].strip().lower() 
+			elif 'family' in linelist[0]: 
+				classification[4] = linelist[1].strip().lower()
+			elif 'genus' in linelist[0]: 
+				classification[5] = linelist[1].strip().lower()
+			elif 'ir_class' in linelist[0]: 
+				classification[2] = linelist[1].strip().lower() 
 			elif 'ir_order' in linelist[0]: 
-				order = linelist[1].strip().lower()
-	return (clas, order)
+				classification[3] = linelist[1].strip().lower()
+			elif 'phylum' in linelist[0]: 
+				classification[1] = linelist[1].strip().lower()
+	return classification
 
 
 def test(): 
@@ -57,8 +65,8 @@ def test():
 	  test parsing on a single config file 
 	'''
 	inp = 'Colrivmeta1547A3_FD.config'
-	(clas, order) = parse_config(inp)
-	print(clas, order)
+	classification = parse_config(inp)
+	print(classification)
 
 
 #===============================================================================
@@ -73,16 +81,18 @@ def main():
 	  consider adding other features from the config file? 
 	  
 	'''
-	img_metadata_dic = {}
+	# img_metadata_dic = {}
+	with open('../config_krona.txt', 'wb') as f: 
+		write = csv.writer(f, delimiter='\t')
+		for dirname, dirnames, filenames in os.walk('../config'): 
+			for filename in filenames: 
+				if filename.endswith('.config'): 
+					# img_metadata_dic[filename.split('.')[0]] = parse_config(filename)
+					write.writerow(parse_config(filename))
 
-	for dirname, dirnames, filenames in os.walk('../config'): 
-		for filename in filenames: 
-			if filename.endswith('.config'): 
-				img_metadata_dic[filename.split('.')[0]] = parse_config(filename)
-
-	with open('../code/img_metadata_dic.p', 'wb') as f: 
-		cp.dump(img_metadata_dic, f)
-	print(img_metadata_dic)
+	# with open('../code/img_metadata_dic.p', 'wb') as f: 
+	# 	cp.dump(img_metadata_dic, f)
+	# print(img_metadata_dic)
 
 
 if __name__ == '__main__':
