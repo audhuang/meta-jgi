@@ -81,14 +81,25 @@ def main():
 	  consider adding other features from the config file? 
 	  
 	'''
-	# img_metadata_dic = {}
+	
+	meta_dic = {}
+
+	for dirname, dirnames, filenames in os.walk('../config'): 
+		for filename in filenames: 
+			if filename.endswith('.config'): 
+				# img_metadata_dic[filename.split('.')[0]] = parse_config(filename)
+				classification = parse_config(filename)
+
+				if classification not in meta_dic: 
+					meta_dic[classification] = 1 
+				else: 
+					meta_dic[classification] += 1
+
 	with open('../config_krona.txt', 'wb') as f: 
 		write = csv.writer(f, delimiter='\t')
-		for dirname, dirnames, filenames in os.walk('../config'): 
-			for filename in filenames: 
-				if filename.endswith('.config'): 
-					# img_metadata_dic[filename.split('.')[0]] = parse_config(filename)
-					write.writerow(parse_config(filename))
+
+		for key in meta_dic: 
+			write.writerow(meta_dic[key] + key)
 
 	# with open('../code/img_metadata_dic.p', 'wb') as f: 
 	# 	cp.dump(img_metadata_dic, f)
