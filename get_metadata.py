@@ -60,7 +60,7 @@ def parse_config(inp):
 
 
 		if '' in classification[:4]: 
-			with open("../unclassified.txt", "a") as myfile:
+			with open("../unclassified_files.txt", "a") as myfile:
 				myfile.write(inp + '\n')
 
 	return '\t'.join(classification)
