@@ -57,7 +57,7 @@ def parse_config(inp):
 				classification[3] = linelist[1].strip().lower()
 			elif 'phylum' in linelist[0]: 
 				classification[1] = linelist[1].strip().lower()
-	return classification
+	return '\t'.join(classification)
 
 
 def test(): 
@@ -91,7 +91,7 @@ def main():
 				classification = parse_config(filename)
 
 				if classification not in meta_dic: 
-					meta_dic[classification] = 1 
+					meta_dic[classification] = 1
 				else: 
 					meta_dic[classification] += 1
 
@@ -99,7 +99,7 @@ def main():
 		write = csv.writer(f, delimiter='\t')
 
 		for key in meta_dic: 
-			write.writerow(meta_dic[key] + key)
+			write.writerow([meta_dic[key]] + key.split('\t'))
 
 	# with open('../code/img_metadata_dic.p', 'wb') as f: 
 	# 	cp.dump(img_metadata_dic, f)
@@ -107,4 +107,6 @@ def main():
 
 
 if __name__ == '__main__':
+	# test()
+
 	main()
