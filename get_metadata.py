@@ -57,6 +57,12 @@ def parse_config(inp):
 				classification[3] = linelist[1].strip().lower()
 			elif 'phylum' in linelist[0]: 
 				classification[1] = linelist[1].strip().lower()
+
+
+		if '' in classification[:4]: 
+			with open("../unclassified.txt", "a") as myfile:
+				myfile.write(inp + '\n')
+
 	return '\t'.join(classification)
 
 
@@ -83,6 +89,7 @@ def main():
 	'''
 	
 	meta_dic = {}
+	open('../unclassified_files.txt', 'w').close()
 
 	for dirname, dirnames, filenames in os.walk('../config'): 
 		for filename in filenames: 
