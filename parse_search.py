@@ -42,9 +42,11 @@ def hmmsearch(search, hmm, fasta, out):
 
 def parse(out): 
 	results = []
-	for qresult in SearchIO.parse(out, 'hmmer3-text'): 
-		print('hello')
-		print(qresult)
+	# for qresult in SearchIO.parse(out, 'hmmer3-text'): 
+	with open(out) as f: 
+		for line in f: 
+			print(f)
+
 
 	# return results
 
