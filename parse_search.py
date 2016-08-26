@@ -43,9 +43,9 @@ def hmmsearch(search, hmm, fasta, out):
 def parse(out): 
 	results = []
 	for qresult in SearchIO.parse(out, 'hmmer2-text'): 
-		results.append(qresult.id)
+		print(qresult.id)
 
-	return results
+	# return results
 
 
 def parse_config(inp): 
@@ -93,7 +93,8 @@ def main():
 	config_path = '../files/3300007621/'
 
 	# hmmbuild(hmmbuild_path, msa_path, buildout_path)
-	hmmsearch(hmmsearch_path, hmm_path, fasta_path, searchout_path)
+	# hmmsearch(hmmsearch_path, hmm_path, fasta_path, searchout_path)
+	parse(searchout_path)
 
 	# (clas, order) = parse_config(fasta_path)
 
