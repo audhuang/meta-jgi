@@ -89,7 +89,7 @@ def main():
 	hmm_path = './hmmlibrary.HMMs'
 	hmmsearch_path = '../tools/hmmer-3.1b2/src/./'
 	fasta_path = '../files/3300007621/3300007621.a.faa'
-	searchout_path = '../'
+	searchout_path = '../results.tblout'
 	config_path = '../files/3300007621/'
 
 	# hmmbuild(hmmbuild_path, msa_path, buildout_path)
