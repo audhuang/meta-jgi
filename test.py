@@ -140,8 +140,8 @@ def extract_file(id_name):
 
 	'''
 	try: 
-		tar = tarfile.open('../test/' + id_name + '.tar.gz', 'r:gz')
-		tar.extractall(path = '../test')
+		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
+		tar.extractall(path = '../files')
 		tar.close()
 	except tarfile.ReadError: 
 		with open("../files/notargz_files.txt", "a") as myfile:
@@ -199,7 +199,7 @@ def download_file(xml_file):
 		for i in range(len(filename)): 
 			print("Downloading file: ", filename[i])
 			command = 'curl "http://genome.jgi.doe.gov' + str(url[i]) + \
-			'" -b cookies > ' + '../test/' + str(filename[i]) + '.tar.gz'
+			'" -b cookies > ' + '../files/' + str(filename[i]) + '.tar.gz'
 			flag = subprocess.call(command, shell=True)
 			
 			if flag == 0: 
