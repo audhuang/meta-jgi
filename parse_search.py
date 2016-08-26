@@ -86,7 +86,7 @@ def parse_phylo(inp):
 def main(): 
 	# input is name of fasta which corresponds to config
 
-	hmm_path = '../hmmlibrary.HMMs'
+	hmm_path = './hmmlibrary.HMMs'
 	hmmsearch_path = '../tools/hmmer-3.1b2/src/./'
 	fasta_path = '../files/3300007621/3300007621.a.faa'
 	searchout_path = '../'
