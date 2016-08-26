@@ -45,7 +45,7 @@ def parse(out):
 	# for qresult in SearchIO.parse(out, 'hmmer3-text'): 
 	with open(out) as f: 
 		for line in f: 
-			print(line)
+			print(line.split()[2])
 
 
 	# return results
