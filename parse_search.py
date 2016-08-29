@@ -45,6 +45,7 @@ def parse(out):
 	# for qresult in SearchIO.parse(out, 'hmmer3-text'): 
 	with open(out) as f: 
 		for line in f: 
+			print(line.split())
 			subgroup = line.split()[2]
 			if subgroup not in results: 
 				results[subgroup] = 1
