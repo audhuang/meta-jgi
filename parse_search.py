@@ -10,6 +10,7 @@ import argparse
 import numpy as np 
 # import matplotlib.pyplot as plt
 import pandas as pd
+import csv
 
 import subprocess
 import os
@@ -91,9 +92,11 @@ def parse_phylo(inp):
 	return phylodic
 
 def write_results(out, results):
-	with open(out + 'data') as f:
+	with open(out + 'data', 'wb') as f:
+		write = csv.writer(f, delimiter=',')
+
 		subgroups = list(results.keys())
-		print(subgroups)
+		write.writerow([','] + subgroups)
 
 
 
