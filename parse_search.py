@@ -49,10 +49,11 @@ def parse(fa, out):
 		for line in f: 
 			if line[0] != '#': 
 				subgroup = line.split()[2]
-				if subgroup not in results: 
-					results[subgroup] = 1
-				else: 
-					results[subgroup] += 1
+				if subgroup != 'Nitroreductase': 
+					if subgroup not in results: 
+						results[subgroup] = 1
+					else: 
+						results[subgroup] += 1
 
 	return results 
 
