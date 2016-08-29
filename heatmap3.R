@@ -41,7 +41,7 @@ col_breaks = c(seq(0,1,by=0.1))
 ################################################
 # creates a 5 x 10 inch image
 ################################################
-png("hm5.png",    # create PNG for the heat map        
+png("hm.png",    # create PNG for the heat map        
   width = 5*300,        # 5 x 300 pixels
   height = 8*600,
   res = 600,            # 300 pixels per inch
