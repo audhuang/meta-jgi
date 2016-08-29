@@ -98,6 +98,13 @@ def write_results(out, results):
 		subgroups = list(results.keys())
 		write.writerow([''] + subgroups)
 
+		val = list(results.values())
+		total = sum(val)
+		val = val / total 
+
+		write.writerow([3300007621] + val)
+
+
 
 
 
