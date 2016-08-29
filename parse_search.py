@@ -34,6 +34,7 @@ def hmmbuild(build, msa, out):
 
 def hmmsearch(search, hmm, fa, fasta_path, out):
 	command = search + 'hmmsearch --tblout ' + out + fa + '_results.tblout' + ' ' + hmm + ' ' + fasta_path
+	print('command: ', command)
 	status = subprocess.call(command, shell=True)
 
 	if status == 1: 
