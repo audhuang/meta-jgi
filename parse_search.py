@@ -109,7 +109,10 @@ def parse_phylo(inp):
 
 
 def main(): 
-	# input is name of fasta which corresponds to config
+	parser = argparse.ArgumentParser(description='add test file?')
+	# parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
+	parser.add_argument('--add', nargs='?', type=str, default=None)
+	args = parser.parse_args()
 
 
 	hmm_path = './hmmlibrary.HMMs'
@@ -118,15 +121,22 @@ def main():
 	searchout_path = '../'
 	config_path = '../files/'
 	results_path = './data'
-	fasta = ['3300007621', '3300006190']
+
+	header = False
+	if add != None: 
+		fasta = [str(args.add)]
+		header = True
+	else: 
+		fasta = ['3300007621', '3300006190', '3300006034']
+		open(results_path, 'w').close()
 	
-	open(results_path, 'w').close()
+	print(fasta)
 
 	# hmmbuild(hmmbuild_path, msa_path, buildout_path)
-	header = False
+	
 
 	for fa in fasta: 
-		# hmmsearch(hmmsearch_path, hmm_path, fa, (fasta_path + fa + '/' + fa + '.a.faa'), searchout_path)
+		hmmsearch(hmmsearch_path, hmm_path, fa, (fasta_path + fa + '/' + fa + '.a.faa'), searchout_path)
 		results = parse(fa, searchout_path)
 		write_results(fa, results_path, results, header)
 		header = True
