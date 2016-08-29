@@ -123,7 +123,7 @@ def main():
 	header = False
 
 	for fa in fasta: 
-		hmmsearch(hmmsearch_path, hmm_path, fa, fasta_path, searchout_path)
+		hmmsearch(hmmsearch_path, hmm_path, fa, (fasta_path + fa + '/' + fa + '.a.faa'), searchout_path)
 		results = parse(fa, searchout_path)
 		write_results(fa, results_path, results, header)
 		header = True
