@@ -17,8 +17,6 @@ if (!require("RColorBrewer")) {
 
 data <- read.csv("data", comment.char="#")
 rnames <- data[,1]                            # assign labels in column 1 to "rnames"
-print(ncol(data))
-print(nrow(data))
 mat_data <- data.matrix(data[,2:ncol(data)])  # transform column 2-5 into a matrix
 rownames(mat_data) <- rnames                  # assign row names 
 
@@ -102,8 +100,8 @@ heatmap.2(mat_data,
 RowSideColors = c(
   rep("blue",1),
   rep("blue",1), 
-  rep('brown', 1)
-#   rep("blue",1),
+  rep('brown', 1),
+  rep("brown",1)
 #   rep("brown",1),
 #   rep("brown",1),
 #   rep("brown",1),
@@ -176,7 +174,7 @@ RowSideColors = c(
   sepwidth=c(0.001,0.001),
 
 
-  Colv='NA')                                        # turn on column clustering (="NA" to disable)
+  Colv=TRUE)                                        # turn on column clustering (="NA" to disable)
 
 #par(lend = 1)           # square line ends for the color legend
 #legend("center",      # location of the legend on the heatmap

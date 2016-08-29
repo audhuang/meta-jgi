@@ -6,6 +6,7 @@ import time
 import sys
 import getpass
 import argparse
+import collections
 
 import numpy as np 
 # import matplotlib.pyplot as plt
@@ -55,17 +56,21 @@ def parse(fa, out):
 					else: 
 						results[subgroup] += 1
 
-	return results 
+	print('unsorted: ', results)
+	return sorted(results.items(), key=lambda x: x[0])
 
 
 def write_results(fa, out, results, header):
 	with open(out, 'a') as f:
 		write = csv.writer(f, delimiter=',')
 		if header == False: 
-			subgroups = list(results.keys())
+			# subgroups = list(results.keys())
+			subgroups = [x[0] for x in results]
 			write.writerow([''] + subgroups)
 
-		val = list(results.values())
+		# val = list(results.values())
+		val = [x[1] for x in results]
+		print('val: ', val)
 		total = sum(val)
 		val[:] = [x / total for x in val]
 
@@ -127,7 +132,7 @@ def main():
 		fasta = [str(args.add)]
 		header = True
 	else: 
-		fasta = ['3300007621', '3300006190', '3300006034']
+		fasta = ['3300007621', '3300006190', '3300006034', '3300000906']
 		open(results_path, 'w').close()
 	
 	print(fasta)
@@ -138,6 +143,7 @@ def main():
 	for fa in fasta: 
 		hmmsearch(hmmsearch_path, hmm_path, fa, (fasta_path + fa + '/' + fa + '.a.faa'), searchout_path)
 		results = parse(fa, searchout_path)
+		print('results: ', results)
 		write_results(fa, results_path, results, header)
 		header = True
 

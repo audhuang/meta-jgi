@@ -50,7 +50,7 @@ Loading required package: RColorBrewer
 > print(ncol(data))
 [1] 46
 > print(nrow(data))
-[1] 3
+[1] 4
 > mat_data <- data.matrix(data[,2:ncol(data)])  # transform column 2-5 into a matrix
 > rownames(mat_data) <- rnames                  # assign row names 
 > 
@@ -134,8 +134,8 @@ Loading required package: RColorBrewer
 + RowSideColors = c(
 +   rep("blue",1),
 +   rep("blue",1), 
-+   rep('brown', 1)
-+ #   rep("blue",1),
++   rep('brown', 1),
++   rep("brown",1)
 + #   rep("brown",1),
 + #   rep("brown",1),
 + #   rep("brown",1),
@@ -208,7 +208,7 @@ Loading required package: RColorBrewer
 +   sepwidth=c(0.001,0.001),
 + 
 + 
-+   Colv='NA')                                        # turn on column clustering (="NA" to disable)
++   Colv=TRUE)                                        # turn on column clustering (="NA" to disable)
 > 
 > #par(lend = 1)           # square line ends for the color legend
 > #legend("center",      # location of the legend on the heatmap
@@ -229,4 +229,4 @@ null device
 > 
 > proc.time()
    user  system elapsed 
-  0.891   0.091   0.945 
+  0.903   0.099   0.997 
