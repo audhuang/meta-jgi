@@ -100,7 +100,7 @@ def write_results(out, results):
 
 		val = list(results.values())
 		total = sum(val)
-		val = val / total 
+		val[:] = [x / total for x in val]
 
 		write.writerow([3300007621] + val)
 
