@@ -59,9 +59,8 @@ def parse(fa, out):
 
 def write_results(fa, out, results, header):
 	with open(out + 'data', 'a') as f:
+		write = csv.writer(f, delimiter=',')
 		if header == False: 
-			write = csv.writer(f, delimiter=',')
-
 			subgroups = list(results.keys())
 			write.writerow([''] + subgroups)
 
