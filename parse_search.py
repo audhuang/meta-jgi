@@ -58,7 +58,7 @@ def parse(fa, out):
 
 
 def write_results(fa, out, results, header):
-	with open(out + 'data', 'a') as f:
+	with open(out, 'a') as f:
 		write = csv.writer(f, delimiter=',')
 		if header == False: 
 			subgroups = list(results.keys())
@@ -110,19 +110,22 @@ def parse_phylo(inp):
 def main(): 
 	# input is name of fasta which corresponds to config
 
+
 	hmm_path = './hmmlibrary.HMMs'
 	hmmsearch_path = '../tools/hmmer-3.1b2/src/./'
 	fasta_path = '../files/'
 	searchout_path = '../'
 	config_path = '../files/'
-	results_path = './'
+	results_path = './data'
 	fasta = ['3300007621', '3300006190']
+	
+	open(results_path, 'w').close()
 
 	# hmmbuild(hmmbuild_path, msa_path, buildout_path)
 	header = False
 
 	for fa in fasta: 
-		hmmsearch(hmmsearch_path, hmm_path, fa, (fasta_path + fa + '/' + fa + '.a.faa'), searchout_path)
+		# hmmsearch(hmmsearch_path, hmm_path, fa, (fasta_path + fa + '/' + fa + '.a.faa'), searchout_path)
 		results = parse(fa, searchout_path)
 		write_results(fa, results_path, results, header)
 		header = True
