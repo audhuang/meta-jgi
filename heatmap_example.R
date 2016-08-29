@@ -15,10 +15,8 @@ if (!require("RColorBrewer")) {
 ### B) Reading in data and transform it into matrix format
 #########################################################
 
-data <- read.csv("data", comment.char="#")
+data <- read.csv("data_example", comment.char="#")
 rnames <- data[,1]                            # assign labels in column 1 to "rnames"
-print(ncol(data))
-print(nrow(data))
 mat_data <- data.matrix(data[,2:ncol(data)])  # transform column 2-5 into a matrix
 rownames(mat_data) <- rnames                  # assign row names 
 
@@ -34,7 +32,7 @@ my_palette <- colorRampPalette(c("grey","#FCB6D3","#ED9FB9","#DF889F","#D17185",
 ####
 # Set up the breaks
 ####
-col_breaks = c(seq(0,0.1,by=0.01))
+col_breaks = c(seq(0,1,by=0.1))
 
 ################################################
 # Set up and initiate the saved image (resolution, proportions and size)
@@ -43,8 +41,8 @@ col_breaks = c(seq(0,0.1,by=0.01))
 ################################################
 # creates a 5 x 10 inch image
 ################################################
-png("hm.png",    # create PNG for the heat map        
-  width = 5*500,        # 5 x 300 pixels
+png("hm_example.png",    # create PNG for the heat map        
+  width = 5*300,        # 5 x 300 pixels
   height = 8*600,
   res = 600,            # 300 pixels per inch
   pointsize = 6)        # smaller font size
@@ -100,74 +98,73 @@ heatmap.2(mat_data,
                                                                 # side colors
 
 RowSideColors = c(
+  rep("magenta",1),
+  rep("magenta",1),
   rep("blue",1),
-  rep("blue",1), 
-  rep('brown', 1)
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("cyan",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("blue",1),
-#   rep("pink",1),
-#   rep("cyan",1),
-#   rep("pink",1),
-#   rep("cyan",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("magenta",1),
-#   rep("cyan",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("pink",1),
-#   rep("pink",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("magenta",1),
-#   rep("pink",1),
-#   rep("pink",1),
-#   rep("pink",1),
-#   rep("magenta",1),
-#   rep("brown",1),
-#   rep("cyan",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("cyan",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("magenta",1),
-#   rep("pink",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("blue",1),
-#   rep("cyan",1),
-#   rep("cyan",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("cyan",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("magenta",1),
-#   rep("blue",1),
-#   rep("magenta",1)
+  rep("brown",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("cyan",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("blue",1),
+  rep("pink",1),
+  rep("cyan",1),
+  rep("pink",1),
+  rep("cyan",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("blue",1),
+  rep("blue",1),
+  rep("blue",1),
+  rep("magenta",1),
+  rep("cyan",1),
+  rep("blue",1),
+  rep("blue",1),
+  rep("brown",1),
+  rep("blue",1),
+  rep("blue",1),
+  rep("blue",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("pink",1),
+  rep("pink",1),
+  rep("blue",1),
+  rep("blue",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("magenta",1),
+  rep("pink",1),
+  rep("pink",1),
+  rep("pink",1),
+  rep("magenta",1),
+  rep("brown",1),
+  rep("cyan",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("cyan",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("magenta",1),
+  rep("pink",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("blue",1),
+  rep("cyan",1),
+  rep("cyan",1),
+  rep("blue",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("cyan",1),
+  rep("blue",1),
+  rep("brown",1),
+  rep("brown",1),
+  rep("magenta",1),
+  rep("blue",1),
+  rep("magenta",1)
 ),
 
   colsep=1:ncol(mat_data),#0:20,
@@ -176,7 +173,7 @@ RowSideColors = c(
   sepwidth=c(0.001,0.001),
 
 
-  Colv='NA')                                        # turn on column clustering (="NA" to disable)
+  Colv=TRUE)                                        # turn on column clustering (="NA" to disable)
 
 #par(lend = 1)           # square line ends for the color legend
 #legend("center",      # location of the legend on the heatmap
@@ -189,6 +186,6 @@ RowSideColors = c(
 #    #horiz=TRUE,
 #    #x.intersp=0.5,
 #    #text.width=c(0,0,0,0,0,0)
-
+)
 
 dev.off()                                           # close the PNG device

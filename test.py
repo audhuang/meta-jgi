@@ -311,7 +311,8 @@ if __name__ == '__main__':
 
 	# name = 'Colrivmeta1547A3_FD'
 	# name = 'CoawatmetaG05DNA_FD'
-	name = 'GraSoiAngelo_105_FD'
+	# name = 'GraSoiAngelo_105_FD'
+	name = 'Passage260B_FD'
 
 	get_xml(name)
 	filename = download_file(name)
