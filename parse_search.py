@@ -55,8 +55,6 @@ def parse(out):
 	return results 
 
 
-	# return results
-
 
 def parse_config(inp): 
 	'''
@@ -92,6 +90,13 @@ def parse_phylo(inp):
 
 	return phylodic
 
+def write_result(out, results):
+	with open(out + 'data') as f:
+		subgroups = list(results.keys())
+		print(subgroups)
+
+
+
 
 def main(): 
 	# input is name of fasta which corresponds to config
@@ -101,11 +106,12 @@ def main():
 	fasta_path = '../files/3300007621/3300007621.a.faa'
 	searchout_path = '../results.tblout'
 	config_path = '../files/3300007621/'
+	results_path = './'
 
 	# hmmbuild(hmmbuild_path, msa_path, buildout_path)
 	# hmmsearch(hmmsearch_path, hmm_path, fasta_path, searchout_path)
 	results = parse(searchout_path)
-	print(results)
+	write_results(results_path, results)
 
 	# (clas, order) = parse_config(fasta_path)
 
