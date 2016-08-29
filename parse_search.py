@@ -123,7 +123,7 @@ def main():
 	results_path = './data'
 
 	header = False
-	if add != None: 
+	if args.add != None: 
 		fasta = [str(args.add)]
 		header = True
 	else: 
