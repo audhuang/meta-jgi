@@ -96,7 +96,7 @@ def write_results(out, results):
 		write = csv.writer(f, delimiter=',')
 
 		subgroups = list(results.keys())
-		write.writerow([','] + subgroups)
+		write.writerow([''] + subgroups)
 
 
 
