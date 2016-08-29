@@ -310,8 +310,8 @@ if __name__ == '__main__':
 	project_list = '../files/genome-projects.csv'
 
 	# name = 'PueRicMetagenome_FD'
-	name = 'Colrivmeta1547A3_FD'
-	# name = 'Colrivmeta1449A3_FD'
+	# name = 'Colrivmeta1547A3_FD'
+	name = 'CoawatmetaG05DNA_FD'
 	# name = 'AntLakMe24m_08um_FD'
 	# filename = '2061766009'
 	get_xml(name)
