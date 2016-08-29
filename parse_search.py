@@ -32,8 +32,8 @@ def hmmbuild(build, msa, out):
 		sys.exit()
 
 
-def hmmsearch(search, hmm, fasta, out):
-	command = search + 'hmmsearch --tblout ' + out + ' ' + hmm + ' ' + fasta
+def hmmsearch(search, hmm, fa, fasta_path, out):
+	command = search + 'hmmsearch --tblout ' + out + fa + '_results.tblout' + ' ' + hmm + ' ' + fasta_path
 	status = subprocess.call(command, shell=True)
 
 	if status == 1: 
@@ -41,10 +41,10 @@ def hmmsearch(search, hmm, fasta, out):
 		sys.exit()
 
 
-def parse(out): 
+def parse(fa, out): 
 	results = {}
 	# for qresult in SearchIO.parse(out, 'hmmer3-text'): 
-	with open(out) as f: 
+	with open(out + fa + '_results.tblout') as f: 
 		for line in f: 
 			if line[0] != '#': 
 				subgroup = line.split()[2]
@@ -55,6 +55,20 @@ def parse(out):
 
 	return results 
 
+
+def write_results(fa, out, results, header):
+	with open(out + 'data', 'a') as f:
+		if header == False: 
+			write = csv.writer(f, delimiter=',')
+
+			subgroups = list(results.keys())
+			write.writerow([''] + subgroups)
+
+		val = list(results.values())
+		total = sum(val)
+		val[:] = [x / total for x in val]
+
+		write.writerow([fa] + val)
 
 
 def parse_config(inp): 
@@ -91,21 +105,6 @@ def parse_phylo(inp):
 
 	return phylodic
 
-def write_results(out, results):
-	with open(out + 'data', 'wb') as f:
-		write = csv.writer(f, delimiter=',')
-
-		subgroups = list(results.keys())
-		write.writerow([''] + subgroups)
-
-		val = list(results.values())
-		total = sum(val)
-		val[:] = [x / total for x in val]
-
-		write.writerow([3300007621] + val)
-
-
-
 
 
 def main(): 
@@ -113,15 +112,20 @@ def main():
 
 	hmm_path = './hmmlibrary.HMMs'
 	hmmsearch_path = '../tools/hmmer-3.1b2/src/./'
-	fasta_path = '../files/3300007621/3300007621.a.faa'
-	searchout_path = '../results.tblout'
-	config_path = '../files/3300007621/'
+	fasta_path = '../files/'
+	searchout_path = '../'
+	config_path = '../files/'
 	results_path = './'
+	fasta = ['3300007621', '3300006190']
 
 	# hmmbuild(hmmbuild_path, msa_path, buildout_path)
-	# hmmsearch(hmmsearch_path, hmm_path, fasta_path, searchout_path)
-	results = parse(searchout_path)
-	write_results(results_path, results)
+	header = False
+
+	for fa in fasta: 
+		hmmsearch(hmmsearch_path, hmm_path, fa, fasta_path, searchout_path)
+		results = parse(fa, searchout_path)
+		write_results(fa, results_path, results, header)
+		header = True
 
 	# (clas, order) = parse_config(fasta_path)
 
