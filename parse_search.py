@@ -41,11 +41,17 @@ def hmmsearch(search, hmm, fasta, out):
 
 
 def parse(out): 
-	results = []
+	results = {}
 	# for qresult in SearchIO.parse(out, 'hmmer3-text'): 
 	with open(out) as f: 
 		for line in f: 
-			print(line.split()[2])
+			subgroup = line.split()[2]
+			if subgroup not in results: 
+				results[subgroup] = 1
+			else: 
+				results[subgroup] += 1
+
+	return results 
 
 
 	# return results
@@ -97,7 +103,8 @@ def main():
 
 	# hmmbuild(hmmbuild_path, msa_path, buildout_path)
 	# hmmsearch(hmmsearch_path, hmm_path, fasta_path, searchout_path)
-	parse(searchout_path)
+	results = parse(searchout_path)
+	print(results)
 
 	# (clas, order) = parse_config(fasta_path)
 
