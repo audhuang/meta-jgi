@@ -90,7 +90,7 @@ def parse_phylo(inp):
 
 	return phylodic
 
-def write_result(out, results):
+def write_results(out, results):
 	with open(out + 'data') as f:
 		subgroups = list(results.keys())
 		print(subgroups)
