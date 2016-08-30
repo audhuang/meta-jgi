@@ -313,7 +313,7 @@ if __name__ == '__main__':
 	# name = 'CoawatmetaG05DNA_FD'
 	# name = 'GraSoiAngelo_105_FD'
 	# name = 'Passage260B_FD'
-	name = 'Mud3Dept4metaG_FD'
+	name = 'CryBogCBH20Aug07_FD'
 
 	get_xml(name)
 	filename = download_file(name)
