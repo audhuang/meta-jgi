@@ -30,7 +30,7 @@ def cluster(path, thresh, inp):
 
 def main(): 
 	cdhit = '../tools/cdhit/'
-	thresh = 0.6
+	thresh = 0.9
 	inp = '../proteins_that_were_hit'
 	cluster(cdhit, thresh, inp)
 
