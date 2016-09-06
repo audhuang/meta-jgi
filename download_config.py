@@ -81,7 +81,7 @@ def get_projects(project_list):
 
 	i = 0
 	for portal in df['IMG Portal']: 
-		if pd.isnull(portal): 
+		if not pd.isnull(portal): 
 			projects.append(portal_ids[i].split(',')[1][1:-2])
 		i += 1
 	
@@ -188,7 +188,7 @@ def download_file(xml_file):
 			if flag == 0: 
 				print("Extracting file: ", filename[i])
 				extract_file(filename[i])
-				command = 'rm -rf ../files/' + filename[i] + '.tar.gz'
+				command = 'rm ../files/' + filename[i] + '.tar.gz'
 				flag = subprocess.call(command, shell=True)
 			elif flag == 1: 
 				print("Error downloading file. ")
@@ -276,7 +276,7 @@ if __name__ == '__main__':
 		# if filename != []: 
 		# 	for fil in filename: 
 		# 		config = get_fasta_config(fil)
-		time.sleep(30)
+		time.sleep(15)
 
 
 
