@@ -19,7 +19,7 @@ def cluster(path, thresh, inp):
 		str(thresh) + ' -n 4'
 		print(command)
 
-		status = subprocess.call(command, shell=True)
+		# status = subprocess.call(command, shell=True)
 
 	if thresh >= 0.8: 
 		command = path + 'cd-hit -i ' + inp + str(60) + '.sequences -o ' + inp + str(thresh) + '.sequences -c ' + \
