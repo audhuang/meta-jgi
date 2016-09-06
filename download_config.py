@@ -83,8 +83,6 @@ def get_projects(project_list):
 	for portal in df['IMG Portal']: 
 		if not pd.isnull(portal): 
 			name = portal.split(',')[1][1:-2]
-			if i < 10: 
-				print(str(name), isfile('../config/' + str(name) + '.config'))
 			if not isfile('../config/' + str(name) + '.config'): 
 				projects.append(portal_ids[i].split(',')[1][1:-2])
 		i += 1
@@ -260,6 +258,7 @@ if __name__ == '__main__':
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
 	print('number of projects: ', len(portal_list))
+	print(projects)
 	start = args.start
 	print('START: ', start)
 
