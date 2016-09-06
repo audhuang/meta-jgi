@@ -16,14 +16,13 @@ import os
 def cluster(path, thresh, inp): 
 	if thresh >= 0.6: 
 		command = path + 'cd-hit -i ' + inp + '.sequences -o ' + inp + str(60) + '.sequences -c ' + \
-		str(thresh) + ' -n 4 -M 16000 –d 0 -T 8'
-		print(command)
+		str(thresh) + ' -n 4 -M 16000 -d 0 -T 8'
 
 		status = subprocess.call(command, shell=True)
 
 	elif thresh >= 0.8: 
 		command = path + 'cd-hit -i ' + inp + '.sequences -o ' + inp + str(thresh * 100) + '.sequences -c ' + \
-		str(thresh * 100) + ' -n 5 -M 16000 –d 0 -T 8'
+		str(thresh * 100) + ' -n 5 -M 16000 -d 0 -T 8'
 
 		print(command)
 		# status = subprocess.call(command, shell=True)
