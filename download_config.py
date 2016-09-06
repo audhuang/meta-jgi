@@ -80,8 +80,8 @@ def get_projects(project_list):
 	portal_ids = df['Portal ID'].apply(str)
 
 	i = 0
-	for portal in df['Product Name']: 
-		if 'Draft' in portal: 
+	for portal in df['IMG Portal']: 
+		if portal != '': 
 			projects.append(portal_ids[i].split(',')[1][1:-2])
 		i += 1
 	
@@ -119,17 +119,21 @@ def extract_file(id_name):
 	  other file formats?
 
 	'''
-	try: 
-		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
-		tar.extractall(path = '../files')
-		tar.close()
+	# try: 
+	# 	tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
+	# 	tar.extractall(path = '../files')
+	# 	tar.close()
 
-	except tarfile.ReadError: 
-		with open("../files/notargz_files.txt", "a") as myfile:
-			myfile.write(id_name + '\n')
-		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r')
-		tar.extractall(path = '../files')
-		tar.close()
+	# except tarfile.ReadError: 
+	# 	with open("../files/notargz_files.txt", "a") as myfile:
+	# 		myfile.write(id_name + '\n')
+	# 	tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r')
+	# 	tar.extractall(path = '../files')
+	# 	tar.close()
+	command = 'tar -xvf ../files/' + id_name + '.tar.gz --strip-components=1 -C ../config ' \
+	+ id_name + '/' + id_name + '.config'
+	
+	flag = subprocess.call(command, shell=True)
 
 
 
@@ -251,13 +255,14 @@ if __name__ == '__main__':
 
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
+	print(portal_list)
 	start = args.start
 	print('START: ', start)
 
 	if start == 0: 
 		open('../files/unfound_files.txt', 'w').close()
 		open('../files/nopermiss_files.txt', 'w').close()
-		open('../files/nofasta_files.txt', 'w').close()
+		# open('../files/nofasta_files.txt', 'w').close()
 		open('../files/noconfig_files.txt', 'w').close()
 		open('../files/notargz_files.txt', 'w').close()
 
