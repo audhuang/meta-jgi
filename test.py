@@ -139,16 +139,10 @@ def extract_file(id_name):
 	  other file formats?
 
 	'''
-	try: 
-		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r:gz')
-		tar.extractall(path = '../files')
-		tar.close()
-	except tarfile.ReadError: 
-		with open("../files/notargz_files.txt", "a") as myfile:
-			myfile.write(id_name + '\n')
-		tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r')
-		tar.extractall(path = '../files')
-		tar.close()
+	command = 'tar -xvf ../files/' + id_name + '.tar.gz --strip-components=1 -C ../config ' \
+	+ id_name + '/' + id_name + '.config'
+	
+	flag = subprocess.call(command, shell=True)
 
 
 
@@ -313,7 +307,7 @@ if __name__ == '__main__':
 	# name = 'CoawatmetaG05DNA_FD'
 	# name = 'GraSoiAngelo_105_FD'
 	# name = 'Passage260B_FD'
-	name = 'CryBogCBH20Aug07_FD'
+	name = 'TheenrcSG05JP960_FD'
 
 	get_xml(name)
 	filename = download_file(name)
