@@ -16,7 +16,7 @@ import os
 def cluster(path, thresh, inp): 
 	if thresh >= 0.6: 
 		command = path + 'cd-hit -i ' + inp + '.sequences -o ' + inp + str(60) + '.sequences -c ' + \
-		str(60) + ' -n 4'
+		str(thresh) + ' -n 4'
 		print(command)
 
 		status = subprocess.call(command, shell=True)
@@ -31,7 +31,7 @@ def cluster(path, thresh, inp):
 def main(): 
 	cdhit = '../tools/cdhit/'
 	thresh = 0.6
-	inp = '../proteins_that_were_hit.sequences'
+	inp = '../proteins_that_were_hit'
 	cluster(cdhit, thresh, inp)
 
 
