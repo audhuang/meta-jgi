@@ -130,7 +130,7 @@ def extract_file(id_name):
 	# 	tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r')
 	# 	tar.extractall(path = '../files')
 	# 	tar.close()
-	command = 'tar -xvf ../files/' + id_name + '.tar.gz --strip-components=1 -C ../config ' \
+	command = 'tar -xvf ../files/' + id_name + '.tar.gz --strip-components=1 -C ../new_config ' \
 	+ id_name + '/' + id_name + '.config'
 	
 	flag = subprocess.call(command, shell=True)
@@ -273,13 +273,11 @@ if __name__ == '__main__':
 		portal_name = portal_list[i]
 		get_xml(portal_name)
 		filename = download_file(portal_name)
-		if filename != []: 
-			for fil in filename: 
-				config = get_fasta_config(fil)
+		# if filename != []: 
+		# 	for fil in filename: 
+		# 		config = get_fasta_config(fil)
 		time.sleep(30)
 
-		if i == 100: 
-			time.sleep(100)
 
 
 
