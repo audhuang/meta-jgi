@@ -85,6 +85,7 @@ def get_projects(project_list):
 			name = portal.split(',')[1][1:-2]
 			if not isfile('../config/' + str(name) + '.config'): 
 				projects.append(portal_ids[i].split(',')[1][1:-2])
+				# print(name, portal_ids[i].split(',')[1][1:-2])
 		i += 1
 	
 	return projects
