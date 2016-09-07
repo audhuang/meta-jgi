@@ -23,7 +23,7 @@ def convert_to_fasta(inp):
 					out.write(fa[1].strip() + '\n')
 
 
-def concat_fasta(file1, file2, out): 
+def concat_fasta(out, file1, file2): 
 	with open(out, 'w') as out: 
 		with open(file1, 'r') as f1: 
 			for line in f1: 
