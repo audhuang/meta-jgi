@@ -36,8 +36,8 @@ def main():
 	cdhit = '../tools/cdhit/'
 	thresh = 0.9
 	inp = '../proteins_that_were_hit'
-	# cluster(cdhit, thresh, inp)
-	convert_to_fasta(inp)
+	cluster(cdhit, thresh, inp)
+	# convert_to_fasta(inp)
 
 
 if __name__ == '__main__':
