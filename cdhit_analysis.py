@@ -18,8 +18,8 @@ def convert_to_fasta(inp):
 		with open(inp + '.faa', 'w') as out:
 			for line in f: 
 				fa = line.split()
-				out.write('>' + fa[0] + '\n')
-				out.write(fa[1] + '\n')
+				out.write('>' + fa[0].strip() + '\n')
+				out.write(fa[1].strip() + '\n')
 
 
 
@@ -36,8 +36,8 @@ def main():
 	cdhit = '../tools/cdhit/'
 	thresh = 0.9
 	inp = '../proteins_that_were_hit'
-	cluster(cdhit, thresh, inp)
-	# convert_to_fasta(inp)
+	# cluster(cdhit, thresh, inp)
+	convert_to_fasta(inp)
 
 
 if __name__ == '__main__':
