@@ -24,7 +24,7 @@ def convert_to_fasta(inp):
 
 
 def concat_fasta(out, file1, file2): 
-	with open(out, 'w') as out: 
+	with open(out + '.faa', 'w') as out: 
 		with open(file1, 'r') as f1: 
 			for line in f1: 
 				out.write(line) 
@@ -36,7 +36,7 @@ def concat_fasta(out, file1, file2):
 def cluster(path, thresh, inp): 
 
 	command = path + 'cd-hit -i ' + inp + '.faa -o ' + inp + str(int(thresh * 100)) + ' -c ' + \
-	str(thresh) + ' -n 2'
+	str(thresh) + ' -n 5'
 
 	print(command)
 	status = subprocess.call(command, shell=True)
@@ -46,7 +46,7 @@ def main():
 	cdhit = '../tools/cdhit/'
 	thresh = 0.8
 	inp = '../proteins_that_were_hit'
-	out = '../hits_and_superfamily.faa'
+	out = '../hits_and_superfamily'
 
 	# convert_to_fasta(inp)
 	concat_fasta(out, inp + '.faa', 'sfld_superfamily_122.fasta')
