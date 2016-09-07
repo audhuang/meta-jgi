@@ -13,6 +13,14 @@ import subprocess
 import os
 
 
+def convert_to_fasta(inp): 
+	with open(inp + '.sequences', 'r') as f: 
+		with open(inp + .'faa', 'w') as out:
+			for line in f: 
+				print(line) 
+
+
+
 def cluster(path, thresh, inp): 
 	if thresh >= 0.6: 
 		command = path + 'cd-hit -i ' + inp + '.sequences -o ' + inp + str(60) + '.sequences -c ' + \
@@ -32,7 +40,8 @@ def main():
 	cdhit = '../tools/cdhit/'
 	thresh = 0.9
 	inp = '../proteins_that_were_hit'
-	cluster(cdhit, thresh, inp)
+	# cluster(cdhit, thresh, inp)
+	convert_to_fasta(inp)
 
 
 if __name__ == '__main__':
