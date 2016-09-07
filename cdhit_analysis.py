@@ -15,7 +15,7 @@ import os
 
 def convert_to_fasta(inp): 
 	with open(inp + '.sequences', 'r') as f: 
-		with open(inp + .'faa', 'w') as out:
+		with open(inp + '.faa', 'w') as out:
 			for line in f: 
 				print(line) 
 
