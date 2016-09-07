@@ -49,7 +49,7 @@ def main():
 	out = '../hits_and_superfamily'
 
 	# convert_to_fasta(inp)
-	concat_fasta(out, inp + '.faa', 'sfld_superfamily_122.fasta')
+	concat_fasta(out, inp + '.faa', '../sfld_superfamily_122.fasta')
 	cluster(cdhit, thresh, out)
 	
 
