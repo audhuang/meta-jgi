@@ -18,15 +18,16 @@ def convert_to_fasta(inp):
 		with open(inp + '.faa', 'w') as out:
 			for line in f: 
 				fa = line.split()
-				out.write('>' + fa[0].strip() + '\n')
-				out.write(fa[1].strip() + '\n')
+				if len(fa[1].strip()) >= 50: 
+					out.write('>' + fa[0].strip() + '\n')
+					out.write(fa[1].strip() + '\n')
 
 
 
 def cluster(path, thresh, inp): 
 
-	command = path + 'cd-hit -i ' + inp + '.faa -o ' + inp + str(thresh * 100) + ' -c ' + \
-	str(thresh) + ' -n 5 -M 16000 -d 0 -T 8'
+	command = path + 'cd-hit -i ' + inp + '.faa -o ' + inp + str(int(thresh * 100)) + ' -c ' + \
+	str(thresh) + ' -n 5'
 
 	print(command)
 	status = subprocess.call(command, shell=True)
@@ -34,10 +35,12 @@ def cluster(path, thresh, inp):
 
 def main(): 
 	cdhit = '../tools/cdhit/'
-	thresh = 0.9
+	thresh = 0.6
 	inp = '../proteins_that_were_hit'
+
+	convert_to_fasta(inp)
 	cluster(cdhit, thresh, inp)
-	# convert_to_fasta(inp)
+	
 
 
 if __name__ == '__main__':
