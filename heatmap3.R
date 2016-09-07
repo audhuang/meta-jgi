@@ -98,74 +98,11 @@ heatmap.2(mat_data,
                                                                 # side colors
 
 RowSideColors = c(
-  rep("blue",1),
-  rep("blue",1), 
+  rep("blue", 1),
+  rep("blue", 1), 
   rep('brown', 1),
-  rep("brown",1)
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("cyan",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("blue",1),
-#   rep("pink",1),
-#   rep("cyan",1),
-#   rep("pink",1),
-#   rep("cyan",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("magenta",1),
-#   rep("cyan",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("pink",1),
-#   rep("pink",1),
-#   rep("blue",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("magenta",1),
-#   rep("pink",1),
-#   rep("pink",1),
-#   rep("pink",1),
-#   rep("magenta",1),
-#   rep("brown",1),
-#   rep("cyan",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("cyan",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("magenta",1),
-#   rep("pink",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("blue",1),
-#   rep("cyan",1),
-#   rep("cyan",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("cyan",1),
-#   rep("blue",1),
-#   rep("brown",1),
-#   rep("brown",1),
-#   rep("magenta",1),
-#   rep("blue",1),
-#   rep("magenta",1)
+  rep("brown", 1), 
+  rep('green', 1)
 ),
 
   colsep=1:ncol(mat_data),#0:20,
@@ -176,17 +113,18 @@ RowSideColors = c(
 
   Colv=TRUE)                                        # turn on column clustering (="NA" to disable)
 
-#par(lend = 1)           # square line ends for the color legend
-#legend("center",      # location of the legend on the heatmap
+# par(lend = 1)           # square line ends for the color legend
+# legend("bottom",      # location of the legend on the heatmap
 #    #inset=.5,
 #    title = "survey origin",
-#    legend = c("gut", "soil","freshwater","ocean","sludge","?","plant","reactor","sediment","waste_water"), # category labels
-#    col = c("green", "brown", "cyan","blue","red","gray","yellow","pink","purple","magenta"),  # color key
+#    legend = c('soil', 'marine', 'freshwater'), # category labels
+#    col = c('brown', 'blue', 'green'),  # color key
 #    lty= 1,             # line style
 #    lwd = 10,            # line width
-#    #horiz=TRUE,
-#    #x.intersp=0.5,
-#    #text.width=c(0,0,0,0,0,0)
+#    horiz=TRUE,
+#    x.intersp=0.5,
+#    text.width=c(0,0,0,0,0,0)
+#    )
 
 
 dev.off()                                           # close the PNG device

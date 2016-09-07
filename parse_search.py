@@ -56,7 +56,6 @@ def parse(fa, out):
 					else: 
 						results[subgroup] += 1
 
-	print('unsorted: ', results)
 	return sorted(results.items(), key=lambda x: x[0])
 
 
@@ -70,7 +69,6 @@ def write_results(fa, out, results, header):
 
 		# val = list(results.values())
 		val = [x[1] for x in results]
-		print('val: ', val)
 		total = sum(val)
 		val[:] = [x / total for x in val]
 

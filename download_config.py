@@ -259,7 +259,7 @@ if __name__ == '__main__':
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
 	print('number of projects: ', len(portal_list))
-	print(portal_list)
+
 	start = args.start
 	print('START: ', start)
 
