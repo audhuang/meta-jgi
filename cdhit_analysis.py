@@ -27,7 +27,7 @@ def convert_to_fasta(inp):
 def cluster(path, thresh, inp): 
 
 	command = path + 'cd-hit -i ' + inp + '.faa -o ' + inp + str(int(thresh * 100)) + ' -c ' + \
-	str(thresh) + ' -n 5'
+	str(thresh) + ' -n 2'
 
 	print(command)
 	status = subprocess.call(command, shell=True)
