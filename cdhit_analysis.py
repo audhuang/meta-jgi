@@ -35,7 +35,7 @@ def cluster(path, thresh, inp):
 
 def main(): 
 	cdhit = '../tools/cdhit/'
-	thresh = 0.8
+	thresh = 0.4
 	inp = '../proteins_that_were_hit'
 
 	convert_to_fasta(inp)
