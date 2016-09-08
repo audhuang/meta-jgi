@@ -37,8 +37,9 @@ def num_superfamily(inp):
 				counts.append(0)
 
 			else: 
-				perc = line.split(' ')[1][:3].strip()
-				print(perc)
+				pre = line.split(' ')[1][:3].strip()
+				if pre == '>GI': 
+					print(pre)
 
 	with open(r'cluster_redun.pickle', 'wb') as out: 
 		cp.dump(counts, out)
