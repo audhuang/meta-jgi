@@ -21,7 +21,8 @@ def num_redundancies(inp):
 				counts.append([0])
 
 			else: 
-				print(line.split('\t'))
+				perc = line.split(' ')[-1][:-3]
+				print(perc)
 
 
 def main(): 
