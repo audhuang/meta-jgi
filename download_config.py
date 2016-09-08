@@ -186,7 +186,7 @@ def download_file(xml_file):
 			print("Downloading file: ", filename[i])
 			command = 'curl "http://genome.jgi.doe.gov' + str(url[i]) + \
 			'" -b cookies > ' + '../files/' + str(filename[i]) + '.tar.gz'
-			print('command: ', command)
+			# print('command: ', command)
 			flag = subprocess.call(command, shell=True)
 			
 			if flag == 0: 

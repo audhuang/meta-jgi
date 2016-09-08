@@ -102,6 +102,17 @@ def main():
 				else: 
 					meta_dic[classification] += 1
 
+	for dirname, dirnames, filenames in os.walk('../new_config'): 
+		for filename in filenames: 
+			if filename.endswith('.config'): 
+				# img_metadata_dic[filename.split('.')[0]] = parse_config(filename)
+				classification = parse_config(filename)
+
+				if classification not in meta_dic: 
+					meta_dic[classification] = 1
+				else: 
+					meta_dic[classification] += 1
+
 	with open('../config_krona.txt', 'wb') as f: 
 		write = csv.writer(f, delimiter='\t')
 

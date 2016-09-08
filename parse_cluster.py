@@ -39,9 +39,9 @@ def num_superfamily(inp):
 			else: 
 				pre = line.split(' ')[1][:3].strip()
 				if pre == '>GI': 
-					print(pre)
+					counts[-1] += 1
 
-	with open(r'cluster_redun.pickle', 'wb') as out: 
+	with open(r'cluster_super.pickle', 'wb') as out: 
 		cp.dump(counts, out)
 
 
