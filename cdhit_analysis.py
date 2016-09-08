@@ -11,6 +11,7 @@ import csv
 
 import subprocess
 import os
+import cPickle as cp
 
 
 def convert_to_fasta(inp): 
@@ -42,6 +43,27 @@ def cluster(path, thresh, inp):
 	status = subprocess.call(command, shell=True)
 
 
+# def parse_clstr(inp): 
+# 	with open(inp, 'r') as f: 
+# 		for line in f: 
+# 			if line[0] == '>': 
+# 				cluster = line[8:]
+# 			else: 
+
+
+def get_lengths(inp): 
+	lengths = []
+	with open(inp, 'r') as f: 
+		for line in f: 
+			if line[0] != '>': 
+				lengths.append(len(line))
+
+	with open(r'lengths.pickle', 'wb') as out: 
+		cp.dump(lengths, out)
+
+
+
+
 def main(): 
 	cdhit = '../tools/cdhit/'
 	thresh = 0.8
@@ -49,8 +71,9 @@ def main():
 	out = '../hits_and_superfamily'
 
 	# convert_to_fasta(inp)
-	concat_fasta(out, inp + '.faa', '../sfld_superfamily_122.fasta')
-	cluster(cdhit, thresh, out)
+	# concat_fasta(out, inp + '.faa', '../sfld_superfamily_122.fasta')
+	# cluster(cdhit, thresh, out)
+	get_lengths(inp + '.faa')
 	
 
 
