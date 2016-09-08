@@ -37,7 +37,7 @@ def concat_fasta(out, file1, file2):
 def cluster(path, thresh, inp): 
 
 	command = path + 'cd-hit -i ' + inp + '.faa -o ' + inp + str(int(thresh * 100)) + ' -c ' + \
-	str(thresh) + ' -n 5'
+	str(thresh) + ' -n 2'
 
 	print(command)
 	status = subprocess.call(command, shell=True)
@@ -80,13 +80,13 @@ def get_survey_counts(inp):
 
 def main(): 
 	cdhit = '../tools/cdhit/'
-	thresh = 0.9
+	thresh = 0.4
 	inp = '../proteins_that_were_hit'
 	out = '../hits_and_superfamily'
 
 	# convert_to_fasta(inp)
 	# concat_fasta(out, inp + '.faa', '../sfld_superfamily_122.fasta')
-	cluster(cdhit, thresh, out)
+	cluster(cdhit, thresh, inp)
 	# get_lengths(inp + '_all.faa')
 	# get_survey_counts(inp + '.faa')
 	
