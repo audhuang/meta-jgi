@@ -19,9 +19,9 @@ def convert_to_fasta(inp):
 		with open(inp + '_all.faa', 'w') as out:
 			for line in f: 
 				fa = line.split()
-				# if len(fa[1].strip()) >= 50: 
-				out.write('>' + fa[0].strip() + '\n')
-				out.write(fa[1].strip() + '\n')
+				if len(fa[1].strip()) >= 50: 
+					out.write('>' + fa[0].strip() + '\n')
+					out.write(fa[1].strip() + '\n')
 
 
 def concat_fasta(out, file1, file2): 
@@ -61,6 +61,20 @@ def get_lengths(inp):
 	with open(r'lengths.pickle', 'wb') as out: 
 		cp.dump(lengths, out)
 
+def get_survey_counts(inp): 
+	counts = {}
+	
+	with open(inp, 'r') as f: 
+		for line in f: 
+			if line[0] == '>': 
+				name = line[1:11]
+				if name not in counts: 
+					counts[name] = 1
+				else: 
+					counts[name] += 1
+
+	with open(r'survey_counts.pickle', 'wb') as out: 
+		cp.dump(counts, out) 
 
 
 
@@ -70,10 +84,11 @@ def main():
 	inp = '../proteins_that_were_hit'
 	out = '../hits_and_superfamily'
 
-	convert_to_fasta(inp)
+	# convert_to_fasta(inp)
 	# concat_fasta(out, inp + '.faa', '../sfld_superfamily_122.fasta')
 	# cluster(cdhit, thresh, out)
-	get_lengths(inp + '_all.faa')
+	# get_lengths(inp + '_all.faa')
+	get_survey_counts(inp + '.faa')
 	
 
 
