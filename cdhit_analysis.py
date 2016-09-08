@@ -80,15 +80,15 @@ def get_survey_counts(inp):
 
 def main(): 
 	cdhit = '../tools/cdhit/'
-	thresh = 0.8
+	thresh = 0.9
 	inp = '../proteins_that_were_hit'
 	out = '../hits_and_superfamily'
 
 	# convert_to_fasta(inp)
 	# concat_fasta(out, inp + '.faa', '../sfld_superfamily_122.fasta')
-	# cluster(cdhit, thresh, out)
+	cluster(cdhit, thresh, out)
 	# get_lengths(inp + '_all.faa')
-	get_survey_counts(inp + '.faa')
+	# get_survey_counts(inp + '.faa')
 	
 
 
