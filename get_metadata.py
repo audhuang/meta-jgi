@@ -93,7 +93,7 @@ def main():
 
 	for dirname, dirnames, filenames in os.walk('../config'): 
 		for filename in filenames: 
-			if filename.endswith('.config'): 
+			if filename.endswith('.config') and os.isfile('../config/' + filename): 
 				# img_metadata_dic[filename.split('.')[0]] = parse_config(filename)
 				classification = parse_config(filename)
 
