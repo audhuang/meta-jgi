@@ -15,7 +15,7 @@ import cPickle as cp
 
 def num_redundancies(inp): 
 	counts = []
-	with open(inpm 'r') as f: 
+	with open(inp, 'r') as f: 
 		for line in f: 
 			if line[0] == '>': 
 				counts.append([0])
