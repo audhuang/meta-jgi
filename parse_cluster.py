@@ -25,7 +25,7 @@ def num_redundancies(inp):
 
 
 def main(): 
-	inp = '../hits_and_superfamily90.clstr'
+	inp = '../proteins_that_were_hit90.clstr'
 	num_redundancies(inp)
 
 if __name__ == '__main__':
