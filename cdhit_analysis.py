@@ -16,12 +16,12 @@ import cPickle as cp
 
 def convert_to_fasta(inp): 
 	with open(inp + '.sequences', 'r') as f: 
-		with open(inp + '.faa', 'w') as out:
+		with open(inp + '_all.faa', 'w') as out:
 			for line in f: 
 				fa = line.split()
-				if len(fa[1].strip()) >= 50: 
-					out.write('>' + fa[0].strip() + '\n')
-					out.write(fa[1].strip() + '\n')
+				# if len(fa[1].strip()) >= 50: 
+				out.write('>' + fa[0].strip() + '\n')
+				out.write(fa[1].strip() + '\n')
 
 
 def concat_fasta(out, file1, file2): 
@@ -70,10 +70,10 @@ def main():
 	inp = '../proteins_that_were_hit'
 	out = '../hits_and_superfamily'
 
-	# convert_to_fasta(inp)
+	convert_to_fasta(inp)
 	# concat_fasta(out, inp + '.faa', '../sfld_superfamily_122.fasta')
 	# cluster(cdhit, thresh, out)
-	get_lengths(inp + '.faa')
+	get_lengths(inp + '_all.faa')
 	
 
 
