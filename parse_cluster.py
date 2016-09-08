@@ -29,10 +29,28 @@ def num_redundancies(inp):
 		cp.dump(counts, out)
 
 
+def num_superfamily(inp): 
+	counts = []
+	with open(inp, 'r') as f: 
+		for line in f: 
+			if line[0] == '>': 
+				counts.append(0)
+
+			else: 
+				perc = line.split('\t')[-1][:3].strip()
+				print(perc)
+
+	with open(r'cluster_redun.pickle', 'wb') as out: 
+		cp.dump(counts, out)
+
+
 
 def main(): 
-	inp = '../proteins_that_were_hit90.clstr'
-	num_redundancies(inp)
+	# inp = '../proteins_that_were_hit90.clstr'
+	# num_redundancies(inp)
+
+	inp = '../hits_and_superfamily90.clstr'
+	num_superfamily(inp)
 
 if __name__ == '__main__':
 	main()
