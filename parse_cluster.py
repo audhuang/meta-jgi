@@ -22,8 +22,11 @@ def num_redundancies(inp):
 
 			else: 
 				perc = (line.split(' ')[-1].strip()[:-1])
-				if perc != '': 
-					print(float(perc)) 
+				if perc != '' and float(perc) >= 99.: 
+					counts[-1] += 1
+
+	with open(r'cluster_redun.pickle', 'wb') as out: 
+		cp.dump(counts, out)
 
 
 
