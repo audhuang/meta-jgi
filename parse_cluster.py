@@ -37,7 +37,7 @@ def num_superfamily(inp):
 				counts.append(0)
 
 			else: 
-				perc = line.split('\t')[-1][:3].strip()
+				perc = line.split('\t')[-1].strip()
 				print(perc)
 
 	with open(r'cluster_redun.pickle', 'wb') as out: 
