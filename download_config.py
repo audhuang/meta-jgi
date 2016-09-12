@@ -83,7 +83,7 @@ def get_projects(project_list):
 	for portal in df['IMG Portal']: 
 		if not pd.isnull(portal): 
 			name = portal.split(',')[1][1:-2]
-			if not isfile('../config/' + str(name) + '.config') and if not isfile('../new_config/' + str(name) + '.config'): 
+			if not (isfile('../config/' + str(name) + '.config') or isfile('../new_config/' + str(name) + '.config')): 
 				projects.append(portal_ids[i].split(',')[1][1:-2])
 				# print(name, portal_ids[i].split(',')[1][1:-2])
 		i += 1
