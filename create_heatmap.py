@@ -47,7 +47,14 @@ def project_id_dic(project_path, pickle_path):
 				links = row[15].split(' ')
 				for link in links: 
 					name = link.split(',')[1][1:-2]
-					print(name)
+
+					if row[7] not in dic: 
+						dic[row[7]] = [str(name)] 
+					else: 
+						dic[row[7]] = dic[row[7]].append(str(name))
+	print(dic)
+
+
 	# df = pd.read_csv(project_path)
 	# groups = list(df['IMG Portal'].groupby(df['Proposal']))
 	# print(groups)
