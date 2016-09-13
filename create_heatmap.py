@@ -15,6 +15,7 @@ from collections import Counter
 
 
 def cut_length(fasta_path, out, low, high): 
+	cut = 0
 	with open(fasta_path, 'r') as f: 
 		with open(out, 'w') as out:
 			for line in f: 
@@ -22,6 +23,9 @@ def cut_length(fasta_path, out, low, high):
 				if len(fa[1].strip()) >= low and len(fa[1].strip()) <= high: 
 					out.write('>' + fa[0].strip() + '\n')
 					out.write(fa[1].strip() + '\n')
+				else: 
+					cut += 1
+	print('# cut sequences: ', cut)
 
 
 def main(): 
