@@ -57,10 +57,7 @@ def projectimg_dic(project_path, pickle_path):
 
 					if name not in img_project_dic: 
 						img_project_dic[name] = str(row[7])
-					else: 
-						if row[7] != img_project_dic[name]:  
-							print('new: ', name, row[7]) 
-							print('current: ', img_project_dic[name])
+
 	
 	with open(r'project_img_dic.pickle', 'wb') as out: 
 		cp.dump(project_img_dic, out)
@@ -75,17 +72,30 @@ def projectimg_dic(project_path, pickle_path):
 		#15
 
 
+def projecthit_dic(cluster_path): 
+	project_hit_dic = {}
+
+	with open(cluster_path, 'r') as f: 
+		for line in f: 
+			cluster = -1
+			if line[0] == '>': 
+				cluster = line.strip()[-1]
+				print(cluster)
+
+
+
 def main(): 
 	seq_path = '../proteins_that_were_hit.sequences'
 	fasta_cut_path = '../hits_50_1000.faa' 
 	cdhit_path = '../tools/cdhit/'
 
 	project_path = '../files/genome-projects.csv'
-	pickle_path = './project_id_dic.pickle'
+	cluster_path = '../files/hits_50_1000_90.faa'
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
-	project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
+	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
+	projecthit_dic(cluster_path)
 
 
 
