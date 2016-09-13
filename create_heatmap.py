@@ -56,9 +56,9 @@ def projectimg_dic(project_path, pickle_path):
 						project_img_dic[row[7]].append(str(name))
 
 					if name not in img_project_dic: 
-						img_project_dic[name] = [str(row[7])]
+						img_project_dic[name] = str(row[7])
 					else: 
-						img_project_dic[name].append(str(row[7]))
+						print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
 	
 	with open(r'project_img_dic.pickle', 'wb') as out: 
 		cp.dump(project_img_dic, out)
@@ -84,7 +84,6 @@ def main():
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 	project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
-	print(img_project_dic)
 
 
 
