@@ -39,15 +39,16 @@ def cluster(cdhit_path, fasta_path, thresh, c):
 
 def project_id_dic(project_path, pickle_path): 
 	dic = {}
-	# with open(project_path, 'rb') as inp: 
-	# 	reader = csv.reader(inp, delimiter = ',')
-	# 	next(reader)
-	# 	for row in reader: 
-	# 		print(row[7])
+	with open(project_path, 'rb') as inp: 
+		reader = csv.reader(inp, delimiter = ',')
+		next(reader)
+		for row in reader: 
+			if np.isnan(row[15]): 
+				print(row[15])
 
-	df = pd.read_csv(project_path)
-	groups = list(df['IMG Portal'].groupby(df['Proposal']))
-	print(groups)
+	# df = pd.read_csv(project_path)
+	# groups = list(df['IMG Portal'].groupby(df['Proposal']))
+	# print(groups)
 	# portal_ids = df['Portal ID'].apply(str)
 		#15
 
