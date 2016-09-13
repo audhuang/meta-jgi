@@ -90,7 +90,7 @@ def main():
 	cdhit_path = '../tools/cdhit/'
 
 	project_path = '../files/genome-projects.csv'
-	cluster_path = '../hits_50_1000_90.faa'
+	cluster_path = '../hits_50_1000_90.clstr'
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
