@@ -84,6 +84,7 @@ def main():
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 	project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
+	print(img_project_dic)
 
 
 
