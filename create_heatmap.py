@@ -56,7 +56,7 @@ def projectimg_dic(project_path, pickle_path):
 						project_img_dic[row[7]].append(str(name))
 
 					if name not in img_project_dic: 
-						img_project_dic[name] = str(row[7])
+						img_project_dic[name] = [str(row[7])]
 					else: 
 						img_project_dic[name].append(str(row[7]))
 						print(name, img_project_dic[name])
