@@ -53,6 +53,7 @@ def main():
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
+	project_id_dic(project_path, pickle_path)
 
 
 
