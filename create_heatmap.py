@@ -40,6 +40,7 @@ def project_id_dic(project_path, pickle_path):
 	with open(project_path, 'rb') as inp: 
 		reader = csv.reader(inp, delimiter = '\t')
 		for row in reader: 
+			print(row)
 			print(row[7])
 
 
