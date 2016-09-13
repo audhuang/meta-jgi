@@ -14,9 +14,9 @@ from os.path import isfile, join
 from collections import Counter 
 
 
-def cut_length(fasta_path, out, low, high): 
+def cut_length(seq_path, out, low, high): 
 	cut = 0
-	with open(fasta_path, 'r') as f: 
+	with open(seq_path, 'r') as f: 
 		with open(out, 'w') as out:
 			for line in f: 
 				fa = line.split()
@@ -28,11 +28,22 @@ def cut_length(fasta_path, out, low, high):
 	print('# cut sequences: ', cut)
 
 
-def main(): 
-	fasta_path = '../proteins_that_were_hit.sequences'
-	fasta_cut_path = '../hits_50_1000.faa' 
+def cluster(cdhit_path, fasta_path, thresh, c): 
+	command = cdhit_path + 'cd-hit -i ' + fasta_path + '.faa -o ' + fasta_path + '_'+ \
+	str(int(thresh * 100)) + ' -c ' + str(thresh) + ' -n ' + str(c)
 
-	cut_length(fasta_path, fasta_cut_path, 50, 1000)
+	print('command: ', command)
+
+	status = subprocess.call(command, shell=True)
+
+
+def main(): 
+	seq_path = '../proteins_that_were_hit.sequences'
+	fasta_cut_path = '../hits_50_1000.faa' 
+	cdhit_path = '../tools/cdhit/'
+
+	cut_length(seq_path, fasta_cut_path, 50, 1000)
+	cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 
 
 
