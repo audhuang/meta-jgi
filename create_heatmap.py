@@ -80,7 +80,9 @@ def projecthit_dic(cluster_path):
 			cluster = -1
 			if line[0] == '>': 
 				cluster = line.strip().split(' ')[-1]
-				print(cluster)
+			else: 
+				name = line.strip().split(' ')[1][1:10]
+				print(name)
 
 
 
