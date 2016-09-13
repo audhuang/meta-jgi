@@ -51,6 +51,8 @@ def project_id_dic(project_path, pickle_path):
 					if row[7] not in dic: 
 						dic[row[7]] = [str(name)] 
 					else: 
+						print(row[7])
+						print(dic[row[7]])
 						dic[row[7]] = dic[row[7]].append(str(name))
 	print(dic)
 
