@@ -37,8 +37,10 @@ def cluster(cdhit_path, fasta_path, thresh, c):
 	status = subprocess.call(command, shell=True)
 
 
-def project_id_dic(project_path, pickle_path): 
-	dic = {}
+def projectimg_dic(project_path, pickle_path): 
+	project_img_dic = {}
+	img_project_dic = {}
+
 	with open(project_path, 'rb') as inp: 
 		reader = csv.reader(inp, delimiter = ',')
 		next(reader)
@@ -48,15 +50,22 @@ def project_id_dic(project_path, pickle_path):
 				for link in links: 
 					name = link.split(',')[1][1:-2]
 
-					if row[7] not in dic: 
-						dic[row[7]] = [str(name)] 
+					if row[7] not in project_img_dic: 
+						project_img_dic[row[7]] = [str(name)] 
 					else: 
-						print(row[7])
-						print(dic[row[7]])
-						dic[row[7]].append(str(name))
-	print(dic)
+						project_img_dic[row[7]].append(str(name))
 
+					if name not in img_project_dic: 
+						img_project_dic[name] = [str(row[7])]
+					else: 
+						img_project_dic[name].append(str(row[7]))
+	
+	with open(r'project_img_dic.pickle', 'wb') as out: 
+		cp.dump(project_img_dic, out)
+	with open(r'img_project_dic.pickle', 'wb') as out: 
+		cp.dump(img_project_dic, out)
 
+	return project_img_dic, img_project_dic
 	# df = pd.read_csv(project_path)
 	# groups = list(df['IMG Portal'].groupby(df['Proposal']))
 	# print(groups)
@@ -74,7 +83,7 @@ def main():
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
-	project_id_dic(project_path, pickle_path)
+	project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 
 
 
