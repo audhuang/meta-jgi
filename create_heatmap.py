@@ -7,12 +7,13 @@ import sys
 import argparse
 
 import numpy as np 
+import csv
 import subprocess
 import os
 from os import listdir
 from os.path import isfile, join 
 from collections import Counter 
-
+import cPickle as cp
 
 def cut_length(seq_path, out, low, high): 
 	cut = 0
@@ -32,9 +33,14 @@ def cluster(cdhit_path, fasta_path, thresh, c):
 	command = cdhit_path + 'cd-hit -i ' + fasta_path + '.faa -o ' + fasta_path + '_'+ \
 	str(int(thresh * 100)) + ' -c ' + str(thresh) + ' -n ' + str(c)
 
-	print('command: ', command)
-
 	status = subprocess.call(command, shell=True)
+
+
+def project_id_dic(project_path, pickle_path): 
+	with open(project_path, 'rb') as inp: 
+		reader = csv.reader(inp, delimiter = '\t')
+		for row in reader: 
+			print(row[7])
 
 
 def main(): 
@@ -42,8 +48,11 @@ def main():
 	fasta_cut_path = '../hits_50_1000.faa' 
 	cdhit_path = '../tools/cdhit/'
 
-	cut_length(seq_path, fasta_cut_path, 50, 1000)
-	cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
+	project_path = '../files/genome-projects.csv'
+	pickle_path = './project_id_dic.pickle'
+
+	# cut_length(seq_path, fasta_cut_path, 50, 1000)
+	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 
 
 
