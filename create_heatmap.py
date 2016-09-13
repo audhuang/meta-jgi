@@ -20,7 +20,6 @@ def cut_length(fasta_path, out, low, high):
 			for line in f: 
 				fa = line.split()
 				if len(fa[1].strip()) >= low and len(fa[1].strip()) <= high: 
-					print(fa[0])
 					out.write('>' + fa[0].strip() + '\n')
 					out.write(fa[1].strip() + '\n')
 
