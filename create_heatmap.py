@@ -58,7 +58,7 @@ def projectimg_dic(project_path, pickle_path):
 					if name not in img_project_dic: 
 						img_project_dic[name] = str(row[7])
 					else: 
-						if name != img_project_dic[name]:  
+						if row[7] != img_project_dic[name]:  
 							print('new: ', name, row[7]) 
 							print('current: ', img_project_dic[name])
 	
