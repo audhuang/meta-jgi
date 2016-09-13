@@ -58,7 +58,8 @@ def projectimg_dic(project_path, pickle_path):
 					if name not in img_project_dic: 
 						img_project_dic[name] = str(row[7])
 					else: 
-						print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+						img_project_dic[name].append(str(row[7]))
+						print(name, img_project_dic[name])
 	
 	with open(r'project_img_dic.pickle', 'wb') as out: 
 		cp.dump(project_img_dic, out)
