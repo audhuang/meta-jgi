@@ -38,9 +38,9 @@ def cluster(cdhit_path, fasta_path, thresh, c):
 
 def project_id_dic(project_path, pickle_path): 
 	with open(project_path, 'rb') as inp: 
-		reader = csv.reader(inp, delimiter = '\t')
+		reader = csv.reader(inp, delimiter = ',')
+		next(reader)
 		for row in reader: 
-			print(row)
 			print(row[7])
 
 
