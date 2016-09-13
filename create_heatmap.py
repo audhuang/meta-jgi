@@ -53,7 +53,7 @@ def project_id_dic(project_path, pickle_path):
 					else: 
 						print(row[7])
 						print(dic[row[7]])
-						dic[row[7]] = dic[row[7]].append(str(name))
+						dic[row[7]].append(str(name))
 	print(dic)
 
 
