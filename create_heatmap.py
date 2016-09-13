@@ -12,6 +12,7 @@ import subprocess
 import os
 from os import listdir
 from os.path import isfile, join 
+import pandas as pd
 from collections import Counter 
 import cPickle as cp
 
@@ -37,11 +38,18 @@ def cluster(cdhit_path, fasta_path, thresh, c):
 
 
 def project_id_dic(project_path, pickle_path): 
-	with open(project_path, 'rb') as inp: 
-		reader = csv.reader(inp, delimiter = ',')
-		next(reader)
-		for row in reader: 
-			print(row[7])
+	dic = {}
+	# with open(project_path, 'rb') as inp: 
+	# 	reader = csv.reader(inp, delimiter = ',')
+	# 	next(reader)
+	# 	for row in reader: 
+	# 		print(row[7])
+
+	df = pd.read_csv(project_path)
+	groups = list(df['IMG Portal'].groupby(df['Proposal']))
+	print(groups)
+	# portal_ids = df['Portal ID'].apply(str)
+		#15
 
 
 def main(): 
