@@ -106,7 +106,7 @@ def projecthit_dic(cluster_path):
 def parse_table(table_path): 
 	with open(table_path, 'r') as f: 
 		for i in range(3): 
-			next()
+			f.next()
 		for line in f: 
 			col = line.split()
 			print(col[1])
@@ -121,7 +121,7 @@ def main():
 
 	project_path = '../files/genome-projects.csv'
 	cluster_path = '../hits_50_1000_90.clstr'
-	table_path = '../results.table'
+	table_path = '../example.table' # '../results.table'
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
