@@ -128,7 +128,7 @@ def main():
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
-	parse_table(table_path)
+	parse_table(table_path, id_cluster_dic)
 
 
 
