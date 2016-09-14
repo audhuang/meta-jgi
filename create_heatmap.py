@@ -88,7 +88,7 @@ def projecthit_dic(cluster_path):
 				else: 
 					project_hit_dic[name] += 1
 
-				name_cluster = line.strip().split(' ')[1][1:30]
+				name_cluster = line.strip().split(' ')[1][1:50]
 				if name_cluster in id_cluster_dic: 
 					print(name_cluster, cluster, id_cluster_dic[name_cluster])
 
@@ -114,3 +114,4 @@ def main():
 
 if __name__ == '__main__':
 	main()
+
