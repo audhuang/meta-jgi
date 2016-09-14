@@ -118,7 +118,7 @@ def get_subgroups(table_path):
 def parse_table(table_path, id_cluster_dic, subgroups): 
 	dic = {}
 
-	with (open r'id_cluster_dic.pickle', 'rb') as inp: 
+	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
 		id_cluster_dic = cp.load(inp)
 
 	with open(table_path, 'r') as f: 
