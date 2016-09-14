@@ -108,7 +108,7 @@ def get_subgroups(table_path):
 		for i in range(3): 
 			f.next()
 		for line in f: 
-			subgroup = col[2]
+			subgroup = line.split()[2]
 			if subgroup not in subgroups: 
 				subgroups.append(subgroup)
 
