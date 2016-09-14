@@ -111,6 +111,8 @@ def get_subgroups(table_path):
 			col = line.split()
 			if len(col) > 10: 
 				subgroup = col[2]
+				if subgroup in ['settings:', 'full', 'name', '----------']: 
+					print(line)
 				if subgroup not in subgroups: 
 					subgroups.append(subgroup)
 
