@@ -115,7 +115,7 @@ def get_subgroups(table_path):
 	return subgroups
 
 
-def parse_table(table_path, id_cluster_dic, subgroups): 
+def parse_table(table_path, subgroups): 
 	dic = {}
 
 	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
@@ -143,8 +143,6 @@ def parse_table(table_path, id_cluster_dic, subgroups):
 
 
 				
-
-
 def main(): 
 	seq_path = '../proteins_that_were_hit.sequences'
 	fasta_cut_path = '../hits_50_1000.faa' 
@@ -152,7 +150,8 @@ def main():
 
 	project_path = '../files/genome-projects.csv'
 	cluster_path = '../hits_50_1000_90.clstr'
-	table_path = '../example.table' # '../results.table'
+	# table_path = '../example.table'
+	table_path = '../results.table'
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
@@ -160,7 +159,7 @@ def main():
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
 	subgroups = get_subgroups(table_path)
 	print(subgroups, len(subgroups))
-	parse_table(table_path, id_cluster_dic, subgroups)
+	parse_table(table_path, subgroups)
 
 
 
