@@ -105,9 +105,11 @@ def projecthit_dic(cluster_path):
 
 def parse_table(table_path): 
 	with open(table_path, 'r') as f: 
+		for i in range(3): 
+			next()
 		for line in f: 
 			col = line.split()
-			print(col)
+			print(col[1])
 
 				
 
@@ -124,7 +126,8 @@ def main():
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
-	project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
+	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
+	parse_table(table_path)
 
 
 
