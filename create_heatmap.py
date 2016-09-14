@@ -89,11 +89,26 @@ def projecthit_dic(cluster_path):
 					project_hit_dic[name] += 1
 
 				name_cluster = line.strip().split(' ')[1][1:50]
-				if name_cluster in id_cluster_dic: 
-					print(name_cluster, cluster, id_cluster_dic[name_cluster])
-
 				if name_cluster not in id_cluster_dic: 
-					id_cluster_dic[name_cluster] = cluster 
+					id_cluster_dic[name_cluster] = [cluster]
+				else: 
+					id_cluster_dic[name_cluster].append(cluster) 
+
+	with open(r'project_hit_dic.pickle', 'wb') as out: 
+		cp.dump(project_hit_dic, out)
+	with open(r'id_cluster_dic.pickle', 'wb') as out: 
+		cp.dump(id_cluster_dic, out)
+
+	return project_hit_dic, id_cluster_dic
+
+
+
+def parse_table(table_path): 
+	with open(table_path, 'r') as f: 
+		for line in f: 
+			col = line.split()
+			print(col[1])
+
 				
 
 
@@ -104,11 +119,12 @@ def main():
 
 	project_path = '../files/genome-projects.csv'
 	cluster_path = '../hits_50_1000_90.clstr'
+	table_path = '../results.table'
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
-	projecthit_dic(cluster_path)
+	project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
 
 
 
