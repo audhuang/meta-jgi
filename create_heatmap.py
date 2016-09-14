@@ -109,7 +109,7 @@ def get_subgroups(table_path):
 			f.next()
 		for line in f: 
 			col = line.split()
-			if len(col) > 10: 
+			if line[0] != '#': 
 				subgroup = col[2]
 				if subgroup in ['settings:', 'full', 'name', '----------']: 
 					print(line)
@@ -139,10 +139,7 @@ def parse_table(table_path, subgroups):
 
 			if name not in dic: 
 				dic[name] = [[]] * len(subgroups)
-				dic[name][subgroups.index[subgroup]] += 1
-	pass
-
-
+				dic[name][subgroups.index[subgroup]].append(col[0])
 
 
 
