@@ -114,6 +114,9 @@ def get_subgroups(table_path):
 				if subgroup not in subgroups: 
 					subgroups.append(subgroup)
 
+	with open(r'subgroups.pickle', 'wb') as out: 
+		cp.dump(subgroups, out)
+	
 	return subgroups
 
 
@@ -132,11 +135,9 @@ def parse_table(table_path, subgroups):
 			name = col[0].split('|')[0]
 			cluster = id_cluster_dic[name]
 
-			if subgroup not in subgroups:
-				subgroups.append(subgroup)
-
 			if name not in dic: 
-				dic[name] = []
+				dic[name] = [0] * len(subgroups)
+				dic[name][subgroups.index[subgroup]] += 1
 	pass
 
 
