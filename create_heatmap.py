@@ -88,7 +88,8 @@ def projecthit_dic(cluster_path):
 				else: 
 					project_hit_dic[name] += 1
 
-				name_cluster = line.strip().split(' ')[1][1:50]
+				name_cluster = line.strip().split(' ')[1][1:-3]
+				print(name_cluster)
 				if name_cluster not in id_cluster_dic: 
 					id_cluster_dic[name_cluster] = [cluster]
 				else: 
@@ -127,7 +128,7 @@ def main():
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
-	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
+	project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
 	parse_table(table_path)
 
 
