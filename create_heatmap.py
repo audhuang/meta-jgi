@@ -109,7 +109,8 @@ def parse_table(table_path):
 			f.next()
 		for line in f: 
 			col = line.split()
-			print(col[2])
+			subgroup = col[2]
+			print(col[0])
 
 				
 
