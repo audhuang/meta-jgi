@@ -32,7 +32,7 @@ def cut_length(seq_path, out, low, high):
 
 def cluster(cdhit_path, fasta_path, thresh, c): 
 	command = cdhit_path + 'cd-hit -i ' + fasta_path + '.faa -o ' + fasta_path + '_'+ \
-	str(int(thresh * 100)) + ' -c ' + str(thresh) + ' -n ' + str(c)
+	str(int(thresh * 100)) + ' -c ' + str(thresh) + ' -n ' + str(c) + ' -M 16000 -d 0 -T 8'
 
 	status = subprocess.call(command, shell=True)
 
@@ -74,6 +74,7 @@ def projectimg_dic(project_path, pickle_path):
 
 def projecthit_dic(cluster_path): 
 	project_hit_dic = {}
+	id_cluster_dic = {}
 
 	with open(cluster_path, 'r') as f: 
 		for line in f: 
@@ -81,8 +82,11 @@ def projecthit_dic(cluster_path):
 			if line[0] == '>': 
 				cluster = line.strip().split(' ')[-1]
 			else: 
-				name = line.strip().split(' ')[1]#[1:10]
-				print(name)
+				name = line.strip().split(' ')[1][1:10]
+				if name not in project_hit_dic: 
+					project_hit_dic[name] = 1
+				else: 
+					project_hit_dic[name] += 1
 
 
 
@@ -95,9 +99,9 @@ def main():
 	cluster_path = '../hits_50_1000_90.clstr'
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
-	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
+	cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
-	projecthit_dic(cluster_path)
+	# projecthit_dic(cluster_path)
 
 
 
