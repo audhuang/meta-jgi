@@ -109,7 +109,7 @@ def get_subgroups(table_path):
 			f.next()
 		for line in f: 
 			col = line.split()
-			if len(col) > 2: 
+			if len(col) > 10: 
 				subgroup = col[2]
 				if subgroup not in subgroups: 
 					subgroups.append(subgroup)
@@ -136,7 +136,7 @@ def parse_table(table_path, subgroups):
 			cluster = id_cluster_dic[name]
 
 			if name not in dic: 
-				dic[name] = [0] * len(subgroups)
+				dic[name] = [[]] * len(subgroups)
 				dic[name][subgroups.index[subgroup]] += 1
 	pass
 
@@ -161,7 +161,7 @@ def main():
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
 	subgroups = get_subgroups(table_path)
-	print(subgroups, len(subgroups))
+	print('subgroups: ', subgroups, len(subgroups))
 	parse_table(table_path, subgroups)
 
 
