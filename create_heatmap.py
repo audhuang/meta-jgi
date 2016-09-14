@@ -122,9 +122,12 @@ def get_subgroups(table_path):
 
 def parse_table(table_path, subgroups): 
 	dic = {}
+	cluster_dic = {}
 
 	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
 		id_cluster_dic = cp.load(inp)
+	with open(r'subgroups.pickle', 'rb') as inp: 
+		subgroups = cp.load(inp)
 
 	with open(table_path, 'r') as f: 
 		for i in range(3): 
@@ -137,8 +140,17 @@ def parse_table(table_path, subgroups):
 
 			if name not in dic: 
 				dic[name] = [[]] * len(subgroups)
-				dic[name][subgroups.index[subgroup]].append(col[0])
+				dic[name][subgroups.index[subgroup]].append(id_cluster_dic[col[0]])
 
+	for key in dic: 
+		cluster_dic[key] = len(list(set(dic[key])))
+
+	with open(r'cluster_ids.pickle', 'wb') as out: 
+		cp.dump(dic, out)
+	with open(r'cluster_counts.pickle', 'wb') as out: 
+		cp.dump(cluster_dic, out)
+
+	return cluster_dic
 
 
 
@@ -157,8 +169,7 @@ def main():
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
-	subgroups = get_subgroups(table_path)
-	print('subgroups: ', subgroups, len(subgroups))
+	# subgroups = get_subgroups(table_path)
 	parse_table(table_path, subgroups)
 
 
