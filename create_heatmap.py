@@ -240,6 +240,18 @@ def get_colors(projects):
 		cp.dump(color_dic, out)
 
 
+def write_colors(): 
+	dic = {'soil':'green'}
+	with open(r'color_dic.pickle', 'rb') as inp: 
+		color_dic = cp.load(color_dic, out)
+
+	with open('rowsidecolors.txt', 'w') as out: 
+		out.write('RowSideColors = c(\n')	
+		for key in color_dic: 
+			out.write('  rep("' + dic[color_dic[key]] + '", 1),\n')
+		out.write('),\n')
+
+
 def generate_heatmap(): 
 	command = 'R CMD BATCH heatmap_all.R'
 	status = subprocess.call(command, shell=True)
@@ -256,7 +268,7 @@ def main():
 	# table_path = '../example.table'
 	table_path = '../results.table'
 
-	rout_path = './all_data'
+	rout_path = './data_all'
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
