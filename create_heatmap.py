@@ -77,8 +77,8 @@ def projecthit_dic(cluster_path):
 	id_cluster_dic = {}
 
 	with open(cluster_path, 'r') as f: 
+		cluster = -1
 		for line in f: 
-			cluster = -1
 			if line[0] == '>': 
 				cluster = line.strip().split(' ')[-1]
 			else: 
@@ -89,11 +89,12 @@ def projecthit_dic(cluster_path):
 					project_hit_dic[name] += 1
 
 				name_cluster = line.strip().split(' ')[1][1:30]
+				if name_cluster in id_cluster_dic: 
+					print(name_cluster, cluster, id_cluster_dic[name_cluster])
+
 				if name_cluster not in id_cluster_dic: 
 					id_cluster_dic[name_cluster] = cluster 
-				else: 
-					print(name_cluster, ' | ', cluster)
-
+				
 
 
 def main(): 
