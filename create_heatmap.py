@@ -107,7 +107,7 @@ def parse_table(table_path):
 	with open(table_path, 'r') as f: 
 		for line in f: 
 			col = line.split()
-			print(col[1])
+			print(col)
 
 				
 
