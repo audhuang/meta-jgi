@@ -284,7 +284,7 @@ def fill_dic():
 			if words[-2] == 'environmental': 
 				color_dic[words[1]] = words[-1].strip()
 			else: 
-				color_dic[words[1]] = words[-2].strip()
+				color_dic[words[1]] = words[-2][-4]
 	with open(r'color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
 	print(color_dic)
@@ -350,7 +350,7 @@ def main():
 
 	# write_rfile(rout_path)
 	# get_colors()
-	# fill_dic()
+	fill_dic()
 	write_colors()
 	# generate_heatmap()
 
