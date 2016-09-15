@@ -158,6 +158,9 @@ def parse_table(table_path):
 		print(key)
 		cluster_dic[key] = []
 		for i in range(len(subgroup)): 
+			print(dic[key][i])
+			print(set(dic[key][i]))
+			print(len(set(dic[key][i])))
 			cluster_dic[key].append(len(set(dic[key][i])))
 
 	with open(r'cluster_ids.pickle', 'wb') as out: 
