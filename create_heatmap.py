@@ -315,7 +315,7 @@ def write_colors():
 				else: 
 					out.write('  rep("' + 'grey' + '", 1),\n')
 			else: 
-				print(project)
+				out.write('  rep("' + 'dark blue' + '", 1),\n')
 		out.write('),\n')
 
 
@@ -350,7 +350,7 @@ def main():
 
 	# write_rfile(rout_path)
 	# get_colors()
-	fill_dic()
+	# fill_dic()
 	write_colors()
 	# generate_heatmap()
 
