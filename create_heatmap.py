@@ -193,6 +193,8 @@ def choose_surveys(num):
 		project_cluster_dic = cp.load(inp)
 
 	test_key = '3300002662'
+	for key in project_cluster_dic: 
+		print(key)
 	print(project_cluster_dic[test_key])
 
 	biggest_list = []
