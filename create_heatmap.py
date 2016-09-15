@@ -252,18 +252,32 @@ def get_colors(no_phyla=False):
 	color_dic = {}
 
 	for project in projects: 
+		phylum = ''
+		order = ''
 		if isfile('../config/' + project + '.config'): 
 			with open('../config/' + project + '.config', 'r') as f: 
 				for line in f: 
 					linelist = line.split(' ')
+					if 'phylum' in linelist[0]: 
+						phylum = linelist[1].strip().lower()
 					if 'order' in linelist[0]: 
-						color_dic[project] = linelist[1].strip().lower()
+						order = linelist[1].strip().lower()
+			if phylum == 'environmental': 
+				color_dic[project] = order
+			else: 
+				color_dic[project] = phylum
 		elif isfile('../new_config/' + project + '.config'): 
 			with open('../new_config/' + project + '.config', 'r') as f: 
 				for line in f: 
 					linelist = line.split(' ')
+					if 'phylum' in linelist[0]: 
+						phylum = linelist[1].strip().lower()
 					if 'order' in linelist[0]: 
-						color_dic[project] = linelist[1].strip().lower()
+						order = linelist[1].strip().lower()
+			if phylum == 'environmental': 
+				color_dic[project] = order
+			else: 
+				color_dic[project] = phylum
 		else: 
 			if no_phyla: 
 				with open('./no_phylum.txt', 'a') as f: 
@@ -309,8 +323,6 @@ def write_colors():
 	with open('rowsidecolors.txt', 'w') as out: 
 		out.write('RowSideColors = c(\n')	
 		for project in projects: 
-			if project == '3300005511': 
-				print(project, color_dic[project], dic[color_dic[project]])
 			if project in color_dic: 
 				env = color_dic[project]
 				if env in dic: 
@@ -352,7 +364,7 @@ def main():
 	# choose_surveys(100)
 
 	# write_rfile(rout_path)
-	# get_colors()
+	get_colors()
 	fill_dic()
 	write_colors()
 	# generate_heatmap()
