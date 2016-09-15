@@ -288,7 +288,7 @@ def generate_heatmap():
 				
 def main(): 
 	seq_path = '../proteins_that_were_hit.sequences'
-	fasta_cut_path = '../hits_50_1000.faa' 
+	fasta_cut_path = '../hits_150_1000.faa' 
 	cdhit_path = '../tools/cdhit/'
 
 	project_path = '../files/genome-projects.csv'
@@ -298,7 +298,7 @@ def main():
 
 	rout_path = './data_all'
 
-	# cut_length(seq_path, fasta_cut_path, 50, 1000)
+	cut_length(seq_path, fasta_cut_path, 150, 1000)
 	cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
