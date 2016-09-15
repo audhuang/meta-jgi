@@ -193,7 +193,7 @@ def choose_surveys(num):
 					biggest = num
 					biggest_index = i
 
-		biggest_list.append((key[i], biggest))
+		biggest_list.append((imgs[biggest_index], biggest))
 
 	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1])
 	projects = [x[0] for x in sorted_biggest][:num]
@@ -291,7 +291,7 @@ def main():
 	# projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
-	parse_table(table_path)
+	# parse_table(table_path)
 	projects = choose_surveys(100)
 
 	write_rfile(projects, rout_path)
