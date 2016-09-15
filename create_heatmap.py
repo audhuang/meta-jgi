@@ -287,7 +287,7 @@ def fill_dic():
 				color_dic[words[1]] = words[2].strip()
 	with open(r'color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
-	print(color_dic)
+
 
 
 def write_colors(): 
@@ -305,9 +305,12 @@ def write_colors():
 	with open(r'projects.pickle', 'rb') as inp: 
 		projects = cp.load(inp)
 
+	print(color_dic)
 	with open('rowsidecolors.txt', 'w') as out: 
 		out.write('RowSideColors = c(\n')	
 		for project in projects: 
+			if project == '3300005511': 
+				print(project, color_dic[project], dic[color_dic[project]])
 			if project in color_dic: 
 				env = color_dic[project]
 				if env in dic: 
