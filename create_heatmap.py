@@ -208,9 +208,9 @@ def choose_surveys(num):
 		biggest_list.append((imgs[biggest_index], biggest))
 
 	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1], reverse=True)
-	print(sorted_biggest[:10])
+	# print(sorted_biggest[:10])
 	projects = [x[0] for x in sorted_biggest][:num]
-	print(projects[:10])
+	# print(projects[:10])
 
 
 
@@ -236,11 +236,12 @@ def write_rfile(projects, rout_path):
 		write.writerow([''] + subgroups[1:])
 
 		for project in projects: 
-			write.writerow([project] + cluster_dic[project][1:])
+			norm = [x/sum(cluster_dic[project][1:]) for x in cluster_dic[project][1:]]
+			write.writerow([project] + norm)
 
 
 def get_colors(projects): 
-	open('../no_phylum.txt', 'w').close()
+	open('./no_phylum.txt', 'w').close()
 
 	with open(r'img_project_dic.pickle', 'rb') as inp: 
 		img_project_dic = cp.load(inp)
@@ -260,9 +261,9 @@ def get_colors(projects):
 					if 'phylum' in linelist[0]: 
 						color_dic[project] = linelist[1].strip().lower()
 		else: 
-			with open('../no_phylum.txt', 'a') as f: 
+			with open('./no_phylum.txt', 'a') as f: 
 				write = csv.writer(f, delimiter='\t')
-				write.writerow(img_project_dic[project])
+				write.writerow([img_project_dic[project]])
 
 
 	with open(r'color_dic.pickle', 'wb') as out: 
