@@ -133,14 +133,12 @@ def parse_table(table_path):
 	dic = {}
 	cluster_dic = {}
 
-	test_key = '3300004455'
+	test_key = '3300002662'
 
 	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
 		id_cluster_dic = cp.load(inp)
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
-
-	print('# subgroups: ', len(subgroups))
 
 	with open(table_path, 'r') as f: 
 		for line in f: 
@@ -163,7 +161,7 @@ def parse_table(table_path):
 
 	for key in dic: 
 		cluster_dic[key] = []
-		for i in range(len(subgroup)): 
+		for i in range(len(subgroups)): 
 			# print(dic[key][i])
 			# print(set(dic[key][i]))
 			# print(len(set(dic[key][i])))
