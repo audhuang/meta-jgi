@@ -264,7 +264,7 @@ def get_colors(projects):
 			with open('./no_phylum.txt', 'a') as f: 
 				write = csv.writer(f, delimiter=',')
 				print(img_project_dic[project])
-				write.writerow([str(img_project_dic[project])])
+				write.writerow([project] + [str(img_project_dic[project])])
 
 
 	with open(r'color_dic.pickle', 'wb') as out: 
@@ -312,7 +312,7 @@ def main():
 	# parse_table(table_path)
 	projects = choose_surveys(100)
 
-	write_rfile(projects, rout_path)
+	# write_rfile(projects, rout_path)
 	get_colors(projects)
 	# generate_heatmap()
 
