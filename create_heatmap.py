@@ -133,8 +133,6 @@ def parse_table(table_path):
 	dic = {}
 	cluster_dic = {}
 
-	test_key = '3300002662'
-
 	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
 		id_cluster_dic = cp.load(inp)
 	with open(r'subgroups.pickle', 'rb') as inp: 
@@ -209,8 +207,11 @@ def choose_surveys(num):
 
 		biggest_list.append((imgs[biggest_index], biggest))
 
-	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1])
+	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1], reverse=True)
+	print(sorted_biggest[:10])
 	projects = [x[0] for x in sorted_biggest][:num]
+	print(projects[:10])
+
 
 
 	# with open(r'most_hits_dic.pickle', 'wb') as out: 
@@ -229,8 +230,6 @@ def write_rfile(projects, rout_path):
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
 
-	for key in cluster_dic: 
-		print(key)
 
 	with open(rout_path, 'w') as f: 
 		write = csv.writer(f, delimiter=',')
