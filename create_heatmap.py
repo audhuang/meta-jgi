@@ -299,7 +299,7 @@ def main():
 
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
-	# projecthit_dic(cluster_path)
+	projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
 	parse_table(table_path)
