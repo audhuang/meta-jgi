@@ -278,7 +278,7 @@ def main():
 	projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
-	parse_table(table_path, subgroups)
+	parse_table(table_path)
 	projects = choose_surveys(100)
 
 	write_rfile(projects, rout_path)
