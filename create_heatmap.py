@@ -277,7 +277,7 @@ def get_colors(no_phyla=False):
 
 def fill_dic():
 	with open(r'color_dic.pickle', 'rb') as inp: 
-		color_dic = cp.load(color_dic, out)
+		color_dic = cp.load(inp)
 	with open(r'no_phylum.txt', 'r') as f: 
 		for line in f: 
 			words = line.split(',')
