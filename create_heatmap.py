@@ -148,7 +148,7 @@ def parse_table(table_path):
 				if name not in dic: 
 					dic[name] = [[]] * len(subgroups)
 				if id_cluster_dic.has_key(col[0]): 
-					dic[name][subgroups.index(subgroup)].append(id_cluster_dic[col[0]])
+					dic[name][subgroups.index(subgroup)].append(id_cluster_dic[col[0]][0])
 				else: 
 					with open('no_index.txt', 'a') as f: 
 						f.write(col[0] + '\n')
@@ -158,9 +158,9 @@ def parse_table(table_path):
 		print(key)
 		cluster_dic[key] = []
 		for i in range(len(subgroup)): 
-			print(dic[key][i])
-			print(set(dic[key][i]))
-			print(len(set(dic[key][i])))
+			# print(dic[key][i])
+			# print(set(dic[key][i]))
+			# print(len(set(dic[key][i])))
 			cluster_dic[key].append(len(set(dic[key][i])))
 
 	with open(r'cluster_ids.pickle', 'wb') as out: 
