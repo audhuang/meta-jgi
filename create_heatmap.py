@@ -155,7 +155,6 @@ def parse_table(table_path):
 
 
 	for key in dic: 
-		print(key)
 		cluster_dic[key] = []
 		for i in range(len(subgroup)): 
 			# print(dic[key][i])
@@ -181,7 +180,7 @@ def choose_surveys(num):
 		project_cluster_dic = cp.load(inp)
 
 
-	biggest = []
+	biggest_list = []
 	for key in project_img_dic: 
 		biggest = 0
 		biggest_index = 0
@@ -194,7 +193,7 @@ def choose_surveys(num):
 					biggest = num
 					biggest_index = i
 
-		biggest.append((key, biggest, biggest_index))
+		biggest_list.append((key, biggest, biggest_index))
 
 	sorted_biggest = sorted(biggest, key=lambda tup: tup[1])
 	projects = [x[0] for x in sorted_biggest][:num]
@@ -225,6 +224,8 @@ def write_rfile(projects, rout_path):
 
 
 def get_colors(projects): 
+	open('../no_phylum.txt', 'w').close()
+	
 	with open(r'img_project_dic.pickle', 'rb') as inp: 
 		img_project_dic = cp.load(inp)
 	color_dic = {}
