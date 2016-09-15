@@ -32,7 +32,7 @@ def cut_length(seq_path, out, low, high):
 
 def cluster(cdhit_path, fasta_path, thresh, c): 
 	command = cdhit_path + 'cd-hit -i ' + fasta_path + '.faa -o ' + fasta_path + '_'+ \
-	str(int(thresh * 100)) + ' -c ' + str(thresh) + ' -n ' + str(c) + ' -M 16000 -d 0 -T 8'
+	str(int(thresh * 100)) + ' -c ' + str(thresh) + ' -n ' + str(c) + ' -M 16000 -d 100 -T 8'
 
 	status = subprocess.call(command, shell=True)
 
@@ -89,7 +89,7 @@ def projecthit_dic(cluster_path):
 				else: 
 					project_hit_dic[name] += 1
 
-				name_cluster = line.strip().split(' ')[1][1:21]
+				name_cluster = line.strip().split(' ')[1][1:].strip()
 				if name_cluster not in id_cluster_dic: 
 					id_cluster_dic[name_cluster] = [cluster]
 				else: 
@@ -154,8 +154,8 @@ def parse_table(table_path):
 
 				if name not in dic: 
 					dic[name] = [[] for i in subgroups]
-				if id_cluster_dic.has_key(col[0][:20]): 
-					for clu in id_cluster_dic[col[0][:20]]: 
+				if id_cluster_dic.has_key(col[0].strip()): 
+					for clu in id_cluster_dic[col[0].strip()]:
 						dic[name][subgroups.index(subgroup)].append(clu)
 					# print('cluster: ', id_cluster_dic[col[0]])
 					# print(dic[name])
@@ -163,6 +163,10 @@ def parse_table(table_path):
 				else: 
 					with open('no_index.txt', 'a') as f: 
 						f.write(col[0] + '\n')
+			i += 1
+
+			if (i % 1000) == 0: 
+				print('parsing line: ', i)
 
 
 
@@ -295,7 +299,7 @@ def main():
 	rout_path = './data_all'
 
 	# cut_length(seq_path, fasta_cut_path, 50, 1000)
-	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
+	cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
