@@ -188,10 +188,11 @@ def choose_surveys(num):
 		imgs = project_img_dic[key]
 
 		for i in range(len(imgs)): 
-			num = len(set(project_cluster_dic[imgs[i]]))
-			if num > biggest: 
-				biggest = num
-				biggest_index = i
+			if imgs[i] in project_cluster_dic: 
+				num = len(set(project_cluster_dic[imgs[i]]))
+				if num > biggest: 
+					biggest = num
+					biggest_index = i
 
 		biggest.append((key, biggest, biggest_index))
 
