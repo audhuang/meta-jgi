@@ -193,7 +193,7 @@ def choose_surveys(num):
 					biggest = num
 					biggest_index = i
 
-		biggest_list.append((key, biggest, biggest_index))
+		biggest_list.append((key[i], biggest))
 
 	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1])
 	projects = [x[0] for x in sorted_biggest][:num]
