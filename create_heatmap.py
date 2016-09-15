@@ -193,9 +193,6 @@ def choose_surveys(num):
 		project_cluster_dic = cp.load(inp)
 
 	test_key = '3300002662'
-	for key in project_cluster_dic: 
-		print(key)
-	print(project_cluster_dic[test_key])
 
 	biggest_list = []
 	for key in project_img_dic: 
@@ -296,7 +293,7 @@ def main():
 	cdhit_path = '../tools/cdhit/'
 
 	project_path = '../files/genome-projects.csv'
-	cluster_path = '../hits_50_1000_90.clstr'
+	cluster_path = '../hits_150_1000_90.clstr'
 	# table_path = '../example.table'
 	table_path = '../results.table'
 
@@ -310,7 +307,7 @@ def main():
 	projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
-	# parse_table(table_path)
+	parse_table(table_path)
 	projects = choose_surveys(100)
 
 	write_rfile(projects, rout_path)
