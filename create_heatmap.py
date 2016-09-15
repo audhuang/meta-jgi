@@ -152,15 +152,14 @@ def parse_table(table_path):
 				if test_key in col[0]: 
 					print('test key: ', col[0], col[2])
 
+				print('col 0: ', col[0])
 				if name not in dic: 
 					dic[name] = [[] for i in subgroups]
 				if id_cluster_dic.has_key(col[0]): 
 					dic[name][subgroups.index(subgroup)].append(id_cluster_dic[col[0]][0])
-					if i < 10: 
-						print('cluster: ', id_cluster_dic[col[0]])
-						print(dic[name])
-						print("\n")
-						i += 1
+					print('cluster: ', id_cluster_dic[col[0]])
+					print(dic[name])
+					print("\n")
 				else: 
 					with open('no_index.txt', 'a') as f: 
 						f.write(col[0] + '\n')
