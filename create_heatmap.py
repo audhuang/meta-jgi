@@ -158,7 +158,8 @@ def parse_table(table_path):
 					dic[name][subgroups.index(subgroup)].append(id_cluster_dic[col[0]][0])
 					if i < 10: 
 						print('cluster: ', id_cluster_dic[col[0]])
-						print(dic[name] + '\n')
+						print(dic[name])
+						print("\n")
 						i += 1
 				else: 
 					with open('no_index.txt', 'a') as f: 
