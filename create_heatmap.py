@@ -151,7 +151,7 @@ def parse_table(table_path):
 					dic[name][subgroups.index(subgroup)].append(id_cluster_dic[col[0]])
 				else: 
 					with open('no_index.txt', 'a') as f: 
-						f.writerow(col[0] + '\n')
+						f.write(col[0] + '\n')
 
 
 	for key in dic: 
