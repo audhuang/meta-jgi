@@ -139,8 +139,8 @@ def parse_table(table_path):
 		subgroups = cp.load(inp)
 
 	with open(table_path, 'r') as f: 
-		if line[0] != '#': 
-			for line in f: 
+		for line in f: 
+			if line[0] != '#': 
 				col = line.split()
 				subgroup = col[2]
 				name = col[0].split('|')[0]
