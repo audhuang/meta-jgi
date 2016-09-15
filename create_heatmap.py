@@ -310,6 +310,7 @@ def write_colors():
 	'terrestrial':'green', 
 	'freshwater':'light blue',
 	'marine':'dark blue',
+	'thermal':'cyan',
 	'engineered':'purple',
 	'host-associated':'red'
 	}
@@ -385,10 +386,10 @@ def main():
 	# write_rfile(rout_path)
 	# get_colors()
 	# fill_dic()
-	# write_colors()
+	write_colors()
 	# generate_heatmap()
 
-	color_analysis()
+	# color_analysis()
 
 
 if __name__ == '__main__':
