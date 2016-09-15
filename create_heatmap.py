@@ -83,7 +83,7 @@ def projecthit_dic(cluster_path):
 			if line[0] == '>': 
 				cluster = line.strip().split(' ')[-1]
 			else: 
-				name = line.strip().split(' ')[1][1:10]
+				name = line.strip().split(' ')[1][1:11]
 				if name not in project_hit_dic: 
 					project_hit_dic[name] = 1
 				else: 
@@ -165,7 +165,7 @@ def parse_table(table_path):
 						f.write(col[0] + '\n')
 			linecount += 1
 
-			if (linecount % 1000) == 0: 
+			if (linecount % 10000) == 0: 
 				print('parsing line: ', linecount)
 
 
@@ -192,6 +192,8 @@ def choose_surveys(num):
 	with open(r'project_cluster_dic.pickle', 'rb') as inp: 
 		project_cluster_dic = cp.load(inp)
 
+	test_key = '3300002662'
+	print(project_cluster_dic[test_key])
 
 	biggest_list = []
 	for key in project_img_dic: 
@@ -232,10 +234,10 @@ def write_rfile(projects, rout_path):
 
 	with open(rout_path, 'w') as f: 
 		write = csv.writer(f, delimiter=',')
-		write.writerow([''] + subgroups)
+		write.writerow([''] + subgroups[1:])
 
 		for project in projects: 
-			write.writerow([project] + cluster_dic[project])
+			write.writerow([project] + cluster_dic[project][1:])
 
 
 def get_colors(projects): 
@@ -303,10 +305,10 @@ def main():
 
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
-	projecthit_dic(cluster_path)
+	# projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
-	parse_table(table_path)
+	# parse_table(table_path)
 	projects = choose_surveys(100)
 
 	write_rfile(projects, rout_path)
