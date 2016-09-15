@@ -241,8 +241,9 @@ def write_rfile(rout_path):
 			write.writerow([project] + norm)
 
 
-def get_colors(): 
-	open('./no_phylum.txt', 'w').close()
+def get_colors(no_phyla=False): 
+	if no_phyla: 
+		open('./no_phylum.txt', 'w').close()
 
 	with open(r'img_project_dic.pickle', 'rb') as inp: 
 		img_project_dic = cp.load(inp)
@@ -255,27 +256,43 @@ def get_colors():
 			with open('../config/' + project + '.config', 'r') as f: 
 				for line in f: 
 					linelist = line.split(' ')
-					if 'phylum' in linelist[0]: 
+					if 'order' in linelist[0]: 
 						color_dic[project] = linelist[1].strip().lower()
 		elif isfile('../new_config/' + project + '.config'): 
 			with open('../new_config/' + project + '.config', 'r') as f: 
 				for line in f: 
 					linelist = line.split(' ')
-					if 'phylum' in linelist[0]: 
+					if 'order' in linelist[0]: 
 						color_dic[project] = linelist[1].strip().lower()
 		else: 
-			with open('./no_phylum.txt', 'a') as f: 
-				write = csv.writer(f, delimiter=',')
-				write.writerow([str(img_project_dic[project])] + [project])
+			if no_phyla: 
+				with open('./no_phylum.txt', 'a') as f: 
+					write = csv.writer(f, delimiter=',')
+					write.writerow([str(img_project_dic[project])] + [project])
 
 
 	print(color_dic)
 	with open(r'color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
 
+def fill_dic():
+	with open(r'color_dic.pickle', 'rb') as inp: 
+		color_dic = cp.load(color_dic, out)
+	with open(r'no_phylum.txt', 'r') as f: 
+		for line in f: 
+			words = line.split(',')
+			if words[-2] == 'environmental': 
+				color_dic[words[1]] = words[-1] 
+			else: 
+				color_dic[words[1]] = words[-2]
+	with open(r'color_dic.pickle', 'wb') as out: 
+		cp.dump(color_dic, out)
+	print(color_dic)
+
 
 def write_colors(): 
 	dic = {'soil':'green'}
+	
 	with open(r'color_dic.pickle', 'rb') as inp: 
 		color_dic = cp.load(color_dic, out)
 
@@ -317,6 +334,7 @@ def main():
 
 	# write_rfile(rout_path)
 	get_colors()
+	fill_dic()
 	# generate_heatmap()
 
 

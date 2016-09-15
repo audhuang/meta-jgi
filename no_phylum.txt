@@ -1,0 +1,30 @@
+"Microbial community impact on carbon sequestration in managed wetland ""carbon farming""",3300001213,environmental,marine
+Plant-Microorganism Associations in the Context of Carbon Cycling,3300004463,host-associated
+Great Prairie Soil Metagenome Grand Challenge,3300000956,environmental,marine
+Pacific Northwest bog forest metagenomes,3300004092,environmental,freshwater
+COGITO (Coastal Microbe Genomic & Taxonomic Observatory),3300004097,environmental,marine
+Response and recovery of surface soil microbial communities to an ongoing underground coalmine fire,3300005529,environmental,soil
+Resistance and resilience of microbial guilds and biogeochemical functions to rapid climate change in the cold biome,3300006176,environmental,soil
+Deciphering the response of nutrient-cycling microbial communities to environmental change,3300004282,environmental,freshwater
+Rhizosphere microbiome Grand Challenge,3300000440,host-associated
+Systems Biology Approach to Fracking for Environmental Monitoring,3300006059,environmental,freshwater
+Terabase sequencing for comprehensive genome reconstruction to assess metabolic potential for environmental bioremediation,3300002502,environmental,soil
+Plant associated metagenomes--Microbial community diversity and host control of community assembly across model and emerging plant ecological genomics systems.,3300005511,host-associated
+Metagenomics of microbial communities from soda lakes and soda solonchak soils,3300000557,environmental,soil
+Microbial controls on biogeochemical cycling in deep subsurface shale carbon reservoirs,3300006930,environmental,soil
+The bacterial component of the microbial loop in the Laurentian Great Lakes and their role in the carbon cycle.,3300005662,environmental,freshwater
+Rhizosphere and Endophyte Metagenomes in a Conifer Climate Change Experiment,3300000114,host-associated
+Predicting Climate Feedbacks from Microbial Function in Tropical Ecosystems,3300004633,environmental,soil
+Development of a pipeline for high-throughput recovery of near-complete and complete microbial genomes from complex metagenomic datasets,3300004210,engineered,bioremediation
+Unraveling the metabolic potential of a DOM-induced mercury-methylating sediment microbialcommunity,3300004778,environmental,marine
+Raman-based microcolony genomics and transcriptomics for studying microevolution and ecology of nitrifiers,3300005660,engineered,wastewater
+Next Generation Ecosystem Experiment (NGEE) in the arctic,3300006795,environmental,soil
+Tree-driven diel microbial carbon dynamics in the vadose zone,3300007265,environmental,soil
+"Seasonal variation in Antarctic microbial communities: ecology, stability and susceptibility to ecosystem change",3300005916,environmental,marine
+Targeted metagenomics and metatranscriptomics of a sulfate-reducing rare biosphere member and potentially novel sulfate reducers that impact methane emission from peatlands,3300001356,environmental,soil
+Switchgrass Rhizosphere bacterial communities,3300005289,host-associated
+Uncultivated and novel microbial lineages in terrestrial subsurface biofilms from a sulfidic aquifer,3300000231,environmental,freshwater
+Rice Straw Adapted Metagenome & Metatranscriptome,3300005286,engineered,solid waste
+Gut metagenome of Panchlora sp. cockroaches living within the refuse piles of leaf-cutter ants,3300000059,host-associated
+Whole metagenomic analysis of microbial community evolution within a tetrachloroethene-contaminated EPA Superfund site undergoing remediation by enhanced reductive dechlorination,3300005326,engineered,bioremediation
+Using stable isotope probing to uncover carbon flow and transcriptomics of a microbial community carrying out naphthalene biodegradation,3300006035,environmental,freshwater
