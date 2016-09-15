@@ -288,7 +288,7 @@ def fill_dic():
 	with open(r'color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
 	print(color_dic)
-	print(color_dic['3300005916'])
+
 
 def write_colors(): 
 	dic = {
@@ -308,11 +308,14 @@ def write_colors():
 	with open('rowsidecolors.txt', 'w') as out: 
 		out.write('RowSideColors = c(\n')	
 		for project in projects: 
-			env = color_dic[project]
-			if env in dic: 
-				out.write('  rep("' + dic[env] + '", 1),\n')
+			if project in color_dic: 
+				env = color_dic[project]
+				if env in dic: 
+					out.write('  rep("' + dic[env] + '", 1),\n')
+				else: 
+					out.write('  rep("' + 'grey' + '", 1),\n')
 			else: 
-				out.write('  rep("' + 'grey' + '", 1),\n')
+				print(project)
 		out.write('),\n')
 
 
@@ -343,7 +346,7 @@ def main():
 	# subgroups = get_subgroups(table_path)
 
 	# parse_table(table_path)
-	choose_surveys(100)
+	# choose_surveys(100)
 
 	# write_rfile(rout_path)
 	# get_colors()
