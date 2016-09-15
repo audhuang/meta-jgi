@@ -255,13 +255,13 @@ def get_colors():
 			with open('../config/' + project + '.config', 'r') as f: 
 				for line in f: 
 					linelist = line.split(' ')
-					if 'order' in linelist[0]: 
+					if 'phylum' in linelist[0]: 
 						color_dic[project] = linelist[1].strip().lower()
 		elif isfile('../new_config/' + project + '.config'): 
 			with open('../new_config/' + project + '.config', 'r') as f: 
 				for line in f: 
 					linelist = line.split(' ')
-					if 'order' in linelist[0]: 
+					if 'phylum' in linelist[0]: 
 						color_dic[project] = linelist[1].strip().lower()
 		else: 
 			with open('./no_phylum.txt', 'a') as f: 
