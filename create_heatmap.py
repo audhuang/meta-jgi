@@ -282,13 +282,12 @@ def fill_dic():
 		for line in f: 
 			words = line.split(',')
 			if words[2] == 'environmental': 
-				color_dic[words[1]] = words[3][:-4].strip()
+				color_dic[words[1]] = words[3].strip()
 			elif words[2] != 'environmental': 
 				color_dic[words[1]] = words[2].strip()
-			print(words[1], color_dic[words[1]])
 	with open(r'color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
-	# print(color_dic)
+	print(color_dic)
 
 
 def write_colors(): 
