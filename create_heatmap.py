@@ -89,7 +89,7 @@ def projecthit_dic(cluster_path):
 				else: 
 					project_hit_dic[name] += 1
 
-				name_cluster = line.strip().split(' ')[1][1:].strip()
+				name_cluster = line.strip().split(' ')[1][1:-3]
 				if name_cluster not in id_cluster_dic: 
 					id_cluster_dic[name_cluster] = [cluster]
 				else: 
@@ -140,7 +140,7 @@ def parse_table(table_path):
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
 
-	i = 0
+	linecount = 0
 
 	with open(table_path, 'r') as f: 
 		for line in f: 
@@ -163,10 +163,10 @@ def parse_table(table_path):
 				else: 
 					with open('no_index.txt', 'a') as f: 
 						f.write(col[0] + '\n')
-			i += 1
+			linecount += 1
 
-			if (i % 1000) == 0: 
-				print('parsing line: ', i)
+			if (linecount % 1000) == 0: 
+				print('parsing line: ', linecount)
 
 
 
@@ -298,8 +298,8 @@ def main():
 
 	rout_path = './data_all'
 
-	cut_length(seq_path, fasta_cut_path, 150, 1000)
-	cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
+	# cut_length(seq_path, fasta_cut_path, 150, 1000)
+	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
