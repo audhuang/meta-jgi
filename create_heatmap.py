@@ -154,7 +154,6 @@ def parse_table(table_path):
 
 				if name not in dic: 
 					dic[name] = [[] for i in subgroups]
-					print(dic[name]) 
 				if id_cluster_dic.has_key(col[0]): 
 					dic[name][subgroups.index(subgroup)].append(id_cluster_dic[col[0]][0])
 					if i < 10: 
