@@ -229,7 +229,8 @@ def write_rfile(projects, rout_path):
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
 
-	# print(cluster_dic)
+	for key in cluster_dic: 
+		print(key)
 
 	with open(rout_path, 'w') as f: 
 		write = csv.writer(f, delimiter=',')
@@ -304,10 +305,10 @@ def main():
 
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
-	projecthit_dic(cluster_path)
+	# projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
-	parse_table(table_path)
+	# parse_table(table_path)
 	projects = choose_surveys(100)
 
 	write_rfile(projects, rout_path)
