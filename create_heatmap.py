@@ -288,7 +288,7 @@ def fill_dic():
 	with open(r'color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
 	print(color_dic)
-
+	print(color_dic['3300005916'])
 
 def write_colors(): 
 	dic = {
