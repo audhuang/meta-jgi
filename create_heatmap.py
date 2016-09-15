@@ -262,8 +262,9 @@ def get_colors(projects):
 						color_dic[project] = linelist[1].strip().lower()
 		else: 
 			with open('./no_phylum.txt', 'a') as f: 
-				write = csv.writer(f, delimiter='\t')
-				write.writerow([img_project_dic[project]])
+				write = csv.writer(f, delimiter=',')
+				print(img_project_dic[project])
+				write.writerow([str(img_project_dic[project])])
 
 
 	with open(r'color_dic.pickle', 'wb') as out: 
