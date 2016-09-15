@@ -155,6 +155,7 @@ def parse_table(table_path):
 
 
 	for key in dic: 
+		print(key)
 		cluster_dic[key] = []
 		for i in range(len(subgroup)): 
 			cluster_dic[key].append(len(set(dic[key][i])))
