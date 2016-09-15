@@ -192,8 +192,8 @@ def choose_surveys(num):
 	with open(r'project_cluster_dic.pickle', 'rb') as inp: 
 		project_cluster_dic = cp.load(inp)
 
-	for key in project_cluster_dic: 
-		print(key)
+	test_key = '3300002662'
+	print(project_cluster_dic[test_key])
 
 	biggest_list = []
 	for key in project_img_dic: 
@@ -305,7 +305,7 @@ def main():
 
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
-	# projecthit_dic(cluster_path)
+	projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
 	# parse_table(table_path)
