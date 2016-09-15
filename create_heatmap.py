@@ -313,7 +313,7 @@ def main():
 	# subgroups = get_subgroups(table_path)
 
 	# parse_table(table_path)
-	# choose_surveys(100)
+	choose_surveys(100)
 
 	# write_rfile(rout_path)
 	get_colors()
