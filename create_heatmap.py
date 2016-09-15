@@ -215,6 +215,9 @@ def write_rfile(projects, rout_path):
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
 
+	print(cluster_dic)
+	print('projects: ', projects)
+
 	with open(rout_path, 'w') as f: 
 		write = csv.writer(f, delimiter=',')
 		write.writerow([''] + subgroups)
