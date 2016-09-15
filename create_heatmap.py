@@ -338,6 +338,25 @@ def generate_heatmap():
 	command = 'R CMD BATCH heatmap_all.R'
 	status = subprocess.call(command, shell=True)
 
+def color_analysis(): 
+	dic = {
+	'soil':'green', 
+	'terrestrial':'green', 
+	'freshwater':'light blue',
+	'marine':'dark blue',
+	'engineered':'purple',
+	'host-associated':'red'
+	}
+
+	with open(r'color_dic.pickle', 'rb') as inp: 
+		color_dic = cp.load(inp)
+
+	print(color_dic)
+	print(len(color_dic))
+
+	for key in color_dic: 
+		if color_dic[key] not in dic: 
+			print(key, color_dic[key])
 
 				
 def main(): 
@@ -364,10 +383,12 @@ def main():
 	# choose_surveys(100)
 
 	# write_rfile(rout_path)
-	get_colors()
-	fill_dic()
-	write_colors()
+	# get_colors()
+	# fill_dic()
+	# write_colors()
 	# generate_heatmap()
+
+	color_analysis()
 
 
 if __name__ == '__main__':
