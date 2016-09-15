@@ -147,7 +147,7 @@ def parse_table(table_path):
 
 				if name not in dic: 
 					dic[name] = [[]] * len(subgroups)
-				dic[name][subgroups.index[subgroup]].append(id_cluster_dic[col[0]])
+				dic[name][subgroups.index(subgroup)].append(id_cluster_dic[col[0]])
 
 	for key in dic: 
 		cluster_dic[key][:] = [len(set(dic[key][i])) for i in len(subgroups)]
@@ -275,7 +275,7 @@ def main():
 
 	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
 	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
-	projecthit_dic(cluster_path)
+	# projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
 	parse_table(table_path)
