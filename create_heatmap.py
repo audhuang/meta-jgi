@@ -291,15 +291,28 @@ def fill_dic():
 
 
 def write_colors(): 
-	dic = {'soil':'green'}
+	dic = {
+	'soil':'green', 
+	'terrestrial':'green', 
+	'freshwater':'light blue',
+	'marine':'dark blue',
+	'engineered':'purple',
+	'host-associated':'red'
+	}
 	
 	with open(r'color_dic.pickle', 'rb') as inp: 
-		color_dic = cp.load(color_dic, out)
+		color_dic = cp.load(inp)
+	with open(r'projects.pickle', 'rb') as inp: 
+		projects = cp.load(inp)
 
 	with open('rowsidecolors.txt', 'w') as out: 
 		out.write('RowSideColors = c(\n')	
-		for key in color_dic: 
-			out.write('  rep("' + dic[color_dic[key]] + '", 1),\n')
+		for project in projects: 
+			env = color_dic[project]
+			if env in dic: 
+				out.write('  rep("' + dic[env] + '", 1),\n')
+			else: 
+				out.write('  rep("' + 'grey' + '", 1),\n')
 		out.write('),\n')
 
 
@@ -333,8 +346,9 @@ def main():
 	choose_surveys(100)
 
 	# write_rfile(rout_path)
-	get_colors()
+	# get_colors()
 	fill_dic()
+	write_colors()
 	# generate_heatmap()
 
 
