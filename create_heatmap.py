@@ -195,14 +195,14 @@ def choose_surveys(num):
 
 		biggest_list.append((key, biggest, biggest_index))
 
-	sorted_biggest = sorted(biggest, key=lambda tup: tup[1])
+	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1])
 	projects = [x[0] for x in sorted_biggest][:num]
 
 
 	# with open(r'most_hits_dic.pickle', 'wb') as out: 
 	# 	cp.dump(biggest_dic, out)
 	with open(r'biggest_list.pickle', 'wb') as out: 
-		cp.dump(biggest, out)
+		cp.dump(biggest_list, out)
 	with open(r'sorted_biggest_list.pickle', 'wb') as out: 
 		cp.dump(sorted_biggest, out)
 
@@ -225,7 +225,7 @@ def write_rfile(projects, rout_path):
 
 def get_colors(projects): 
 	open('../no_phylum.txt', 'w').close()
-	
+
 	with open(r'img_project_dic.pickle', 'rb') as inp: 
 		img_project_dic = cp.load(inp)
 	color_dic = {}
