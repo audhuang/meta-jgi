@@ -133,10 +133,14 @@ def parse_table(table_path):
 	dic = {}
 	cluster_dic = {}
 
+	test_key = '3300004455'
+
 	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
 		id_cluster_dic = cp.load(inp)
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
+
+	print('# subgroups: ', len(subgroups))
 
 	with open(table_path, 'r') as f: 
 		for line in f: 
@@ -144,6 +148,9 @@ def parse_table(table_path):
 				col = line.split()
 				subgroup = col[2]
 				name = col[0].split('|')[0]
+
+				if test_key in col[0]: 
+					print('test key: ', col[0], col[2])
 
 				if name not in dic: 
 					dic[name] = [[]] * len(subgroups)
@@ -293,7 +300,7 @@ def main():
 	# projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
-	# parse_table(table_path)
+	parse_table(table_path)
 	projects = choose_surveys(100)
 
 	write_rfile(projects, rout_path)
