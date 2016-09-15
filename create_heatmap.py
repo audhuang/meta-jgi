@@ -89,7 +89,7 @@ def projecthit_dic(cluster_path):
 				else: 
 					project_hit_dic[name] += 1
 
-				name_cluster = line.strip().split(' ')[1][1:-3]
+				name_cluster = line.strip().split(' ')[1][1:21]
 				if name_cluster not in id_cluster_dic: 
 					id_cluster_dic[name_cluster] = [cluster]
 				else: 
@@ -152,11 +152,11 @@ def parse_table(table_path):
 				if test_key in col[0]: 
 					print('test key: ', col[0], col[2])
 
-				# print('col 0: ', col[0])
 				if name not in dic: 
 					dic[name] = [[] for i in subgroups]
-				if id_cluster_dic.has_key(col[0]): 
-					dic[name][subgroups.index(subgroup)].append(id_cluster_dic[col[0]][0])
+				if id_cluster_dic.has_key(col[0][:20]): 
+					for clu in id_cluster_dic[col[0][:20]]: 
+						dic[name][subgroups.index(subgroup)].append(clu)
 					# print('cluster: ', id_cluster_dic[col[0]])
 					# print(dic[name])
 					# print("\n")
@@ -169,9 +169,6 @@ def parse_table(table_path):
 	for key in dic: 
 		cluster_dic[key] = []
 		for i in range(len(subgroups)): 
-			# print(dic[key][i])
-			# print(set(dic[key][i]))
-			# print(len(set(dic[key][i])))
 			cluster_dic[key].append(len(set(dic[key][i])))
 
 	with open(r'cluster_ids.pickle', 'wb') as out: 
