@@ -140,6 +140,8 @@ def parse_table(table_path):
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
 
+	i = 0
+
 	with open(table_path, 'r') as f: 
 		for line in f: 
 			if line[0] != '#': 
@@ -154,11 +156,15 @@ def parse_table(table_path):
 					dic[name] = [[]] * len(subgroups)
 					print(name, dic[name])
 				if id_cluster_dic.has_key(col[0]): 
-					print(subgroup, subgroups.index(subgroup))
+
 					dic[name][subgroups.index(subgroup)].append(id_cluster_dic[col[0]][0])
+					if i < 10: 
+						print(id_cluster_dic[col[0]])
+						print(dic[name][subgroups.index(subgroup)])
 				else: 
 					with open('no_index.txt', 'a') as f: 
 						f.write(col[0] + '\n')
+			i += 1
 
 
 	for key in dic: 
