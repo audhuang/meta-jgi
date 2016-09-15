@@ -218,17 +218,18 @@ def choose_surveys(num):
 	# 	cp.dump(biggest_dic, out)
 	with open(r'biggest_list.pickle', 'wb') as out: 
 		cp.dump(biggest_list, out)
-	with open(r'sorted_biggest_list.pickle', 'wb') as out: 
-		cp.dump(sorted_biggest, out)
-
-	return projects
+	with open(r'projects.pickle', 'wb') as out: 
+		cp.dump(projects, out)
 
 
-def write_rfile(projects, rout_path): 
+
+def write_rfile(rout_path): 
 	with open(r'cluster_counts.pickle', 'rb') as inp: 
 		cluster_dic = cp.load(inp)
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
+	with open(r'projects.pickle', 'rb') as inp: 
+		projects = cp.load(inp)
 
 
 	with open(rout_path, 'w') as f: 
@@ -240,11 +241,13 @@ def write_rfile(projects, rout_path):
 			write.writerow([project] + norm)
 
 
-def get_colors(projects): 
+def get_colors(): 
 	open('./no_phylum.txt', 'w').close()
 
 	with open(r'img_project_dic.pickle', 'rb') as inp: 
 		img_project_dic = cp.load(inp)
+	with open(r'projects.pickle', 'rb') as inp: 
+		projects = cp.load(inp)
 	color_dic = {}
 
 	for project in projects: 
@@ -252,13 +255,13 @@ def get_colors(projects):
 			with open('../config/' + project + '.config', 'r') as f: 
 				for line in f: 
 					linelist = line.split(' ')
-					if 'phylum' in linelist[0]: 
+					if 'order' in linelist[0]: 
 						color_dic[project] = linelist[1].strip().lower()
 		elif isfile('../new_config/' + project + '.config'): 
 			with open('../new_config/' + project + '.config', 'r') as f: 
 				for line in f: 
 					linelist = line.split(' ')
-					if 'phylum' in linelist[0]: 
+					if 'order' in linelist[0]: 
 						color_dic[project] = linelist[1].strip().lower()
 		else: 
 			with open('./no_phylum.txt', 'a') as f: 
@@ -310,10 +313,10 @@ def main():
 	# subgroups = get_subgroups(table_path)
 
 	# parse_table(table_path)
-	projects = choose_surveys(100)
+	# choose_surveys(100)
 
-	# write_rfile(projects, rout_path)
-	get_colors(projects)
+	# write_rfile(rout_path)
+	get_colors()
 	# generate_heatmap()
 
 
