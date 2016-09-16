@@ -231,7 +231,6 @@ def parse_surveys(parse_path, projects_path):
 		for row in reader: 
 			img = row[6]
 			projects.append(img)
-			print(img)
 
 	with open(projects_path, 'wb') as out: 
 		cp.dump(projects, out)
@@ -244,6 +243,10 @@ def write_rfile(rout_path, projects_path):
 		subgroups = cp.load(inp)
 	with open(projects_path, 'rb') as inp: 
 		projects = cp.load(inp)
+
+	for key in cluster_dic: 
+		if '3300009416' in key: 
+			print(key)
 
 
 	with open(rout_path, 'w') as f: 
