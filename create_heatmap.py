@@ -344,7 +344,7 @@ def color_analysis():
 	'soil':'green', 
 	'terrestrial':'green', 
 	'freshwater':'light blue',
-	'thermal':'cyan'
+	'thermal':'cyan', 
 	'marine':'dark blue',
 	'engineered':'purple',
 	'host-associated':'red'
