@@ -368,10 +368,10 @@ def print_titles():
 		img_project_dic = cp.load(inp)
 
 	with open('../project_titles.txt', 'wb') as out: 
-		write = csv.writer(inp, delimiter = ',')
+		write = csv.writer(out, delimiter = ',')
 
 		for project in projects: 
-			out.write([project] + [img_project_dic[project]])
+			write.writerow([project] + [img_project_dic[project]])
 
 
 
