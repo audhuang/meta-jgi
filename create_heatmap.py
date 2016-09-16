@@ -190,7 +190,6 @@ def choose_surveys(num, projects_path):
 	with open(r'project_cluster_dic.pickle', 'rb') as inp: 
 		project_cluster_dic = cp.load(inp)
 
-	test_key = '3300002662'
 
 	biggest_list = []
 	for key in project_img_dic: 
@@ -244,18 +243,17 @@ def write_rfile(rout_path, projects_path):
 	with open(projects_path, 'rb') as inp: 
 		projects = cp.load(inp)
 
-	for key in cluster_dic: 
-		if '3300009416' in key: 
-			print(key)
-
 
 	with open(rout_path, 'w') as f: 
 		write = csv.writer(f, delimiter=',')
 		write.writerow([''] + subgroups[1:])
 
 		for project in projects: 
-			norm = [x/sum(cluster_dic[project][1:]) for x in cluster_dic[project][1:]]
-			write.writerow([project] + norm)
+			if project in cluster_dic: 
+				norm = [x/sum(cluster_dic[project][1:]) for x in cluster_dic[project][1:]]
+				write.writerow([project] + norm)
+			else: 
+				print(project)
 
 
 def get_colors(no_phyla=False): 
