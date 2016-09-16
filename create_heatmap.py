@@ -371,7 +371,7 @@ def print_titles():
 		write = csv.writer(inp, delimiter = ',')
 
 		for project in projects: 
-			out.write([project] + img_project_dic[project])
+			out.write([project] + [img_project_dic[project]])
 
 
 
