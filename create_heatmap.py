@@ -349,6 +349,14 @@ def write_colors():
 				out.write('  rep("' + 'dark blue' + '", 1),\n')
 		out.write('),\n')
 
+def write_custom_colors(n, color): 
+	with open('rowsidecolors_engineered.txt', 'w') as out: 
+		out.write('RowSideColors = c(\n')	
+		for project in range(n): 
+			out.write('  rep("' + color + '", 1),\n')
+		out.write('  rep("' + color + '", 1)\n')
+		out.write('),\n')
+
 
 def generate_heatmap(): 
 	command = 'R CMD BATCH heatmap_all.R'
@@ -417,9 +425,10 @@ def main():
 
 	# parse_table(table_path)
 	# choose_surveys(100, projects_path)
-	parse_surveys(parse_projects_path, projects_path)
+	# parse_surveys(parse_projects_path, projects_path)
 
-	write_rfile(rout_path, projects_path)
+	# write_rfile(rout_path, projects_path)
+	write_custom_colors(45, 'purple')
 	# get_colors()
 	# fill_dic()
 	# write_colors()
