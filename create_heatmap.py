@@ -344,6 +344,7 @@ def color_analysis():
 	'soil':'green', 
 	'terrestrial':'green', 
 	'freshwater':'light blue',
+	'thermal':'cyan'
 	'marine':'dark blue',
 	'engineered':'purple',
 	'host-associated':'red'
@@ -358,6 +359,22 @@ def color_analysis():
 	for key in color_dic: 
 		if color_dic[key] not in dic: 
 			print(key, color_dic[key])
+
+
+def print_titles(): 
+	with open(r'projects.pickle', 'rb') as inp: 
+		projects = cp.load(inp)
+	with open(r'img_project_dic.pickle', 'rb') as inp: 
+		img_project_dic = cp.load(inp)
+
+	with open('../project_titles.txt', 'wb') as out: 
+		write = csv.writer(inp, delimiter = ',')
+
+		for project in projects: 
+			out.writerow([project] + img_project_dic[project])
+
+
+
 
 				
 def main(): 
@@ -386,10 +403,11 @@ def main():
 	# write_rfile(rout_path)
 	# get_colors()
 	# fill_dic()
-	write_colors()
+	# write_colors()
 	# generate_heatmap()
 
 	# color_analysis()
+	print_titles()
 
 
 if __name__ == '__main__':
