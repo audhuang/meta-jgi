@@ -418,7 +418,7 @@ def main():
 	# choose_surveys(100, projects_path)
 	parse_surveys(parse_projects_path, projects_path)
 
-	# write_rfile(rout_path, projects_path)
+	write_rfile(rout_path, projects_path)
 	# get_colors()
 	# fill_dic()
 	# write_colors()
