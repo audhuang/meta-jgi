@@ -182,7 +182,7 @@ def parse_table(table_path):
 
 
 # hits or unique clusters?
-def choose_surveys(num): 
+def choose_surveys(num, projects_path): 
 	with open(r'project_img_dic.pickle', 'rb') as inp: 
 		project_img_dic = cp.load(inp)
 	# with open(r'project_hit_dic.pickle', 'rb') as inp: 
@@ -218,17 +218,31 @@ def choose_surveys(num):
 	# 	cp.dump(biggest_dic, out)
 	with open(r'biggest_list.pickle', 'wb') as out: 
 		cp.dump(biggest_list, out)
-	with open(r'projects.pickle', 'wb') as out: 
+	with open(projects_path, 'wb') as out: 
 		cp.dump(projects, out)
 
 
 
-def write_rfile(rout_path): 
+def parse_surveys(parse_path, projects_path): 
+	projects = []
+	with open(parse_path, 'r') as f: 
+		reader = csv.reader(f, delimiter='\t')
+		next(reader)
+		for row in reader: 
+			img = row[6]
+			projects.append(img)
+			print(img)
+
+	with open(projects_path, 'wb') as out: 
+		cp.dump(projects, out)
+
+
+def write_rfile(rout_path, projects_path): 
 	with open(r'cluster_counts.pickle', 'rb') as inp: 
 		cluster_dic = cp.load(inp)
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
-	with open(r'projects.pickle', 'rb') as inp: 
+	with open(projects_path, 'rb') as inp: 
 		projects = cp.load(inp)
 
 
@@ -384,10 +398,13 @@ def main():
 
 	project_path = '../files/genome-projects.csv'
 	cluster_path = '../hits_150_1000_90.clstr'
-	# table_path = '../example.table'
 	table_path = '../results.table'
+	# projects_path = './projects.pickle'
+	parse_projects_path = '../files/engineered-projects.txt'
+	projects_path = './engineered_projects.pickle'
 
-	rout_path = './data_all'
+	# rout_path = './data_all'
+	rout_path = './data_engineered'
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
@@ -398,16 +415,17 @@ def main():
 	# subgroups = get_subgroups(table_path)
 
 	# parse_table(table_path)
-	# choose_surveys(100)
+	# choose_surveys(100, projects_path)
+	parse_surveys(parse_projects_path, projects_path)
 
-	# write_rfile(rout_path)
+	# write_rfile(rout_path, projects_path)
 	# get_colors()
 	# fill_dic()
 	# write_colors()
 	# generate_heatmap()
 
 	# color_analysis()
-	print_titles()
+	# print_titles()
 
 
 if __name__ == '__main__':
