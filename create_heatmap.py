@@ -221,15 +221,40 @@ def choose_surveys(num, projects_path):
 		cp.dump(projects, out)
 
 
+def write_custom_rfile(rout_path, projects_path): 
+	with open(r'cluster_counts.pickle', 'rb') as inp: 
+		cluster_dic = cp.load(inp)
+	with open(r'subgroups.pickle', 'rb') as inp: 
+		subgroups = cp.load(inp)
+	with open(projects_path, 'rb') as inp: 
+		projects = cp.load(inp)
+
+
+	with open(rout_path, 'w') as f: 
+		write = csv.writer(f, delimiter=',')
+		write.writerow([''] + subgroups[1:])
+
+		for project in projects: 
+			if project[0] in cluster_dic: 
+				norm = [x/sum(cluster_dic[project[0]][1:]) for x in cluster_dic[project[0]][1:]]
+				write.writerow([project] + norm)
+			else: 
+				print(project)
+
 
 def parse_surveys(parse_path, projects_path): 
+	studies = []
 	projects = []
 	with open(parse_path, 'r') as f: 
 		reader = csv.reader(f, delimiter='\t')
 		next(reader)
 		for row in reader: 
 			img = row[6]
-			projects.append(img)
+			# if row[3] not in studies: 
+			# 	studies.append(row[3].strip())
+			# projects.append((img, studies.index(row[3])))
+			projects.append((img, row[3]))
+
 
 	with open(projects_path, 'wb') as out: 
 		cp.dump(projects, out)
@@ -352,7 +377,7 @@ def write_colors():
 def write_custom_colors(n, color): 
 	with open('rowsidecolors_engineered.txt', 'w') as out: 
 		out.write('RowSideColors = c(\n')	
-		for project in range(n): 
+		for project in range(n-2): 
 			out.write('  rep("' + color + '", 1),\n')
 		out.write('  rep("' + color + '", 1)\n')
 		out.write('),\n')
@@ -425,10 +450,11 @@ def main():
 
 	# parse_table(table_path)
 	# choose_surveys(100, projects_path)
-	# parse_surveys(parse_projects_path, projects_path)
+	parse_surveys(parse_projects_path, projects_path)
+	write_custom_rfile(rout_path, projects_path)
 
 	# write_rfile(rout_path, projects_path)
-	write_custom_colors(45, 'purple')
+	# write_custom_colors(45, 'purple')
 	# get_colors()
 	# fill_dic()
 	# write_colors()
