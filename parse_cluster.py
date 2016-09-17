@@ -50,7 +50,7 @@ def main():
 	# inp = '../proteins_that_were_hit90.clstr'
 	# num_redundancies(inp)
 
-	inp = '../hits_and_superfamily90.clstr'
+	inp = '../hits_and_superfamily80.clstr'
 	num_superfamily(inp)
 
 if __name__ == '__main__':
