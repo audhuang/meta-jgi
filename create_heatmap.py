@@ -182,7 +182,7 @@ def parse_table(table_path):
 
 
 # hits or unique clusters?
-def choose_surveys(num, projects_path): 
+def choose_surveys(number, projects_path): 
 	with open(r'project_img_dic.pickle', 'rb') as inp: 
 		project_img_dic = cp.load(inp)
 	# with open(r'project_hit_dic.pickle', 'rb') as inp: 
@@ -208,7 +208,7 @@ def choose_surveys(num, projects_path):
 
 	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1], reverse=True)
 	# print(sorted_biggest[:10])
-	projects = [x[0] for x in sorted_biggest][:num]
+	projects = [x[0] for x in sorted_biggest][:number]
 	# print(projects[:10])
 
 
@@ -252,7 +252,7 @@ def choose_surveys_conc(num, projects_path):
 
 	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1], reverse=True)
 	# print(sorted_biggest[:10])
-	projects = [x[0] for x in sorted_biggest][:num]
+	projects = [x[0] for x in sorted_biggest][:number]
 	# print(projects[:10])
 
 
