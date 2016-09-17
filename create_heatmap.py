@@ -239,10 +239,11 @@ def choose_surveys_conc(num, projects_path):
 		for i in range(len(imgs)): 
 			if imgs[i] in cluster_dic: 
 				n = np.count_nonzero(cluster_dic[imgs[i]])
+				print(n)
 				if n == 0: 
 					num = 0
 				else: 
-					num = sum(cluster_dic[imgs[i]]) / np.count_nonzero(cluster_dic[imgs[i]])
+					num = sum(cluster_dic[imgs[i]]) / n
 				if num > biggest: 
 					biggest = num
 					biggest_index = i
