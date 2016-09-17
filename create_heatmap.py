@@ -239,7 +239,6 @@ def choose_surveys_conc(number, projects_path):
 		for i in range(len(imgs)): 
 			if imgs[i] in cluster_dic: 
 				n = np.count_nonzero(cluster_dic[imgs[i]])
-				print(n)
 				if n == 0: 
 					num = 0
 				else: 
@@ -481,7 +480,7 @@ def main():
 	# parse_projects_path = '../files/engineered-projects.txt'
 	
 	projects_path = './projects_conc.pickle'
-	rout_path = './data_engineered'
+	rout_path = './data_conc' 
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
