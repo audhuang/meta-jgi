@@ -368,7 +368,6 @@ def get_colors(no_phyla=False):
 					write.writerow([str(img_project_dic[project])] + [project])
 
 
-	print(color_dic)
 	with open(r'color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
 
@@ -480,7 +479,7 @@ def main():
 	# parse_projects_path = '../files/engineered-projects.txt'
 	
 	# projects_path = './projects_conc.pickle'
-	rout_path = './data_conc' 
+	rout_path = './data_all' 
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
