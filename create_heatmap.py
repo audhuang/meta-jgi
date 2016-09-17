@@ -221,7 +221,7 @@ def choose_surveys(number, projects_path):
 		cp.dump(projects, out)
 
 
-def choose_surveys_conc(num, projects_path): 
+def choose_surveys_conc(number, projects_path): 
 	with open(r'project_img_dic.pickle', 'rb') as inp: 
 		project_img_dic = cp.load(inp)
 	# with open(r'project_hit_dic.pickle', 'rb') as inp: 
