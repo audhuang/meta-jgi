@@ -221,6 +221,45 @@ def choose_surveys(num, projects_path):
 		cp.dump(projects, out)
 
 
+def choose_surveys_conc(num, projects_path): 
+	with open(r'project_img_dic.pickle', 'rb') as inp: 
+		project_img_dic = cp.load(inp)
+	# with open(r'project_hit_dic.pickle', 'rb') as inp: 
+	# 	project_hit_dic = cp.load(inp)
+	with open(r'cluster_counts.pickle', 'rb') as inp: 
+		cluster_dic = cp.load(inp)
+
+
+	biggest_list = []
+	for key in project_img_dic: 
+		biggest = 0
+		biggest_index = 0
+		imgs = project_img_dic[key]
+
+		for i in range(len(imgs)): 
+			if imgs[i] in cluster_dic: 
+				num = sum(cluster_dic[imgs[i]]) / np.count_nonzero(cluster_dic[imgs[i]])
+				if num > biggest: 
+					biggest = num
+					biggest_index = i
+
+		biggest_list.append((imgs[biggest_index], biggest))
+
+	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1], reverse=True)
+	# print(sorted_biggest[:10])
+	projects = [x[0] for x in sorted_biggest][:num]
+	# print(projects[:10])
+
+
+
+	# with open(r'most_hits_dic.pickle', 'wb') as out: 
+	# 	cp.dump(biggest_dic, out)
+	with open(r'biggest_list.pickle', 'wb') as out: 
+		cp.dump(biggest_list, out)
+	with open(projects_path, 'wb') as out: 
+		cp.dump(projects, out)
+
+
 def write_custom_rfile(rout_path, projects_path): 
 	with open(r'cluster_counts.pickle', 'rb') as inp: 
 		cluster_dic = cp.load(inp)
@@ -434,10 +473,9 @@ def main():
 	cluster_path = '../hits_150_1000_90.clstr'
 	table_path = '../results.table'
 	# projects_path = './projects.pickle'
-	parse_projects_path = '../files/engineered-projects.txt'
-	projects_path = './engineered_projects.pickle'
-
-	# rout_path = './data_all'
+	# parse_projects_path = '../files/engineered-projects.txt'
+	
+	projects_path = './projects_conc.pickle'
 	rout_path = './data_engineered'
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
@@ -450,18 +488,14 @@ def main():
 
 	# parse_table(table_path)
 	# choose_surveys(100, projects_path)
-	parse_surveys(parse_projects_path, projects_path)
-	write_custom_rfile(rout_path, projects_path)
+	choose_surveys_conc(100, projects_path)
+	# parse_surveys(parse_projects_path, projects_path)
 
-	# write_rfile(rout_path, projects_path)
-	# write_custom_colors(45, 'purple')
+	write_rfile(rout_path, projects_path)
 	# get_colors()
 	# fill_dic()
 	# write_colors()
-	# generate_heatmap()
 
-	# color_analysis()
-	# print_titles()
 
 
 if __name__ == '__main__':
