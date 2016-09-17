@@ -476,10 +476,10 @@ def main():
 	project_path = '../files/genome-projects.csv'
 	cluster_path = '../hits_150_1000_90.clstr'
 	table_path = '../results.table'
-	# projects_path = './projects.pickle'
+	projects_path = './projects.pickle'
 	# parse_projects_path = '../files/engineered-projects.txt'
 	
-	projects_path = './projects_conc.pickle'
+	# projects_path = './projects_conc.pickle'
 	rout_path = './data_conc' 
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
@@ -491,14 +491,14 @@ def main():
 	# subgroups = get_subgroups(table_path)
 
 	# parse_table(table_path)
-	# choose_surveys(100, projects_path)
-	choose_surveys_conc(100, projects_path)
+	choose_surveys(100, projects_path)
+	# choose_surveys_conc(100, projects_path)
 	# parse_surveys(parse_projects_path, projects_path)
 
 	write_rfile(rout_path, projects_path)
-	# get_colors()
-	# fill_dic()
-	# write_colors()
+	get_colors()
+	fill_dic()
+	write_colors()
 
 
 
