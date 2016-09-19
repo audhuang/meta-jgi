@@ -57,9 +57,16 @@ def metadata(oid):
 
 
 def main(): 
-	oid = '3300005254'
-	# num = num_sequences(oid)
-	meta = metadata(oid)
+	with open(r'project_hit_dic.pickle', 'rb') as inp: 
+		projects = cp.load(inp)
+	
+	project_num_dic = {}
+	for oid in projects: 
+		project_num_dic[oid] = num_sequences(oid)
+	# meta = metadata(oid)
+
+	with open(r'project_num_dic.pickle', 'wb') as out: 
+		cp.dump(project_num_dic, out)
 	
 	
 
