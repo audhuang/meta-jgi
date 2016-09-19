@@ -17,22 +17,21 @@ from collections import Counter
 
 def num_redundancies(inp): 
 	counts = []
+	totals = []
 	with open(inp, 'r') as f: 
 		for line in f: 
 			if line[0] == '>': 
-				counts[-1] /= total
-				total = 0
 				counts.append(0)
+				totals.append(0)
 
 			else: 
 				perc = (line.split(' ')[-1].strip()[:-1])
 				if perc != '' and float(perc) >= 99.: 
 					counts[-1] += 1
-			total += 1
+			totals[-1] += 1
 
-
+	counts /= totals
 	unique = list(Counter(counts).items())
-	print(unique)
 
 	with open(r'cluster_redun.pickle', 'wb') as out: 
 		cp.dump(counts, out)
