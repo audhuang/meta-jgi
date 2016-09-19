@@ -66,8 +66,9 @@ def num_overlap(table_path):
 		subgroups = cp.load(inp)
 
 	pfam = []
-	projects = []
-	counts = []
+	counts = [0 for x in subgroups]
+	print('subgroups: ', subgroups)
+	print('counts: ', counts)
 
 	linecount = 0
 
@@ -90,18 +91,16 @@ def num_overlap(table_path):
 				name = col[0]
 
 				if subgroup != 'Nitroreductase': 
-					if subgroup not in projects: 
-						projects.append(subgroup)
-						counts.append(0)
 					if name in pfam: 
-						counts[-1] += 1
+						ind = subgroups.index(subgroup)
+						counts[ind] += 1
 			linecount += 1
 			if linecount % 10000 == 0: 
 				print('linecount: ', linecount)
-				print('projects: ', projects)
+				print('projects: ', subgroups)
 				print('counts: ', counts)
 	
-	print('final projects: ', projects)
+	print('final projects: ', subgroups)
 	print('final counts: ', counts)
 
 
