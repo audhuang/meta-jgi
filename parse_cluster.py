@@ -32,6 +32,8 @@ def num_redundancies(inp):
 
 	with open(r'cluster_redun.pickle', 'wb') as out: 
 		cp.dump(counts, out)
+	with open(r'cluster_redun_counts.pickle', 'wb') as out: 
+		cp.dump(unique, out)
 
 
 def num_superfamily(inp): 
