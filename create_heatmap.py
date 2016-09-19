@@ -425,13 +425,14 @@ def write_custom_colors():
 	print(len(unique))
 	dic = {
 	0 : 'red', 
-	1 : 'yellow', 
-	2 : 'green', 
-	3: 'blue', 
-	4: 'purple', 
-	5: 'black', 
-	6: 'brown', 
-	7: 'pink'
+	2 : 'yellow', 
+	3 : 'green', 
+	4 : 'cyan', 
+	5 : 'blue', 
+	6 : 'purple', 
+	7 : 'pink', 
+	8 : 'brown', 
+	9 : 'black'
 	}
 
 
@@ -440,6 +441,7 @@ def write_custom_colors():
 		for title in titles: 
 			out.write('  rep("' + dic[unique.index(title)] + '", 1),\n')
 		out.write('),\n')
+	print(titles)
 
 
 def generate_heatmap(): 
