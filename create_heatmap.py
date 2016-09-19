@@ -425,6 +425,7 @@ def write_custom_colors():
 	print(len(unique))
 	dic = {
 	0 : 'red', 
+	1 : 'orange', 
 	2 : 'yellow', 
 	3 : 'green', 
 	4 : 'cyan', 
