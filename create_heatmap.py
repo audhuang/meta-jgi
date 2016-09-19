@@ -273,6 +273,7 @@ def write_custom_rfile(rout_path, projects_path):
 		projects = cp.load(inp)
 
 
+	count = 0
 	with open(rout_path, 'w') as f: 
 		write = csv.writer(f, delimiter=',')
 		write.writerow([''] + subgroups[1:])
@@ -282,7 +283,8 @@ def write_custom_rfile(rout_path, projects_path):
 				norm = [x/sum(cluster_dic[project[0]][1:]) for x in cluster_dic[project[0]][1:]]
 				write.writerow([project] + norm)
 			else: 
-				print(project)
+				print(count, project)
+			count += 1
 
 
 def parse_surveys(parse_path, projects_path): 
@@ -315,14 +317,12 @@ def write_rfile(rout_path, projects_path):
 	with open(rout_path, 'w') as f: 
 		write = csv.writer(f, delimiter=',')
 		write.writerow([''] + subgroups[1:])
-		count = 0
 		for project in projects: 
 			if project in cluster_dic: 
 				norm = [x/sum(cluster_dic[project][1:]) for x in cluster_dic[project][1:]]
 				write.writerow([project] + norm)
 			else: 
-				print(count, project)
-			count += 1
+				print(project)
 
 
 def get_colors(no_phyla=False): 
@@ -517,7 +517,8 @@ def main():
 	# choose_surveys_conc(100, projects_path)
 	# parse_surveys(parse_projects_path, projects_path)
 
-	write_rfile(rout_path, projects_path)
+	write_custom_rfile(rout_path, projects_path)
+	# write_rfile(rout_path, projects_path)
 	# get_colors()
 	# fill_dic()
 	# write_custom_colors()
