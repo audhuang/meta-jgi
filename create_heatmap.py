@@ -416,10 +416,27 @@ def write_colors():
 				out.write('  rep("' + 'dark blue' + '", 1),\n')
 		out.write('),\n')
 
-def write_custom_colors(n, color): 
+def write_custom_colors(): 
+	with open(r'engineered_projects.pickle', 'rb') as inp: 
+		projects = cp.load(inp)
+
+	unique = set(projects)
+	print(unique)
+	dic = {
+	0 : 'red', 
+	1 : 'yellow', 
+	2 : 'green', 
+	3: 'blue', 
+	4: 'purple', 
+	5: 'black', 
+	6: 'brown', 
+	7: 'pink'
+	}
+
+
 	with open('rowsidecolors_engineered.txt', 'w') as out: 
 		out.write('RowSideColors = c(\n')	
-		for project in range(n-2): 
+		for project in projects: 
 			out.write('  rep("' + color + '", 1),\n')
 		out.write('  rep("' + color + '", 1)\n')
 		out.write('),\n')
@@ -476,10 +493,10 @@ def main():
 	cluster_path = '../hits_150_1000_90.clstr'
 	table_path = '../results.table'
 	projects_path = './projects.pickle'
-	# parse_projects_path = '../files/engineered-projects.txt'
+	parse_projects_path = '../files/engineered-projects.txt'
 	
 	# projects_path = './projects_conc.pickle'
-	rout_path = './data_all' 
+	# rout_path = './data_all' 
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
@@ -490,14 +507,14 @@ def main():
 	# subgroups = get_subgroups(table_path)
 
 	# parse_table(table_path)
-	choose_surveys(100, projects_path)
+	# choose_surveys(100, projects_path)
 	# choose_surveys_conc(100, projects_path)
 	# parse_surveys(parse_projects_path, projects_path)
 
-	write_rfile(rout_path, projects_path)
-	get_colors()
-	fill_dic()
-	write_colors()
+	# write_rfile(rout_path, projects_path)
+	# get_colors()
+	# fill_dic()
+	write_custom_colors()
 
 
 
