@@ -30,7 +30,10 @@ def num_redundancies(inp):
 					counts[-1] += 1
 			totals[-1] += 1
 
-	perc = [x / y for x,y in counts,totals]
+	perc = []
+	for i in range(len(counts)): 
+		perc.append(counts[i] / totals[i])
+
 	# unique = list(Counter(counts).items())
 	unique = list(Counter(perc).items())
 
