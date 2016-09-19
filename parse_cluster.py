@@ -128,7 +128,7 @@ def overlap(table_path):
 
 				if subgroup != 'Nitroreductase': 
 					if name in pfam: 
-						count += 1
+						counts += 1
 			linecount += 1
 			if linecount % 10000 == 0: 
 				print('linecount: ', linecount)
