@@ -30,8 +30,9 @@ def num_redundancies(inp):
 					counts[-1] += 1
 			totals[-1] += 1
 
-	counts /= totals
-	unique = list(Counter(counts).items())
+	perc = [x / y for x,y in counts,totals]
+	# unique = list(Counter(counts).items())
+	unique = list(Counter(perc).items())
 
 	with open(r'cluster_redun.pickle', 'wb') as out: 
 		cp.dump(counts, out)
