@@ -420,8 +420,9 @@ def write_custom_colors():
 	with open(r'engineered_projects.pickle', 'rb') as inp: 
 		projects = cp.load(inp)
 
-	unique = set(projects)
-	print(unique)
+	titles = [x[1] for x in projects]
+	unique = set(titles)
+	print(len(unique))
 	dic = {
 	0 : 'red', 
 	1 : 'yellow', 
@@ -436,9 +437,8 @@ def write_custom_colors():
 
 	with open('rowsidecolors_engineered.txt', 'w') as out: 
 		out.write('RowSideColors = c(\n')	
-		for project in projects: 
-			out.write('  rep("' + color + '", 1),\n')
-		out.write('  rep("' + color + '", 1)\n')
+		for title in titles: 
+			out.write('  rep("' + dic[unique.index(title)] + '", 1),\n')
 		out.write('),\n')
 
 
