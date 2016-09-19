@@ -12,6 +12,8 @@ import csv
 import subprocess
 import os
 import cPickle as cp
+from collections import Counter
+
 
 def num_redundancies(inp): 
 	counts = []
@@ -24,6 +26,9 @@ def num_redundancies(inp):
 				perc = (line.split(' ')[-1].strip()[:-1])
 				if perc != '' and float(perc) >= 99.: 
 					counts[-1] += 1
+
+	unique = list(Counter(counts).items())
+	print(unique)
 
 	with open(r'cluster_redun.pickle', 'wb') as out: 
 		cp.dump(counts, out)
