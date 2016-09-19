@@ -319,7 +319,7 @@ def write_rfile(rout_path, projects_path):
 		for project in projects: 
 			if project in cluster_dic: 
 				norm = [x/sum(cluster_dic[project][1:]) for x in cluster_dic[project][1:]]
-				# write.writerow([project] + norm)
+				write.writerow([project] + norm)
 			else: 
 				print(count, project)
 			count += 1
@@ -502,7 +502,7 @@ def main():
 	parse_projects_path = '../files/engineered-projects.txt'
 	
 	# projects_path = './projects_conc.pickle'
-	# rout_path = './data_all' 
+	rout_path = './data_fake' 
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
