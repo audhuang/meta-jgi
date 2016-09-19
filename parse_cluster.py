@@ -20,12 +20,16 @@ def num_redundancies(inp):
 	with open(inp, 'r') as f: 
 		for line in f: 
 			if line[0] == '>': 
+				counts[-1] /= total
+				total = 0
 				counts.append(0)
 
 			else: 
 				perc = (line.split(' ')[-1].strip()[:-1])
 				if perc != '' and float(perc) >= 99.: 
 					counts[-1] += 1
+			total += 1
+
 
 	unique = list(Counter(counts).items())
 	print(unique)
