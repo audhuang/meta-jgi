@@ -65,9 +65,6 @@ def num_overlap(table_path):
 
 	pfam = []
 	counts = [0 for x in subgroups]
-	print('subgroups: ', subgroups)
-	print('counts: ', counts)
-
 	linecount = 0
 
 	with open(table_path, 'r') as f: 
@@ -80,7 +77,6 @@ def num_overlap(table_path):
 				if subgroup == 'Nitroreductase': 
 					pfam.append(name)
 
-	print('pfam: ', len(pfam))
 	with open(table_path, 'r') as f: 
 		for line in f: 
 			if line[0] != '#': 
@@ -104,6 +100,42 @@ def num_overlap(table_path):
 
 	with open(r'results_overlap.pickle', 'wb') as out: 
 		cp.dump(counts, out)
+
+
+def overlap(table_path): 
+
+
+	pfam = []
+	counts = 0
+	linecount = 0
+
+	with open(table_path, 'r') as f: 
+		for line in f: 
+			if line[0] != '#': 
+				col = line.split()
+				subgroup = col[2]
+				name = col[0]
+
+				if subgroup == 'Nitroreductase': 
+					pfam.append(name)
+
+	with open(table_path, 'r') as f: 
+		for line in f: 
+			if line[0] != '#': 
+				col = line.split()
+				subgroup = col[2]
+				name = col[0]
+
+				if subgroup != 'Nitroreductase': 
+					if name in pfam: 
+						count += 1
+			linecount += 1
+			if linecount % 10000 == 0: 
+				print('linecount: ', linecount)
+				print('counts: ', counts)
+	
+	print('final counts: ', counts)
+
 
 
 def num_total(table_path): 
@@ -141,7 +173,8 @@ def main():
 	# num_superfamily(inp)
 	# num_redundancies(inp)
 	# num_overlap(table_path)
-	num_total(table_path)
+	# num_total(table_path)
+	overlap(table_path)
 
 if __name__ == '__main__':
 	main()
