@@ -60,8 +60,6 @@ def num_superfamily(inp):
 
 
 def num_overlap(table_path): 
-	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
-		id_cluster_dic = cp.load(inp)
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
 
@@ -108,6 +106,33 @@ def num_overlap(table_path):
 		cp.dump(counts, out)
 
 
+def num_total(table_path): 
+	with open(r'subgroups.pickle', 'rb') as inp: 
+		subgroups = cp.load(inp)
+
+	counts = [0 for x in subgroups]
+	print('subgroups: ', subgroups)
+	print('counts: ', counts)
+
+	linecount = 0
+
+	with open(table_path, 'r') as f: 
+		for line in f: 
+			if line[0] != '#': 
+				col = line.split()
+				subgroup = col[2]
+				name = col[0]
+
+				ind = subgroups.index(subgroup)
+				counts[ind] += 1
+
+	print('final projects: ', subgroups)
+	print('final counts: ', counts)
+
+
+	with open(r'subgroup_counts.pickle', 'wb') as out: 
+		cp.dump(counts, out)
+
 
 def main(): 
 
@@ -115,7 +140,8 @@ def main():
 	table_path = '../results.table'
 	# num_superfamily(inp)
 	# num_redundancies(inp)
-	num_overlap(table_path)
+	# num_overlap(table_path)
+	num_total(table_path)
 
 if __name__ == '__main__':
 	main()
