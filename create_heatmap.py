@@ -442,7 +442,9 @@ def write_custom_colors():
 		for title in titles: 
 			out.write('  rep("' + dic[unique.index(title)] + '", 1),\n')
 		out.write('),\n')
-	print(titles)
+	
+	for i in unique: 
+		print(unique, unique.index(i))
 
 
 def generate_heatmap(): 
