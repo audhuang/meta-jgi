@@ -59,12 +59,47 @@ def num_superfamily(inp):
 		cp.dump(counts, out)
 
 
+def num_overlap(table_path): 
+	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
+		id_cluster_dic = cp.load(inp)
+	with open(r'subgroups.pickle', 'rb') as inp: 
+		subgroups = cp.load(inp)
+
+	pfam = []
+	projects = []
+	counts = []
+
+	with open(table_path, 'r') as f: 
+		for line in f: 
+			if line[0] != '#': 
+				col = line.split()
+				subgroup = col[2]
+				name = col[0]
+
+				if subgroup == 'Nitroreductase': 
+					pfam.append(name)
+
+
+				elif subgroup != 'Nitroreductase': 
+					if subgroup not in projects: 
+						print(len(pfam))
+						projects.append(subgroup)
+						counts.append(0)
+					if name in pfam: 
+						counts[-1] += 1
+	print(projects)
+	print(counts)
+
+
+
 
 def main(): 
 
 	inp = '../hits_and_superfamily80.clstr'
+	table_path = '../results.table'
 	# num_superfamily(inp)
-	num_redundancies(inp)
+	# num_redundancies(inp)
+	num_overlap(table_path)
 
 if __name__ == '__main__':
 	main()
