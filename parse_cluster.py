@@ -98,9 +98,11 @@ def num_overlap(table_path):
 			linecount += 1
 			if linecount % 10000 == 0: 
 				print('linecount: ', linecount)
+				print('projects: ', projects)
+				print('counts: ', counts)
 	
-	print('projects: ', projects)
-	print('counts: ', counts)
+	print('final projects: ', projects)
+	print('final counts: ', counts)
 
 
 	with open(r'results_overlap.pickle', 'wb') as out: 
