@@ -69,6 +69,8 @@ def num_overlap(table_path):
 	projects = []
 	counts = []
 
+	linecount = 0
+
 	with open(table_path, 'r') as f: 
 		for line in f: 
 			if line[0] != '#': 
@@ -93,6 +95,9 @@ def num_overlap(table_path):
 						counts.append(0)
 					if name in pfam: 
 						counts[-1] += 1
+			linecount += 1
+			if linecount % 10000 == 0: 
+				print('linecount: ', linecount)
 	
 	print('projects: ', projects)
 	print('counts: ', counts)
