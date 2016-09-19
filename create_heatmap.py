@@ -422,7 +422,7 @@ def write_custom_colors():
 
 	titles = [x[1] for x in projects]
 	unique = list(set(titles))
-	print(len(unique))
+
 	dic = {
 	0 : 'red', 
 	1 : 'orange', 
@@ -443,8 +443,8 @@ def write_custom_colors():
 			out.write('  rep("' + dic[unique.index(title)] + '", 1),\n')
 		out.write('),\n')
 	
-	for i in unique: 
-		print(unique, unique.index(i))
+	for i in range(9): 
+		print(i, unique[i]) 
 
 
 def generate_heatmap(): 
