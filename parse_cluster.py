@@ -47,11 +47,10 @@ def num_superfamily(inp):
 
 
 def main(): 
-	# inp = '../proteins_that_were_hit90.clstr'
-	# num_redundancies(inp)
 
 	inp = '../hits_and_superfamily80.clstr'
-	num_superfamily(inp)
+	# num_superfamily(inp)
+	num_redundancies(inp)
 
 if __name__ == '__main__':
 	main()
