@@ -315,13 +315,14 @@ def write_rfile(rout_path, projects_path):
 	with open(rout_path, 'w') as f: 
 		write = csv.writer(f, delimiter=',')
 		write.writerow([''] + subgroups[1:])
-
+		count = 0
 		for project in projects: 
 			if project in cluster_dic: 
 				norm = [x/sum(cluster_dic[project][1:]) for x in cluster_dic[project][1:]]
-				write.writerow([project] + norm)
+				# write.writerow([project] + norm)
 			else: 
-				print(project)
+				print(count, project)
+			count += 1
 
 
 def get_colors(no_phyla=False): 
@@ -497,7 +498,7 @@ def main():
 	project_path = '../files/genome-projects.csv'
 	cluster_path = '../hits_150_1000_90.clstr'
 	table_path = '../results.table'
-	projects_path = './projects.pickle'
+	projects_path = './engineered_projects.pickle'
 	parse_projects_path = '../files/engineered-projects.txt'
 	
 	# projects_path = './projects_conc.pickle'
@@ -516,10 +517,10 @@ def main():
 	# choose_surveys_conc(100, projects_path)
 	# parse_surveys(parse_projects_path, projects_path)
 
-	# write_rfile(rout_path, projects_path)
+	write_rfile(rout_path, projects_path)
 	# get_colors()
 	# fill_dic()
-	write_custom_colors()
+	# write_custom_colors()
 
 
 
