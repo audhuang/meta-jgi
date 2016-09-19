@@ -421,7 +421,7 @@ def write_custom_colors():
 		projects = cp.load(inp)
 
 	titles = [x[1] for x in projects]
-	unique = set(titles)
+	unique = list(set(titles))
 	print(len(unique))
 	dic = {
 	0 : 'red', 
