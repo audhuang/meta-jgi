@@ -21,19 +21,36 @@ from HTMLParser import HTMLParser
 
 
 def num_sequences(oid): 
-	url = 'https://img.jgi.doe.gov/cgi-bin/m/main.cgi?section=TaxonDetail&page=taxonDetail&taxon_oid=' + oid
-	req = urllib2.Request(url, headers={'User-Agent' : "Magic Browser"})
-	response = urllib2.urlopen(req)
-	html = response.read()
-	
-	soup = bs(html, 'html.parser')
-	th = soup.find_all('th')
-	num = 0
 
-	for header in th: 
-		if header.string == 'Number of sequences':
-			num = int(header.find_next('td').text)
-	return num
+	with open(r'project_hit_dic.pickle', 'rb') as inp: 
+		projects = cp.load(inp).keys()
+	
+	project_num_dic = {}
+	count = 0
+	for oid in projects: 
+		url = 'https://img.jgi.doe.gov/cgi-bin/m/main.cgi?section=TaxonDetail&page=taxonDetail&taxon_oid=' + oid
+		req = urllib2.Request(url, headers={'User-Agent' : "Magic Browser"})
+		response = urllib2.urlopen(req)
+		html = response.read()
+		
+		soup = bs(html, 'html.parser')
+		th = soup.find_all('th')
+		num = 0
+
+		for header in th: 
+			if header.string == 'Number of sequences':
+				num = int(header.find_next('td').text)
+		if num != 0: 
+			project_num_dic[oid] = num
+
+		count += 1
+		if count % 1000 == 0: 
+			print('count: ', count)
+			print('oid: ', oid)
+			print('num: ', num)
+
+	with open(r'project_num_dic.pickle', 'wb') as out: 
+		cp.dump(project_num_dic, out)
 
 
 
