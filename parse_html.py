@@ -20,7 +20,7 @@ import cPickle as cp
 from HTMLParser import HTMLParser
 
 
-def num_sequences(oid): 
+def num_sequences(): 
 
 	with open(r'project_hit_dic.pickle', 'rb') as inp: 
 		projects = cp.load(inp).keys()
@@ -78,18 +78,10 @@ def metadata(oid):
 
 
 def main(): 
-	with open(r'project_hit_dic.pickle', 'rb') as inp: 
-		projects = cp.load(inp)
-	
-	project_num_dic = {}
-	for oid in projects: 
-		num = num_sequences(oid)
-		if num != 0: 
-			project_num_dic[oid] = num
+	num_sequences()
 	# meta = metadata(oid)
 
-	with open(r'project_num_dic.pickle', 'wb') as out: 
-		cp.dump(project_num_dic, out)
+	
 	
 	
 
