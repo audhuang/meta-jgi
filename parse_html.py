@@ -27,10 +27,14 @@ def num_sequences(oid):
 	html = response.read()
 	
 	soup = bs(html, 'html.parser')
-	table = soup.find_all('table')[1]
-	sequences = table.find_all('a')[0].string
+	th = soup.find_all('th')
+	num = 0
 
-	return sequences
+	for header in th: 
+		if header.string == 'Number of sequences':
+			num = int(header.find_next('td').text)
+	return num
+
 
 
 def metadata(oid): 
@@ -62,7 +66,9 @@ def main():
 	
 	project_num_dic = {}
 	for oid in projects: 
-		project_num_dic[oid] = num_sequences(oid)
+		num = num_sequences(oid)
+		if num != 0: 
+			project_num_dic[oid] = num
 	# meta = metadata(oid)
 
 	with open(r'project_num_dic.pickle', 'wb') as out: 
