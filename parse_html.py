@@ -52,12 +52,11 @@ def num_and_metadata():
 			elif header.string == 'Ecosystem Type': 
 				meta.append(header.find_next('td').text)
 	
-		if num != 0: 
-			project_num_dic[oid] = num
+		project_num_dic[oid] = num
 		project_meta_dic[oid] = meta
 
 		count += 1
-		if count % 1 == 0: 
+		if count % 100 == 0: 
 			print('count: ', count)
 			print('oid: ', oid)
 			print('num: ', num)
