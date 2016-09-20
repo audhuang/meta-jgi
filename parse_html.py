@@ -38,19 +38,19 @@ def num_and_metadata():
 		soup = bs(html, 'html.parser')
 		th = soup.find_all('th')
 		num = 0
-		meta = []
+		meta = ['' for i in range(4)]
 
 		for header in th: 
 			if header.string == 'Number of sequences':
 				num = int(header.find_next('td').text)
 			elif header.string == 'Ecosystem': 
-				meta.append(header.find_next('td').text)
+				meta[0] = header.find_next('td').text
 			elif header.string == 'Ecosystem Category': 
-				meta.append(header.find_next('td').text)
+				meta[1] = header.find_next('td').text
 			elif header.string == 'Ecosystem Subtype': 
-				meta.append(header.find_next('td').text)
+				meta[2] = header.find_next('td').text
 			elif header.string == 'Ecosystem Type': 
-				meta.append(header.find_next('td').text)
+				meta[3] = header.find_next('td').text
 	
 		project_num_dic[oid] = num
 		project_meta_dic[oid] = meta
