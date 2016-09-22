@@ -12,12 +12,27 @@ import subprocess
 import os
 from os import listdir
 from os.path import isfile, join 
-import pandas as pd
-from collections import Counter 
 import cPickle as cp
 
 def cut_length(seq_path, out, low, high): 
+	'''
+	Input: 
+	  - fasta file path 
+	  - output file path 
+	  - smallest length of sequences to keep
+	  - longest length of sequences to keep
+	  
+	Output:
+	  none, writes to output fasta file path
+	  
+	Comments: 
+	  - copies sequences from input fasta file, with length between the input 
+	    low and high values, to the output fasta file path 
+	'''
+	# counts number of sequences that haven't been copied over
 	cut = 0
+
+	# copies accepted sequences to output fasta file path
 	with open(seq_path, 'r') as f: 
 		with open(out, 'w') as out:
 			for line in f: 
@@ -31,16 +46,54 @@ def cut_length(seq_path, out, low, high):
 
 
 def cluster(cdhit_path, fasta_path, thresh, c): 
+	'''
+	Input: 
+	  - path to CDHIT program
+	  - path to fasta file to be clustered WITHOUT .fasta or .faa extension
+	  - CDHIT threshold as decimal
+	  - CDHIT word size between 2 and 5, if threshold is 0.9 then this is 5
+	    	see http://weizhongli-lab.org/lab-wiki/doku.php?id=cd-hit-user-guide
+
+	Output:
+	  none, writes CDHIT result files 
+	  
+	Comments: 
+	  - runs CDHIT on sequences in fasta file and writes file to output file with
+	    name fasta_path_threshold%.clstr
+	    	e.g. if fasta_path = '../fasta and thresh=0.9, output = '../fasta_90.clstr'
+
+	  - CDHIT command limits header length in clstr file to 100 characters which for JGI
+	    should be the entire header
+	'''
 	command = cdhit_path + 'cd-hit -i ' + fasta_path + '.faa -o ' + fasta_path + '_'+ \
 	str(int(thresh * 100)) + ' -c ' + str(thresh) + ' -n ' + str(c) + ' -M 16000 -d 100 -T 8'
 
 	status = subprocess.call(command, shell=True)
 
 
-def projectimg_dic(project_path, pickle_path): 
-	project_img_dic = {}
-	img_project_dic = {}
+def projectimg_dic(project_path): 
+	'''
+	Input: 
+	  - path to csv file of projects downloaded from IMG database
 
+	Output:
+	  none, saves 2 dictionaries as pickle files: 
+	  - ./project_survey_dic.pickle, dict of {project title : [survey IDs]}
+	  - ./survey_project_dic.pickle, dict of {survey ID : 'project title'}
+	  
+	Comments: 
+	  - parses csv file of studies to create 2 dicts: 
+		  - project_survey_dic: maps project title to list of survey IDs
+			  	useful since each project has multiple surveys and in the future we want 
+			  	to choose the survey from each project with the most clusters
+	  	  - survey_project_dic: lets us map each survey ID back to its project title
+	  	    	useful for coloring rows of the heatmap by the project it came from
+	'''
+	# initiate empty dicts
+	project_survey_dic = {}
+	survey_project_dic = {}
+
+	# parse csv file of projects from JGI to fill dicts with relevant data
 	with open(project_path, 'rb') as inp: 
 		reader = csv.reader(inp, delimiter = ',')
 		next(reader)
@@ -48,71 +101,107 @@ def projectimg_dic(project_path, pickle_path):
 			if row[15] != '': 
 				links = row[15].split(' ')
 				for link in links: 
-					name = link.split(',')[1][1:-2]
+					survey = link.split(',')[1][1:-2] 
 
+					# project is key, survey ID list is value
 					if row[7] not in project_img_dic: 
-						project_img_dic[row[7]] = [str(name)] 
+						project_survey_dic[row[7]] = [str(survey)] 
 					else: 
-						project_img_dic[row[7]].append(str(name))
+						project_survey_dic[row[7]].append(str(survey))
 
-					if name not in img_project_dic: 
-						img_project_dic[name] = str(row[7])
+					# survey ID is key, project name is value
+					if survey not in img_project_dic: 
+						survey_project_dic[survey] = str(row[7])
 
 	
-	with open(r'project_img_dic.pickle', 'wb') as out: 
-		cp.dump(project_img_dic, out)
-	with open(r'img_project_dic.pickle', 'wb') as out: 
-		cp.dump(img_project_dic, out)
+	# save dicts as pickle files
+	with open(r'project_survey_dic.pickle', 'wb') as out: 
+		cp.dump(project_survey_dic, out)
+	with open(r'survey_project_dic.pickle', 'wb') as out: 
+		cp.dump(survey_project_dic, out)
 
-	return project_img_dic, img_project_dic
-	# df = pd.read_csv(project_path)
-	# groups = list(df['IMG Portal'].groupby(df['Proposal']))
-	# print(groups)
-	# portal_ids = df['Portal ID'].apply(str)
-		#15
 
 
 def projecthit_dic(cluster_path): 
-	project_hit_dic = {}
-	id_cluster_dic = {}
-	project_cluster_dic = {}
+	'''
+	Input: 
+	  - path to CDHIT cluster file
 
+	Output:
+	  none, saves 2 dictionaries as pickle files: 
+	  - ./id_cluster_dic.pickle, dict of {fasta ID: ['clusters']}
+	  - ./survey_cluster_dic.pickle, dict of {survey ID : ['clusters']}
+	  
+	Comments: 
+	  - parses the CDHIT cluster file to produce 2 dicts: 
+	  	  - id_cluster_dic: maps specific fasta identifier to a list of clusters
+	  	    that it is found in
+		  	    useful for counting number of unique clusters a 
+		  	    fasta sequence is found in for the heatmap cells 
+	  	  - survey_cluster_dic: maps survey ID to a list of clusters that it's 
+	  	    found in
+		  	    useful for finding surveys found in the greatest number of
+		  	    unique clusters when choosing rows to include in the heatmap
+	'''
+
+	# initiate empty dicts to hold data
+	id_cluster_dic = {}
+	survey_cluster_dic = {}
+
+	# parse CDHIT output file to file dicts with data
 	with open(cluster_path, 'r') as f: 
 		cluster = -1
 		for line in f: 
+			# handle cluster number lines
 			if line[0] == '>': 
 				cluster = line.strip().split(' ')[-1]
+			
+			# handle sequence lines 
 			else: 
-				name = line.strip().split(' ')[1][1:11]
-				if name not in project_hit_dic: 
-					project_hit_dic[name] = 1
+				survey = line.strip().split(' ')[1][1:11] # survey id
+				fid = line.strip().split(' ')[1][1:-3] # fasta id
+				
+				# map fasta identifier to string cluster number
+				if fid not in id_cluster_dic: 
+					id_cluster_dic[fid] = [cluster]
 				else: 
-					project_hit_dic[name] += 1
+					id_cluster_dic[fid].append(cluster) 
 
-				name_cluster = line.strip().split(' ')[1][1:-3]
-				if name_cluster not in id_cluster_dic: 
-					id_cluster_dic[name_cluster] = [cluster]
+				# map survey id to string cluster number
+				if survey not in survey_cluster_dic: 
+					survey_cluster_dic[survey] = [cluster]
 				else: 
-					id_cluster_dic[name_cluster].append(cluster) 
-
-				if name not in project_cluster_dic: 
-					project_cluster_dic[name] = [cluster]
-				else: 
-					project_cluster_dic[name].append(cluster)
+					survey_cluster_dic[survey].append(cluster)
 
 
-	with open(r'project_hit_dic.pickle', 'wb') as out: 
-		cp.dump(project_hit_dic, out)
+	# save dicts as pickle files
 	with open(r'id_cluster_dic.pickle', 'wb') as out: 
 		cp.dump(id_cluster_dic, out)
-	with open(r'project_cluster_dic.pickle', 'wb') as out: 
-		cp.dump(project_cluster_dic, out)
-
-	# return project_hit_dic, id_cluster_dic, project_cluster_dic
+	with open(r'survey_cluster_dic.pickle', 'wb') as out: 
+		cp.dump(survey_cluster_dic, out)
 
 
 def get_subgroups(table_path): 
+	'''
+	Input: 
+	  - path to HMMsearch results table file 
+
+	Output:
+	  - list of HMM/subgroup names found in the HMMsearch results, which is also saved as
+	    a pickle file 
+	  
+	Comments: 
+	  - parses the HMMsearch results table to obtain list of subgroups found there 
+	  		useful because the list of subgroups will be used to count number of hits
+	  		per subgroup later 
+	  - saves subgroups list in 'subgroups.pickle'
+	'''
+
+	#initiate empty list to hold subgroup name strings 
 	subgroups = []
+
+	# parse HMMsearch table and when a new HMM name/subgroup is encountered, 
+	# append it to the list
 	with open(table_path, 'r') as f: 
 		for i in range(3): 
 			f.next()
@@ -123,6 +212,7 @@ def get_subgroups(table_path):
 				if subgroup not in subgroups: 
 					subgroups.append(subgroup)
 
+	# save subgroup list as pickle 
 	with open(r'subgroups.pickle', 'wb') as out: 
 		cp.dump(subgroups, out)
 	
@@ -130,211 +220,255 @@ def get_subgroups(table_path):
 
 
 def parse_table(table_path): 
-	dic = {}
-	cluster_dic = {}
+	'''
+	Input: 
+	  - path to HMMsearch results table file 
 
+	Output:
+	none, saves 1 dictionary as pickle file: 
+	  - ./survey_hit_counts.pickle, dict of {survey ID : [# unique clusters for each subgroup]}
+	  
+	Comments: 
+	  - parses the HMMsearch results table and produces 2 dicts for heatmap construction: 
+	  	  - survey_hit_counts: maps survey to number of unique clusters its hits were found in, for 
+	  	    each subgroup HMM run against the metagenomic database 
+	  	    	each entry in this dictionary corresponds straight-up to a row in the heatmap 
+	  	    	e.g. if the subgroups are ['NfsA', 'NfsB', 'Hub', 'SagB'], an example 
+	  	    		 survey_hit_counts dict pair is {3300002454 : [1, 0, 0, 24]}, which means 
+	  	    		 that survey ID 330002454 had 1 unique cluster of hits for the NfsA HMM, 
+	  	    		 0 unique hit clusters in NfsB and hub, and 24 unique hit clusters in SagB
+
+	  	  - survey_hit_clusters: maps survey to list of nonunique clusters its hits were found in, 
+	  	    for each subgroup HMM run against the metagenomic database (NOT SAVED)
+	  	    	used to create survey_hit_counts dict
+	  	  
+	'''
+
+	# retrieve dict of {id : ['clusters']} so as we parse HMMsearch table we can map each 
+	# hit to the cluster it's in, in order to count the number of unique clusters for heatmap
 	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
 		id_cluster_dic = cp.load(inp)
+	# retrieve list of subgroups in order to create dict values, which are number of hits
+	# per subgroup for each survey 
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
 
-	linecount = 0
+	survey_hit_clusters = {} # dict of survey ID to list of hit clusters per subgroup
+	survey_hit_counts = {} # dict of survey ID to # unique hit clusters per subgroup
 
+	# each non-comment line of HMMsearch has a hit's fasta identifier and HMM name 
 	with open(table_path, 'r') as f: 
 		for line in f: 
 			if line[0] != '#': 
-				col = line.split()
-				subgroup = col[2]
-				name = col[0].split('|')[0]
+				col = line.split() # split table line into list of column entries 
+				subgroup = col[2] # HMM subgroup name is index 2
+				survey = col[0].split('|')[0] # fastaID is index 0, survey is 1st part of ID
 
-				if test_key in col[0]: 
-					print('test key: ', col[0], col[2])
-
-				if name not in dic: 
-					dic[name] = [[] for i in subgroups]
+				# if a survey ID isn't in survey_hit_clsuters dict yet, initiate its value to 
+				# empty list of lists for each subgroup, which will hold the hit clusters
+				# the survey has in each subgruop
+				if survey not in survey_hit_clusters: 
+					survey_hit_clusters[survey] = [[] for i in subgroups]
+				# if the hit was in the CDHIT result file, append the names of clusters it was 
+				# found in to the list corresponding to the right subgroup HMM name in 
+				# the survey's dict value 
 				if id_cluster_dic.has_key(col[0].strip()): 
 					for clu in id_cluster_dic[col[0].strip()]:
-						dic[name][subgroups.index(subgroup)].append(clu)
-					# print('cluster: ', id_cluster_dic[col[0]])
-					# print(dic[name])
-					# print("\n")
-				else: 
-					with open('no_index.txt', 'a') as f: 
-						f.write(col[0] + '\n')
-			linecount += 1
+						survey_hit_clusters[survey][subgroups.index(subgroup)].append(clu)
+				# some hits are found in multiple clusters so i just appended all of those
+				# some hits in the HMMsearch results aren't in the cluster file because 
+				# CDHIT didnt recognize it as a fasta sequence or it was outside the
+				# length restrictions (50-1000aa) set earlier
 
-			if (linecount % 10000) == 0: 
-				print('parsing line: ', linecount)
-
-
-
-	for key in dic: 
-		cluster_dic[key] = []
+	# we currently have a list of nonunique cluster names each survey had hits in for each 
+	# subgroup. we now find the number of unique clusters each survey had hits in for each 
+	# subgroup and add that data to the survey_hit_counts dict 
+	for key in survey_hit_clusters: 
+		survey_hit_counts[key] = []
 		for i in range(len(subgroups)): 
-			cluster_dic[key].append(len(set(dic[key][i])))
+			survey_hit_counts[key].append(len(set(survey_hit_clusters[key][i])))
 
-	with open(r'cluster_ids.pickle', 'wb') as out: 
-		cp.dump(dic, out)
-	with open(r'cluster_counts.pickle', 'wb') as out: 
-		cp.dump(cluster_dic, out)
-
-	return cluster_dic
+	# save dict of survey to # unique clusters in pickle file
+	with open(r'survey_hit_counts.pickle', 'wb') as out: 
+		cp.dump(survey_hit_counts, out)
 
 
-# hits or unique clusters?
-def choose_surveys(number, projects_path): 
-	with open(r'project_img_dic.pickle', 'rb') as inp: 
-		project_img_dic = cp.load(inp)
-	# with open(r'project_hit_dic.pickle', 'rb') as inp: 
-	# 	project_hit_dic = cp.load(inp)
-	with open(r'project_cluster_dic.pickle', 'rb') as inp: 
-		project_cluster_dic = cp.load(inp)
+def choose_surveys(number, chosen_surveys_path): 
+	'''
+	Input: 
+	  - number of surveys or rows desired in the heatmap
+	  - path to output list of chosen surveys to 
+
+	Output:
+	none, saves list of chosen surveys to input chosen_surveys_path
+	  
+	Comments: 
+	  chooses, from each project, the survey with the greatest # of
+	  unique hit clusters, then from this set of surveys
+
+	  chooses top 'number' of surveys with the greatest number of 
+	  unique hit clusters, saves the IDs of these surveys in a list, 
+	  and saves list as pickle file at 'chosen_surveys_path'
+	'''
+	# retrieve dict which maps project to list of surveys
+	with open(r'project_survey_dic.pickle', 'rb') as inp: 
+		project_survey_dic = cp.load(inp)
+	# retrieve dict which maps survey to # cluster counts for each subgroup
+	with open(r'survey_hit_counts.pickle', 'rb') as inp: 
+		survey_hit_counts = cp.load(inp)
 
 
+	# initiate empty list of biggest survey from each project
 	biggest_list = []
-	for key in project_img_dic: 
-		biggest = 0
-		biggest_index = 0
-		imgs = project_img_dic[key]
+	
+	# each key in project_survey_dic is a project, each value is a list of 
+	# survey IDs. for each project, go through the list of survey IDs 
+	# and append the ID with the most total unique clusters to biggest_list
+	for key in project_survey_dic: 
+		biggest = 0 # saves largest number unique clusters
+		biggest_index = 0 # saves index of largest survey
+		surveys = project_survey_dic[key] # list of surveys 
 
-		for i in range(len(imgs)): 
-			if imgs[i] in project_cluster_dic: 
-				num = len(set(project_cluster_dic[imgs[i]]))
+		# go through list of surveys and save index of ID with most total clusters
+		for i in range(len(surveys)): 
+			if surveys[i] in project_cluster_dic: 
+				num = len(set(project_cluster_dic[surveys[i]]))
 				if num > biggest: 
 					biggest = num
 					biggest_index = i
 
+		# add tuple of (survey name, # clusters) to biggest_list
 		biggest_list.append((imgs[biggest_index], biggest))
 
+	# sort list of biggest surveys by their cluster counts 
 	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1], reverse=True)
-	# print(sorted_biggest[:10])
-	projects = [x[0] for x in sorted_biggest][:number]
-	# print(projects[:10])
+	
+	# final list of surveys is top 'number' of biggest surveys
+	surveys = [x[0] for x in sorted_biggest][:number]
+
+	# savel ist of chosen surveys as pickle file 
+	with open(chosen_surveys_path, 'wb') as out: 
+		cp.dump(surveys, out)
 
 
+def write_rfile(rout_path, chosen_surveys_path): 
+	'''
+	Input: 
+	  - path to where heatmap data should be written 
+	  - path to list of chosen surveys 
 
-	# with open(r'most_hits_dic.pickle', 'wb') as out: 
-	# 	cp.dump(biggest_dic, out)
-	with open(r'biggest_list.pickle', 'wb') as out: 
-		cp.dump(biggest_list, out)
-	with open(projects_path, 'wb') as out: 
-		cp.dump(projects, out)
+	Output:
+	none, writes heatmap data to 'rout_path'
+	  
+	Comments: 
+	  writes heatmap data entries to 'rout_path'. each row is a survey from 
+	  list at chosen_surveys_path. each is a subgroup from list of subgroups. 
+	  data values are normalized unique cluster counts per subgroup
+	'''
 
-
-def choose_surveys_conc(number, projects_path): 
-	with open(r'project_img_dic.pickle', 'rb') as inp: 
-		project_img_dic = cp.load(inp)
-	# with open(r'project_hit_dic.pickle', 'rb') as inp: 
-	# 	project_hit_dic = cp.load(inp)
-	with open(r'cluster_counts.pickle', 'rb') as inp: 
-		cluster_dic = cp.load(inp)
-
-
-	biggest_list = []
-	for key in project_img_dic: 
-		biggest = 0
-		biggest_index = 0
-		imgs = project_img_dic[key]
-
-		for i in range(len(imgs)): 
-			if imgs[i] in cluster_dic: 
-				n = np.count_nonzero(cluster_dic[imgs[i]])
-				if n == 0: 
-					num = 0
-				else: 
-					num = sum(cluster_dic[imgs[i]]) / n
-				if num > biggest: 
-					biggest = num
-					biggest_index = i
-
-		biggest_list.append((imgs[biggest_index], biggest))
-
-	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1], reverse=True)
-	# print(sorted_biggest[:10])
-	projects = [x[0] for x in sorted_biggest][:number]
-	# print(projects[:10])
-
-
-
-	# with open(r'most_hits_dic.pickle', 'wb') as out: 
-	# 	cp.dump(biggest_dic, out)
-	with open(r'biggest_list.pickle', 'wb') as out: 
-		cp.dump(biggest_list, out)
-	with open(projects_path, 'wb') as out: 
-		cp.dump(projects, out)
-
-
-def write_custom_rfile(rout_path, projects_path): 
-	with open(r'cluster_counts.pickle', 'rb') as inp: 
-		cluster_dic = cp.load(inp)
+	# retrieve dict which maps survey to number of unique surveys per subgroup
+	with open(r'survey_hit_counts.pickle', 'rb') as inp: 
+		survey_hit_counts = cp.load(inp)
+	# retrieve list of subgroups/HMMs 
 	with open(r'subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
-	with open(projects_path, 'rb') as inp: 
-		projects = cp.load(inp)
+	# retrieve list of chosen surveys
+	with open(chosen_surveys_path, 'rb') as inp: 
+		surveys = cp.load(inp)
 
-
-	count = 0
+	# first write to 'rout_path' list of subgroups in csv format. then for each survey,
+	# write a row of survey ID followed by normalized cluster counts for each subgroup
 	with open(rout_path, 'w') as f: 
 		write = csv.writer(f, delimiter=',')
 		write.writerow([''] + subgroups[1:])
-
-		for project in projects: 
-			if project[0] in cluster_dic: 
-				norm = [x/sum(cluster_dic[project[0]][1:]) for x in cluster_dic[project[0]][1:]]
-				write.writerow([project[0]] + norm)
+		for survey in surveys: 
+			if survey in survey_hit_counts: 
+				norm = [x/sum(survey_hit_counts[survey][1:]) \
+				for x in survey_hit_counts[survey][1:]]
+				write.writerow([survey] + norm)
 			else: 
-				print(count, project)
-			count += 1
+				print('survey ID not found in dict survey_hit_counts: ', survey)
 
 
-def parse_surveys(parse_path, projects_path): 
-	studies = []
-	projects = []
-	with open(parse_path, 'r') as f: 
-		reader = csv.reader(f, delimiter='\t')
-		next(reader)
-		for row in reader: 
-			img = row[6]
-			# if row[3] not in studies: 
-			# 	studies.append(row[3].strip())
-			# projects.append((img, studies.index(row[3])))
-			projects.append((img, row[3]))
+def get_colors_from_scrape(tiers, chosen_surveys_path): 
+	'''
+	Input: 
+	  - list of classification levels to keep from 0-3 (e.g. [0, 1, 2] or [3])
+	  - path to list of chosen surveys 
+
+	Output:
+	none, saves dictionary of {survey ID : ['selected metadata']} for heatmap 
+	chosen surveys 
+	  
+	Comments: 
+	  saves relevant metadata for chosen surveys into color_dic, which is saved
+	  as pickle file
+
+	  tier 0: ecosystem (e.g. environmental, host-associated, engineered)
+	  tier 1: ecosystem category (e.g. aquatic, terrestrial)
+	  tier 2: ecosystem subtype (e.g. oceanic)
+	  tier 3: ecosystem type (e.g. marine)
+
+	  choose tiers based on what you want the rows of the heatmap to be colored by
+	'''
+
+	# retrieve dict of {survey : ['metadata']}
+	with open('survey_meta_dic.pickle', 'rb') as inp: 
+		meta_dic = cp.load(inp)
+	# retrieve list of chosen survey IDs
+	with open(chosen_surveys_path, 'rb') as inp: 
+		surveys = cp.load(inp)
+	
+	# initiate empty dict to store {chosen survey : ['selected metadata']}
+	color_dic = {}
+	
+	# for each chosen survey, store metadata from desired tiers in dict
+	for survey in surveys: 
+		meta = meta_dic[survey]
+		color_dic[survey] = [meta[x] for x in tiers]
+
+	# save color dict as pickle file 
+	with open(r'color_dic.pickle', 'wb') as out: 
+		cp.dump(color_dic, out)
 
 
-	with open(projects_path, 'wb') as out: 
-		cp.dump(projects, out)
 
+def get_colors_from_file(chosen_surveys_path, no_phyla=False): 
+	'''
+	Input: 
+	  - path to list of chosen surveys 
+	  - whether or not surveys without metadata info should be written to a 
+	    fresh text file './no_phylum.txt'
+	    	False: written to fresh file 
+	    	True: appended to existing file 
 
-def write_rfile(rout_path, projects_path): 
-	with open(r'cluster_counts.pickle', 'rb') as inp: 
-		cluster_dic = cp.load(inp)
-	with open(r'subgroups.pickle', 'rb') as inp: 
-		subgroups = cp.load(inp)
-	with open(projects_path, 'rb') as inp: 
-		projects = cp.load(inp)
+	Output:
+	none, saves dictionary of {survey ID : ['relevant metadata']} 
+	for heatmap chosen surveys 
+	  
+	Comments: 
+	parses downloaded config files in folders '../config' and '../new_config/'
+	into metadata list 
 
-
-	with open(rout_path, 'w') as f: 
-		write = csv.writer(f, delimiter=',')
-		write.writerow([''] + subgroups[1:])
-		for project in projects: 
-			if project in cluster_dic: 
-				norm = [x/sum(cluster_dic[project][1:]) for x in cluster_dic[project][1:]]
-				write.writerow([project] + norm)
-			else: 
-				print(project)
-
-
-def get_colors(no_phyla=False): 
+	if ecosystem is 'environmental', color by ecosystem category (aquatic, terrestrial, air)
+	if ecosystem is 'host-associated' or 'engineered', color by ecosystem
+	'''
+	# toggle whether or not to write surveys with no metadata to fresh file 
 	if no_phyla: 
 		open('./no_phylum.txt', 'w').close()
 
-	with open(r'img_project_dic.pickle', 'rb') as inp: 
-		img_project_dic = cp.load(inp)
-	with open(r'projects.pickle', 'rb') as inp: 
-		projects = cp.load(inp)
+	# retrieve dict of survey to project title 
+	with open(r'survey_project_dic.pickle', 'rb') as inp: 
+		survey_project_dic = cp.load(inp)
+	# retrieve list of chosen survey IDs
+	with open(chosen_surveys_path, 'rb') as inp: 
+		surveys = cp.load(inp)
+	
+	# initiate empty dictionary
 	color_dic = {}
 
+	# for each chosen project parse config files for top two tiers of 
+	# metadata and save in dictionary
 	for project in projects: 
 		phylum = ''
 		order = ''
@@ -369,25 +503,31 @@ def get_colors(no_phyla=False):
 					write.writerow([str(img_project_dic[project])] + [project])
 
 
+	# save color dic as pickle 
 	with open(r'color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
-
-def fill_dic():
-	with open(r'color_dic.pickle', 'rb') as inp: 
-		color_dic = cp.load(inp)
-	with open(r'no_phylum.txt', 'r') as f: 
-		for line in f: 
-			words = line.split(',')
-			if words[2] == 'environmental': 
-				color_dic[words[1]] = words[3].strip()
-			elif words[2] != 'environmental': 
-				color_dic[words[1]] = words[2].strip()
-	with open(r'color_dic.pickle', 'wb') as out: 
-		cp.dump(color_dic, out)
-
 
 
 def write_colors(): 
+	'''
+	Input: 
+	none
+
+	Output:
+	none, writes to './rowsidecolors.txt'
+	  
+	Comments: 
+	writes row colors to './rowsidecolors.txt' for each chosen survey in heatmap. 
+	contents of './rowsiecolors.txt' should then be copied to R script. 
+
+	NOTE: last written color row has extra comma at the end that needs to be removed 
+	before text is copied into R code
+
+	maps environment to color based on dic below. if the environment is unclassified
+	or not in the dic, color row grey 
+
+	'''
+
 	dic = {
 	'soil':'green', 
 	'terrestrial':'green', 
@@ -398,26 +538,68 @@ def write_colors():
 	'host-associated':'red'
 	}
 	
+	# retrieve dict mapping chosen survey ID to relevant metadata
 	with open(r'color_dic.pickle', 'rb') as inp: 
 		color_dic = cp.load(inp)
-	with open(r'projects.pickle', 'rb') as inp: 
-		projects = cp.load(inp)
-
-	print(color_dic)
+	
+	# for each row, write color to 'rowsidecolors.txt' in R code format 
 	with open('rowsidecolors.txt', 'w') as out: 
 		out.write('RowSideColors = c(\n')	
-		for project in projects: 
-			if project in color_dic: 
-				env = color_dic[project]
-				if env in dic: 
-					out.write('  rep("' + dic[env] + '", 1),\n')
-				else: 
-					out.write('  rep("' + 'grey' + '", 1),\n')
+		for key in color_dic: 
+			env = color_dic[project]
+			if env in dic: 
+				out.write('  rep("' + dic[env] + '", 1),\n')
 			else: 
-				out.write('  rep("' + 'dark blue' + '", 1),\n')
+				out.write('  rep("' + 'grey' + '", 1),\n')
 		out.write('),\n')
 
+
+def parse_surveys(parse_path, chosen_surveys_path): 
+	'''
+	Input: 
+	  - path to downloaded csv file of IMG projects to parse 
+	  - 
+
+	Output:
+	none, saves list of chosen surveys as pickle file
+	  
+	Comments: 
+	parses excel file of projects downloaded from IMG database for list of
+	survey IDs, which is saved as a pickle file to chosen_surveys_path
+
+	'''
+	studies = []
+	surveys = []
+	with open(parse_path, 'r') as f: 
+		reader = csv.reader(f, delimiter='\t')
+		next(reader)
+		for row in reader: 
+			img = row[6]
+			surveys.append((img, row[3]))
+
+	with open(chosen_surveys_path, 'wb') as out: 
+		cp.dump(surveys, out)
+
+
 def write_custom_colors(): 
+	'''
+	Input: 
+	none
+
+	Output:
+	none, writes to './rowsidecolors_engineered.txt'
+	  
+	Comments: 
+	writes row colors to './rowsidecolors.txt' for each chosen survey in heatmap. 
+	contents of './rowsiecolors.txt' should then be copied to R script. 
+
+	NOTE: last written color row has extra comma at the end that needs to be removed 
+	before text is copied into R code
+
+	maps survey to color based on project title, so surveys from the same project have
+	the same row colors 
+
+	'''
 	with open(r'engineered_projects.pickle', 'rb') as inp: 
 		projects = cp.load(inp)
 
@@ -448,9 +630,19 @@ def write_custom_colors():
 		print(i, unique[i]) 
 
 
-def generate_heatmap(): 
-	command = 'R CMD BATCH heatmap_all.R'
-	status = subprocess.call(command, shell=True)
+def fill_dic():
+	with open(r'color_dic.pickle', 'rb') as inp: 
+		color_dic = cp.load(inp)
+	with open(r'no_phylum.txt', 'r') as f: 
+		for line in f: 
+			words = line.split(',')
+			if words[2] == 'environmental': 
+				color_dic[words[1]] = words[3].strip()
+			elif words[2] != 'environmental': 
+				color_dic[words[1]] = words[2].strip()
+	with open(r'color_dic.pickle', 'wb') as out: 
+		cp.dump(color_dic, out)
+
 
 def color_analysis(): 
 	dic = {
@@ -498,27 +690,26 @@ def main():
 	project_path = '../files/genome-projects.csv'
 	cluster_path = '../hits_150_1000_90.clstr'
 	table_path = '../results.table'
-	projects_path = './engineered_projects.pickle'
-	parse_projects_path = '../files/engineered-projects.txt'
+	chosen_surveys_path = './engineered_projects.pickle'
+	parse_chosen_surveys_path = '../files/engineered-projects.txt'
 	
-	# projects_path = './projects_conc.pickle'
+	# chosen_surveys_path = './projects_conc.pickle'
 	rout_path = './data_engineered' 
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 
-	# project_img_dic, img_project_dic = projectimg_dic(project_path, pickle_path)
-	# project_hit_dic, id_cluster_dic = projecthit_dic(cluster_path)
+	# projectimg_dic(project_path)
 	# projecthit_dic(cluster_path)
 	# subgroups = get_subgroups(table_path)
 
 	# parse_table(table_path)
-	# choose_surveys(100, projects_path)
-	# choose_surveys_conc(100, projects_path)
-	# parse_surveys(parse_projects_path, projects_path)
+	# choose_surveys(100, chosen_surveys_path)
+	# choose_surveys_conc(100, chosen_surveys_path)
+	# parse_surveys(parse_chosen_surveys_path, chosen_surveys_path)
 
-	write_custom_rfile(rout_path, projects_path)
-	# write_rfile(rout_path, projects_path)
+	write_custom_rfile(rout_path, chosen_surveys_path)
+	# write_rfile(rout_path, chosen_surveys_path)
 	# get_colors()
 	# fill_dic()
 	# write_custom_colors()
