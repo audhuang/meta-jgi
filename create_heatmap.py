@@ -106,13 +106,13 @@ def projectsurvey_dic(project_path):
 					survey = link.split(',')[1][1:-2] 
 
 					# project is key, survey ID list is value
-					if row[7] not in project_img_dic: 
+					if row[7] not in project_survey_dic: 
 						project_survey_dic[row[7]] = [str(survey)] 
 					else: 
 						project_survey_dic[row[7]].append(str(survey))
 
 					# survey ID is key, project name is value
-					if survey not in img_project_dic: 
+					if survey not in survey_project_dic: 
 						survey_project_dic[survey] = str(row[7])
 
 	
