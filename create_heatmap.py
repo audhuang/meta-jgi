@@ -340,7 +340,7 @@ def choose_surveys(number, chosen_surveys_path):
 					biggest_index = i
 
 		# add tuple of (survey name, # clusters) to biggest_list
-		biggest_list.append((imgs[biggest_index], biggest))
+		biggest_list.append((surveys[biggest_index], biggest))
 
 	# sort list of biggest surveys by their cluster counts 
 	sorted_biggest = sorted(biggest_list, key=lambda tup: tup[1], reverse=True)
