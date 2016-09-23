@@ -316,8 +316,8 @@ def choose_surveys(number, chosen_surveys_path):
 	with open(r'./pickles/project_survey_dic.pickle', 'rb') as inp: 
 		project_survey_dic = cp.load(inp)
 	# retrieve dict which maps survey to # cluster counts for each subgroup
-	with open(r'./pickles/survey_hit_counts.pickle', 'rb') as inp: 
-		survey_hit_counts = cp.load(inp)
+	with open(r'./pickles/survey_cluster_dic.pickle', 'rb') as inp: 
+		survey_cluster_dic = cp.load(inp)
 
 
 	# initiate empty list of biggest survey from each project
@@ -333,8 +333,8 @@ def choose_surveys(number, chosen_surveys_path):
 
 		# go through list of surveys and save index of ID with most total clusters
 		for i in range(len(surveys)): 
-			if surveys[i] in project_cluster_dic: 
-				num = len(set(project_cluster_dic[surveys[i]]))
+			if surveys[i] in survey_cluster_dic: 
+				num = len(set(survey_cluster_dic[surveys[i]]))
 				if num > biggest: 
 					biggest = num
 					biggest_index = i
