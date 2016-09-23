@@ -693,7 +693,7 @@ def main():
 
 	cluster_path = '../hits_150_1000_90.clstr'
 	table_path = '../results.table'
-	chosen_survey_path = './pickles/projects.pickle'
+	chosen_surveys_path = './pickles/projects.pickle'
 	rout_path = './data' 
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
