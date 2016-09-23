@@ -117,9 +117,9 @@ def projectsurvey_dic(project_path):
 
 	
 	# save dicts as pickle files
-	with open(r'project_survey_dic.pickle', 'wb') as out: 
+	with open(r'./pickles/project_survey_dic.pickle', 'wb') as out: 
 		cp.dump(project_survey_dic, out)
-	with open(r'survey_project_dic.pickle', 'wb') as out: 
+	with open(r'./pickles/survey_project_dic.pickle', 'wb') as out: 
 		cp.dump(survey_project_dic, out)
 
 
