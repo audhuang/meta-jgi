@@ -71,7 +71,7 @@ def cluster(cdhit_path, fasta_path, thresh, c):
 	status = subprocess.call(command, shell=True)
 
 
-def projectimg_dic(project_path): 
+def projectsurvey_dic(project_path): 
 	'''
 	Input: 
 	  - path to csv file of projects downloaded from IMG database
@@ -88,6 +88,8 @@ def projectimg_dic(project_path):
 			  	to choose the survey from each project with the most clusters
 	  	  - survey_project_dic: lets us map each survey ID back to its project title
 	  	    	useful for coloring rows of the heatmap by the project it came from
+
+	  	    	# add URL 
 	'''
 	# initiate empty dicts
 	project_survey_dic = {}
@@ -122,7 +124,7 @@ def projectimg_dic(project_path):
 
 
 
-def projecthit_dic(cluster_path): 
+def cluster_dic(cluster_path): 
 	'''
 	Input: 
 	  - path to CDHIT cluster file
@@ -175,9 +177,9 @@ def projecthit_dic(cluster_path):
 
 
 	# save dicts as pickle files
-	with open(r'id_cluster_dic.pickle', 'wb') as out: 
+	with open(r'./pickles/id_cluster_dic.pickle', 'wb') as out: 
 		cp.dump(id_cluster_dic, out)
-	with open(r'survey_cluster_dic.pickle', 'wb') as out: 
+	with open(r'./pickles/survey_cluster_dic.pickle', 'wb') as out: 
 		cp.dump(survey_cluster_dic, out)
 
 
@@ -213,7 +215,7 @@ def get_subgroups(table_path):
 					subgroups.append(subgroup)
 
 	# save subgroup list as pickle 
-	with open(r'subgroups.pickle', 'wb') as out: 
+	with open(r'./pickles/subgroups.pickle', 'wb') as out: 
 		cp.dump(subgroups, out)
 	
 	return subgroups
@@ -246,11 +248,11 @@ def parse_table(table_path):
 
 	# retrieve dict of {id : ['clusters']} so as we parse HMMsearch table we can map each 
 	# hit to the cluster it's in, in order to count the number of unique clusters for heatmap
-	with open(r'id_cluster_dic.pickle', 'rb') as inp: 
+	with open(r'./pickles/id_cluster_dic.pickle', 'rb') as inp: 
 		id_cluster_dic = cp.load(inp)
 	# retrieve list of subgroups in order to create dict values, which are number of hits
 	# per subgroup for each survey 
-	with open(r'subgroups.pickle', 'rb') as inp: 
+	with open(r'./pickles/subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
 
 	survey_hit_clusters = {} # dict of survey ID to list of hit clusters per subgroup
@@ -289,7 +291,7 @@ def parse_table(table_path):
 			survey_hit_counts[key].append(len(set(survey_hit_clusters[key][i])))
 
 	# save dict of survey to # unique clusters in pickle file
-	with open(r'survey_hit_counts.pickle', 'wb') as out: 
+	with open(r'./pickles/survey_hit_counts.pickle', 'wb') as out: 
 		cp.dump(survey_hit_counts, out)
 
 
@@ -311,10 +313,10 @@ def choose_surveys(number, chosen_surveys_path):
 	  and saves list as pickle file at 'chosen_surveys_path'
 	'''
 	# retrieve dict which maps project to list of surveys
-	with open(r'project_survey_dic.pickle', 'rb') as inp: 
+	with open(r'./pickles/project_survey_dic.pickle', 'rb') as inp: 
 		project_survey_dic = cp.load(inp)
 	# retrieve dict which maps survey to # cluster counts for each subgroup
-	with open(r'survey_hit_counts.pickle', 'rb') as inp: 
+	with open(r'./pickles/survey_hit_counts.pickle', 'rb') as inp: 
 		survey_hit_counts = cp.load(inp)
 
 
@@ -367,10 +369,10 @@ def write_rfile(rout_path, chosen_surveys_path):
 	'''
 
 	# retrieve dict which maps survey to number of unique surveys per subgroup
-	with open(r'survey_hit_counts.pickle', 'rb') as inp: 
+	with open(r'./pickles/survey_hit_counts.pickle', 'rb') as inp: 
 		survey_hit_counts = cp.load(inp)
 	# retrieve list of subgroups/HMMs 
-	with open(r'subgroups.pickle', 'rb') as inp: 
+	with open(r'./pickles/subgroups.pickle', 'rb') as inp: 
 		subgroups = cp.load(inp)
 	# retrieve list of chosen surveys
 	with open(chosen_surveys_path, 'rb') as inp: 
@@ -413,7 +415,7 @@ def get_colors_from_scrape(tiers, chosen_surveys_path):
 	'''
 
 	# retrieve dict of {survey : ['metadata']}
-	with open('survey_meta_dic.pickle', 'rb') as inp: 
+	with open('./pickles/survey_meta_dic.pickle', 'rb') as inp: 
 		meta_dic = cp.load(inp)
 	# retrieve list of chosen survey IDs
 	with open(chosen_surveys_path, 'rb') as inp: 
@@ -428,7 +430,7 @@ def get_colors_from_scrape(tiers, chosen_surveys_path):
 		color_dic[survey] = [meta[x] for x in tiers]
 
 	# save color dict as pickle file 
-	with open(r'color_dic.pickle', 'wb') as out: 
+	with open(r'./pickles/color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
 
 
@@ -458,7 +460,7 @@ def get_colors_from_file(chosen_surveys_path, no_phyla=False):
 		open('./no_phylum.txt', 'w').close()
 
 	# retrieve dict of survey to project title 
-	with open(r'survey_project_dic.pickle', 'rb') as inp: 
+	with open(r'./pickles/survey_project_dic.pickle', 'rb') as inp: 
 		survey_project_dic = cp.load(inp)
 	# retrieve list of chosen survey IDs
 	with open(chosen_surveys_path, 'rb') as inp: 
@@ -504,7 +506,7 @@ def get_colors_from_file(chosen_surveys_path, no_phyla=False):
 
 
 	# save color dic as pickle 
-	with open(r'color_dic.pickle', 'wb') as out: 
+	with open(r'./pickles/color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
 
 
@@ -539,7 +541,7 @@ def write_colors():
 	}
 	
 	# retrieve dict mapping chosen survey ID to relevant metadata
-	with open(r'color_dic.pickle', 'rb') as inp: 
+	with open(r'./pickles/color_dic.pickle', 'rb') as inp: 
 		color_dic = cp.load(inp)
 	
 	# for each row, write color to 'rowsidecolors.txt' in R code format 
@@ -591,7 +593,7 @@ def write_custom_colors():
 	  
 	Comments: 
 	writes row colors to './rowsidecolors.txt' for each chosen survey in heatmap. 
-	contents of './rowsiecolors.txt' should then be copied to R script. 
+	contents of './rowsidecolors.txt' should then be copied to R script. 
 
 	NOTE: last written color row has extra comma at the end that needs to be removed 
 	before text is copied into R code
@@ -600,7 +602,7 @@ def write_custom_colors():
 	the same row colors 
 
 	'''
-	with open(r'engineered_projects.pickle', 'rb') as inp: 
+	with open(r'./pickles/engineered_projects.pickle', 'rb') as inp: 
 		projects = cp.load(inp)
 
 	titles = [x[1] for x in projects]
@@ -631,7 +633,7 @@ def write_custom_colors():
 
 
 def fill_dic():
-	with open(r'color_dic.pickle', 'rb') as inp: 
+	with open(r'./pickles/color_dic.pickle', 'rb') as inp: 
 		color_dic = cp.load(inp)
 	with open(r'no_phylum.txt', 'r') as f: 
 		for line in f: 
@@ -640,7 +642,7 @@ def fill_dic():
 				color_dic[words[1]] = words[3].strip()
 			elif words[2] != 'environmental': 
 				color_dic[words[1]] = words[2].strip()
-	with open(r'color_dic.pickle', 'wb') as out: 
+	with open(r'./pickles/color_dic.pickle', 'wb') as out: 
 		cp.dump(color_dic, out)
 
 
@@ -655,7 +657,7 @@ def color_analysis():
 	'host-associated':'red'
 	}
 
-	with open(r'color_dic.pickle', 'rb') as inp: 
+	with open(r'./pickles/color_dic.pickle', 'rb') as inp: 
 		color_dic = cp.load(inp)
 
 	print(color_dic)
@@ -667,7 +669,7 @@ def color_analysis():
 
 
 def print_titles(): 
-	with open(r'projects.pickle', 'rb') as inp: 
+	with open(r'./pickles/projects.pickle', 'rb') as inp: 
 		projects = cp.load(inp)
 	with open(r'img_project_dic.pickle', 'rb') as inp: 
 		img_project_dic = cp.load(inp)
@@ -683,37 +685,33 @@ def print_titles():
 
 				
 def main(): 
+	
+	project_path = '../files/genome-projects.csv'
+	cdhit_path = '../tools/cdhit/'
 	seq_path = '../proteins_that_were_hit.sequences'
 	fasta_cut_path = '../hits_150_1000.faa' 
-	cdhit_path = '../tools/cdhit/'
 
-	project_path = '../files/genome-projects.csv'
 	cluster_path = '../hits_150_1000_90.clstr'
 	table_path = '../results.table'
-	chosen_surveys_path = './engineered_projects.pickle'
-	parse_chosen_surveys_path = '../files/engineered-projects.txt'
-	
-	# chosen_surveys_path = './projects_conc.pickle'
-	rout_path = './data_engineered' 
+	chosen_survey_path = './pickles/projects.pickle'
+	rout_path = './data' 
 
 	# cut_length(seq_path, fasta_cut_path, 150, 1000)
 	# cluster(cdhit_path, fasta_cut_path[:-4], 0.9, 5)
 
-	# projectimg_dic(project_path)
-	# projecthit_dic(cluster_path)
-	# subgroups = get_subgroups(table_path)
+	projectsurvey_dic(project_path)
+	cluster_dic(cluster_path)
+	subgroups = get_subgroups(table_path)
 
-	# parse_table(table_path)
-	# choose_surveys(100, chosen_surveys_path)
-	# choose_surveys_conc(100, chosen_surveys_path)
-	# parse_surveys(parse_chosen_surveys_path, chosen_surveys_path)
-
-	write_custom_rfile(rout_path, chosen_surveys_path)
+	parse_table(table_path)
+	choose_surveys(100, chosen_surveys_path)
+	
 	# write_rfile(rout_path, chosen_surveys_path)
 	# get_colors()
-	# fill_dic()
-	# write_custom_colors()
 
+	# write_custom_rfile(rout_path, chosen_surveys_path)
+	# parse_surveys(parse_chosen_surveys_path, chosen_surveys_path)
+	# fill_dic()
 
 
 if __name__ == '__main__':
