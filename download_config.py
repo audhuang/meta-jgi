@@ -83,7 +83,7 @@ def get_projects(project_list):
 	for portal in df['IMG Portal']: 
 		if not pd.isnull(portal): 
 			name = portal.split(',')[1][1:-2]
-			if not (isfile('../config/' + str(name) + '.config') or isfile('../new_config/' + str(name) + '.config')): 
+			if not isfile('../../config/' + str(name) + '.config'): 
 				projects.append(portal_ids[i].split(',')[1][1:-2])
 				# print(name, portal_ids[i].split(',')[1][1:-2])
 		i += 1
@@ -105,7 +105,7 @@ def get_xml(filename):
 	print("Downloading xml: ", filename)
 
 	command = 'curl "http://genome.jgi.doe.gov/ext-api/downloads/get-directory?organism=' \
-	+ str(filename) + '" -b cookies > ' + '../files/' + str(filename) + '.xml'
+	+ str(filename) + '" -b cookies > ' + '../../files/' + str(filename) + '.xml'
 
 	flag = subprocess.call(command, shell=True)
 
@@ -133,7 +133,7 @@ def extract_file(id_name):
 	# 	tar = tarfile.open('../files/' + id_name + '.tar.gz', 'r')
 	# 	tar.extractall(path = '../files')
 	# 	tar.close()
-	command = 'tar -xvf ../files/' + id_name + '.tar.gz --strip-components=1 -C ../new_config ' \
+	command = 'tar -xvf ../../files/' + id_name + '.tar.gz --strip-components=1 -C ../../config ' \
 	+ id_name + '/' + id_name + '.config'
 	
 	flag = subprocess.call(command, shell=True)
@@ -163,7 +163,7 @@ def download_file(xml_file):
 		root = tree.getroot()
 	except ET.ParseError: 
 		print('No permission for xml file: ', xml_file)
-		with open("../files/nopermiss_files.txt", "a") as myfile:
+		with open("../../files/nopermiss_files.txt", "a") as myfile:
 			myfile.write(xml_file + '\n')
 		return filename
 
@@ -177,7 +177,7 @@ def download_file(xml_file):
 
 	if url == [] or filename == []: 
 		print('Error finding file to download in xml file: ', xml_file)
-		with open("../files/unfound_files.txt", "a") as myfile:
+		with open("../../files/unfound_files.txt", "a") as myfile:
 			myfile.write(xml_file + '\n')
 		return filename
 		# sys.exit() 
@@ -185,14 +185,14 @@ def download_file(xml_file):
 		for i in range(len(filename)): 
 			print("Downloading file: ", filename[i])
 			command = 'curl "http://genome.jgi.doe.gov' + str(url[i]) + \
-			'" -b cookies > ' + '../files/' + str(filename[i]) + '.tar.gz'
+			'" -b cookies > ' + '../../files/' + str(filename[i]) + '.tar.gz'
 			# print('command: ', command)
 			flag = subprocess.call(command, shell=True)
 			
 			if flag == 0: 
 				print("Extracting file: ", filename[i])
 				extract_file(filename[i])
-				command = 'rm ../files/' + filename[i] + '.tar.gz'
+				command = 'rm ../../files/' + filename[i] + '.tar.gz'
 				flag = subprocess.call(command, shell=True)
 			elif flag == 1: 
 				print("Error downloading file. ")
@@ -217,7 +217,7 @@ def get_fasta_config(folder):
 	print('Finding config files. ')
 	config = []
 	
-	for dirname, dirnames, filenames in os.walk('../files/' + str(folder)): 
+	for dirname, dirnames, filenames in os.walk('../../files/' + str(folder)): 
 		for filename in filenames: 
 			name = str(os.path.join(dirname, filename))
 
@@ -226,7 +226,7 @@ def get_fasta_config(folder):
 
 	if config == []: 
 		print('Error finding config file. ')
-		with open("../files/noconfig_files.txt", "a") as myfile:
+		with open("../../files/noconfig_files.txt", "a") as myfile:
 			myfile.write(folder + '\n')
 		# sys.exit()
 
@@ -240,7 +240,7 @@ def get_fasta_config(folder):
 				sys.exit()
 
 	# delete folder  
-	command = 'rm -rf ../files/' + str(folder)
+	command = 'rm -rf ../../files/' + str(folder)
 	flag = subprocess.call(command, shell=True)
 
 
@@ -252,24 +252,24 @@ def get_fasta_config(folder):
 
 if __name__ == '__main__':
 
-	parser = argparse.ArgumentParser(description='Set a start point. ')
-	# parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
-	parser.add_argument('--start', nargs='?', type=int, default=0)
-	args = parser.parse_args()
+	# parser = argparse.ArgumentParser(description='Set a start point. ')
+	# # parser.add_argument('--start', nargs='?', type=str, default='PueRicMetagenome_FD')
+	# parser.add_argument('--start', nargs='?', type=int, default=0)
+	# args = parser.parse_args()
 
 	project_list = '../files/genome-projects.csv'
 	portal_list = get_projects(project_list)
 	print('number of projects: ', len(portal_list))
 
-	start = args.start
-	print('START: ', start)
+	# start = args.start
+	# print('START: ', start)
 
-	if start == 0: 
-		open('../files/unfound_files.txt', 'w').close()
-		open('../files/nopermiss_files.txt', 'w').close()
-		# open('../files/nofasta_files.txt', 'w').close()
-		open('../files/noconfig_files.txt', 'w').close()
-		open('../files/notargz_files.txt', 'w').close()
+
+	open('../../files/unfound_files.txt', 'w').close()
+	open('../../files/nopermiss_files.txt', 'w').close()
+	# open('../files/nofasta_files.txt', 'w').close()
+	open('../../files/noconfig_files.txt', 'w').close()
+	open('../../files/notargz_files.txt', 'w').close()
 
 
 	sign_in()
